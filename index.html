@@ -1,0 +1,2588 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Posyandu - GO-Positif Gonoharjo</title>
+
+    <!-- Favicon Logo Tab Browser -->
+    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1r5Z3o71WH4mpF5qn1Dfeav_V7qNnYldv">
+
+    <!-- CDN Dependencies -->
+    
+    <!-- 1. Skrip Pengamanan -->
+    <script>
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (
+                e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || 
+                (e.ctrlKey && e.key === 'U')
+            ) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    </script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'base-cream': '#FAF7F0',
+                        'olive-green': '#7C9246',
+                        'sun-yellow': '#F3A94B',
+                        'deep-green': '#1E4620',
+                        'earth-brown': '#5A3B21',
+                        'soft-green': '#EBF2DF',
+                        'soft-yellow': '#FEF4E6',
+                        'calm-blue': '#E8F4F8',
+                        'primary-indigo': '#5B67CA',  
+                        'hover-indigo': '#4753B8',    
+                        'secondary-purple': '#8E62D5',
+                        'dark-slate': '#1E2538',      
+                        'soft-indigo': '#EBEFFE',     
+                        'soft-purple': '#F4EFFF',    
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        heading: ['Quicksand', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --bg-base: #FAF7F0;
+            --olive-green: #7C9246;
+            --sun-yellow: #F3A94B;
+            --deep-green: #1E4620;
+            --earth-brown: #5A3B21;
+            --primary-indigo: #5B67CA;
+            --secondary-purple: #8E62D5;
+            --dark-slate: #1E2538;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--deep-green);
+            overflow-x: hidden;
+            position: relative;
+            transition: font-size 0.2s ease, background-color 0.2s ease;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.02;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        h1, h2, h3, .font-heading {
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .white-card {
+            background-color: #FFFFFF;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px -2px rgba(30, 70, 32, 0.05), 0 2px 6px -1px rgba(30, 70, 32, 0.03);
+            border: 1px solid rgba(124, 146, 70, 0.12);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .white-card:hover {
+            box-shadow: 0 10px 25px -3px rgba(30, 70, 32, 0.08), 0 4px 10px -2px rgba(30, 70, 32, 0.04);
+        }
+
+        .btn-primary {
+            background-color: var(--deep-green);
+            color: #FFFFFF;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #143216;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(30, 70, 32, 0.25);
+        }
+
+        .btn-purple {
+            background-color: var(--secondary-purple);
+            color: #FFFFFF;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-purple:hover {
+            background-color: #7B4DC2;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(142, 98, 213, 0.35);
+        }
+
+        .btn-indigo {
+            background-color: var(--primary-indigo);
+            color: #FFFFFF;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-indigo:hover {
+            background-color: #4753B8;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(91, 103, 202, 0.35);
+        }
+
+        .nav-tab {
+            padding: 8px 16px;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            color: var(--earth-brown);
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .nav-tab.active {
+            background-color: var(--deep-green);
+            color: #FFFFFF;
+            box-shadow: 0 2px 8px rgba(30, 70, 32, 0.2);
+        }
+
+        body.mode-lansia {
+            font-size: 1.125rem;
+            line-height: 1.75;
+        }
+
+        body.mode-lansia h1 { font-size: 2.25rem !important; }
+        body.mode-lansia h2 { font-size: 1.875rem !important; }
+        body.mode-lansia h3 { font-size: 1.5rem !important; }
+        body.mode-lansia p, body.mode-lansia button, body.mode-lansia span, body.mode-lansia td, body.mode-lansia th, body.mode-lansia input, body.mode-lansia select, body.mode-lansia textarea { font-size: 1rem !important; }
+        body.mode-lansia .white-card {
+            border: 2px solid var(--deep-green);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #FAF7F0; }
+        ::-webkit-scrollbar-thumb { background: #C5D1AA; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #7C9246; }
+
+        .paper-page {
+            background: #ffffff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12), 0 4px 6px rgba(0,0,0,0.05);
+            margin: 0 auto 24px auto;
+            position: relative;
+            box-sizing: border-box;
+            color: #0f172a;
+            transition: all 0.2s ease-in-out;
+            page-break-after: always;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .paper-a4 { width: 210mm; min-height: 297mm; }
+        .paper-f4 { width: 215mm; min-height: 330mm; }
+        .paper-letter { width: 216mm; min-height: 279mm; }
+
+        .paper-page.orientation-landscape {
+            width: 297mm !important;
+            min-height: 210mm !important;
+        }
+
+        @media print {
+            body { background: white !important; padding: 0 !important; margin: 0 !important; }
+            .no-print, header, footer, aside, #login-screen, #modal-switcher, #modal-kop, #modal-paper, #modal-copyright, #modal-photo-picker { display: none !important; }
+            #main-app { display: block !important; }
+            #content-aplikasi-laporan { display: block !important; }
+            #preview-container { padding: 0 !important; background: transparent !important; height: auto !important; max-height: none !important; overflow: visible !important; }
+            .paper-page { box-shadow: none !important; margin: 0 !important; width: 100% !important; min-height: auto !important; page-break-after: always; border: none !important; }
+            #dynamic-paper-sheets-wrapper { transform: none !important; width: 100% !important; }
+        }
+
+        .website-field-hp {
+            display: none !important;
+            opacity: 0;
+            position: absolute;
+            top: 0; left: 0; height: 0; width: 0;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased bg-[#FAF7F0]">
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast-notification" class="fixed top-5 right-5 z-50 transform translate-x-full transition-transform duration-300 ease-in-out max-w-sm no-print">
+        <div class="white-card p-4 flex items-center space-x-3 shadow-xl border-l-4 border-olive-green">
+            <div id="toast-icon" class="w-8 h-8 rounded-full bg-soft-green text-deep-green flex items-center justify-center font-bold flex-shrink-0">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <p id="toast-text" class="text-xs font-semibold text-deep-green">Pemberitahuan Sistem Admin Laporan</p>
+        </div>
+    </div>
+
+    <!-- ================= HALAMAN OTENTIKASI ADMIN ================= -->
+    <div id="login-screen" class="fixed inset-0 z-50 w-full h-full overflow-y-auto bg-slate-950 flex flex-col items-center justify-start p-4 sm:p-6 lg:p-8 transition-all duration-500 no-print">
+        
+        <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950"></div>
+            <div class="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-15"></div>
+            <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-600/20 rounded-full mix-blend-screen filter blur-[128px] animate-pulse"></div>
+            <div class="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-600/20 rounded-full mix-blend-screen filter blur-[128px] animate-pulse" style="animation-delay: 2s"></div>
+        </div>
+
+        <div class="relative z-10 w-full max-w-5xl my-auto flex flex-col lg:flex-row rounded-3xl overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] bg-cover bg-center bg-no-repeat border border-white/20 ring-1 ring-white/10 transition-all duration-300 my-8"
+             style="background-image: url('https://lh3.googleusercontent.com/d/1OyvmDSmowqtbFz3GP1XY7n-xGGtXgJZI');">
+            
+            <div class="absolute inset-0 bg-slate-950/30 z-0 pointer-events-none"></div>
+
+            <div class="w-full lg:w-5/12 relative p-6 sm:p-8 lg:p-10 flex flex-col justify-between text-white z-10 bg-black/30">
+                <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80 z-0 pointer-events-none"></div>
+                
+                <div class="relative z-10 space-y-6">
+                    <div class="inline-flex items-center gap-3">
+                        <img src="https://lh3.googleusercontent.com/d/1Pu9EO5ArNXsAwCYr7mRLfeVc0OV3L5_w" alt="Logo Posyandu" class="w-9 h-9 sm:w-10 sm:h-10 object-contain drop-shadow-[0_3px_6px_rgba(0,0,0,0.9)]">
+                        <span class="font-extrabold tracking-wider text-sm sm:text-base text-indigo-200 uppercase drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">POSYANDU DESA GONOHARJO</span>
+                    </div>
+
+                    <div class="space-y-4 pt-2">
+                        <div class="flex items-center gap-4 sm:gap-5">
+                            <img src="https://lh3.googleusercontent.com/d/1r5Z3o71WH4mpF5qn1Dfeav_V7qNnYldv" alt="Logo Go-Positif" class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 object-contain drop-shadow-[0_5px_15px_rgba(0,0,0,0.9)] flex-shrink-0">
+                            <h1 class="text-4xl sm:text-5xl lg:text-5xl font-black leading-none text-white tracking-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]">
+                                GO-<br>
+                                <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-purple-300 to-amber-200">POSITIF</span>
+                            </h1>
+                        </div>
+
+                        <div>
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] sm:text-[10px] font-semibold tracking-wide text-indigo-200 bg-black/50 border border-indigo-400/30 shadow-sm">
+                                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 animate-ping"></span>
+                                PORTAL ADMIN LAPORAN POSYANDU
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative z-10 mt-8 lg:mt-12">
+                    <p class="text-slate-100 text-xs sm:text-sm leading-relaxed font-medium mb-4 drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]">
+                        Sistem Pengelolaan Laporan Rekapitulasi, Verifikasi Data Berjenjang, dan Pembaruan Terpadu Posyandu ILP.
+                    </p>
+                    <div class="flex gap-1.5 mb-5">
+                        <span class="h-1 w-16 bg-indigo-400 rounded-full shadow-md"></span>
+                        <span class="h-1 w-12 bg-purple-400 rounded-full shadow-md"></span>
+                        <span class="h-1 w-8 bg-white/50 rounded-full"></span>
+                        <span class="h-1 w-6 bg-white/50 rounded-full"></span>
+                    </div>
+                    <div class="flex flex-wrap gap-2 text-[10px] font-bold text-slate-100">
+                        <span class="px-2.5 py-1 rounded-lg bg-black/50 border border-white/20 flex items-center gap-1.5 shadow-md drop-shadow"><i class="fas fa-user-shield text-indigo-400"></i> Terverifikasi</span>
+                        <span class="px-2.5 py-1 rounded-lg bg-black/50 border border-white/20 flex items-center gap-1.5 shadow-md drop-shadow"><i class="fas fa-file-invoice text-purple-400"></i> Otomatis</span>
+                        <span class="px-2.5 py-1 rounded-lg bg-black/50 border border-white/20 flex items-center gap-1.5 shadow-md drop-shadow"><i class="fas fa-print text-amber-300"></i> Siap Cetak</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full lg:w-7/12 relative p-6 sm:p-8 lg:p-10 flex flex-col justify-center text-white z-10 bg-black/30">
+                <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80 z-0 pointer-events-none"></div>
+
+                <div class="relative z-10 max-w-md mx-auto w-full space-y-6">
+                    <div class="text-center space-y-2">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/40 border border-white/20 shadow-md text-indigo-200 text-xs font-extrabold tracking-wider uppercase mb-1">
+                            <i class="fas fa-shield-halved text-indigo-400"></i> OTENTIKASI ADMINISTRATOR
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">Selamat Datang Admin</h2>
+                        <p class="text-slate-100 text-xs sm:text-sm font-medium drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">Masuk untuk mengelola laporan dan konfirmasi data</p>
+                    </div>
+
+                    <form onsubmit="handleAdminLogin(event)" class="space-y-4 sm:space-y-5">
+                        <div class="website-field-hp">
+                            <input type="text" id="hp-check-login" autocomplete="off">
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-extrabold text-slate-100 uppercase tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">Username Admin</label>
+                            <div class="relative group">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-indigo-300">
+                                    <i class="far fa-user text-sm"></i>
+                                </div>
+                                <input type="text" id="admin-username" value="admin.gonoharjo" placeholder="Masukkan username admin" class="block w-full pl-10 pr-4 py-3 sm:py-3.5 bg-black/50 border border-white/30 rounded-2xl text-white text-xs sm:text-sm font-semibold focus:bg-black/70 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-300 transition-all placeholder-slate-300 focus:outline-none shadow-lg" required>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-extrabold text-slate-100 uppercase tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">Kata Sandi</label>
+                            <div class="relative group">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-indigo-300">
+                                    <i class="fas fa-lock text-sm"></i>
+                                </div>
+                                <input type="password" id="admin-password" value="admin123" placeholder="Masukkan kata sandi" class="block w-full pl-10 pr-10 py-3 sm:py-3.5 bg-black/50 border border-white/30 rounded-2xl text-white text-xs sm:text-sm font-semibold focus:bg-black/70 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-300 transition-all placeholder-slate-300 focus:outline-none shadow-lg" required>
+                                <button type="button" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-300 hover:text-white transition-colors" onclick="toggleLoginPassword()">
+                                    <i class="fas fa-eye" id="togglePasswordIcon"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="block text-xs font-extrabold text-slate-100 uppercase tracking-wider drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">Tingkat Hak Akses / Jabatan</label>
+                            <div class="relative group">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-indigo-300">
+                                    <i class="fas fa-user-gear text-sm"></i>
+                                </div>
+                                <select id="admin-role" class="block w-full pl-10 pr-8 py-3 sm:py-3.5 bg-black/50 border border-white/30 rounded-2xl text-white text-xs sm:text-sm font-semibold focus:bg-black/70 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-300 transition-all appearance-none cursor-pointer focus:outline-none shadow-lg">
+                                    <option value="Admin Utama Posyandu Desa" class="bg-slate-900 text-white">Admin Utama Posyandu Desa</option>
+                                    <option value="Admin Bidan Desa Gonoharjo" class="bg-slate-900 text-white">Admin Bidan Desa Gonoharjo</option>
+                                    <option value="Admin Sekretariat Posyandu" class="bg-slate-900 text-white">Admin Sekretariat Posyandu</option>
+                                </select>
+                                <div class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-200 text-xs">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 px-6 mt-2 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 hover:from-indigo-500 hover:to-purple-500 text-white font-extrabold rounded-2xl shadow-[0_10px_25px_-5px_rgba(99,102,241,0.6)] border border-white/30 transition-all duration-300 transform active:scale-[0.98] text-xs sm:text-sm flex justify-center items-center gap-2.5 group cursor-pointer">
+                            <span>MASUK PORTAL ADMIN LAPORAN</span>
+                            <i class="fas fa-arrow-right group-hover:translate-x-1.5 transition-transform"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <p class="mt-4 mb-4 text-slate-300 text-[11px] sm:text-xs font-semibold tracking-wider opacity-90 text-center z-20 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+            © 2026 GO-POSITIF by KreasiCahNdeso. All rights reserved.
+        </p>
+    </div>
+    
+    <!-- ================= MAIN APP ADMIN ================= -->
+    <div id="main-app" class="hidden min-h-screen flex flex-col justify-between">
+        
+        <header class="sticky top-0 z-40 bg-[#FAF7F0]/95 backdrop-blur-md px-3 sm:px-4 lg:px-8 py-2.5 border-b border-olive-green/15 bg-cover bg-center shadow-sm no-print" style="background-image: linear-gradient(rgba(250, 247, 240, 0.95), rgba(250, 247, 240, 0.95)), url('https://lh3.googleusercontent.com/d/1BUX21ccxQ7HkC2VWsya914pOrcSWE851');">
+            <div class="max-w-7xl mx-auto flex items-center justify-between gap-2 lg:gap-4">
+                
+                <div class="flex items-center space-x-2 cursor-pointer shrink-0" onclick="switchTab('beranda')">
+                    <div class="w-9 h-9 md:w-10 md:h-10 flex items-center justify-center flex-shrink-0">
+                        <img src="https://lh3.googleusercontent.com/d/1r5Z3o71WH4mpF5qn1Dfeav_V7qNnYldv" alt="Logo" class="w-full h-full object-contain">
+                    </div>
+                    <div>
+                        <h1 class="font-extrabold text-sm md:text-base text-deep-green leading-none tracking-tight">GO-Positif</h1>
+                        <p class="text-[9px] md:text-[10px] text-earth-brown font-bold tracking-wide mt-0.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-primary-indigo inline-block animate-pulse"></span> Admin Posyandu ILP
+                        </p>
+                    </div>
+                </div>
+
+                <nav class="flex items-center bg-white/95 p-1 rounded-full border border-olive-green/20 shadow-inner overflow-x-auto max-w-[340px] sm:max-w-md md:max-w-lg lg:max-w-xl space-x-1 no-scrollbar shrink">
+                    <button onclick="switchTab('beranda')" id="tab-beranda" class="nav-tab active flex items-center whitespace-nowrap text-[11px] md:text-xs px-2.5 py-1.5">
+                        <i class="fa-solid fa-house mr-1"></i>Beranda
+                    </button>
+                    <button onclick="switchTab('konfirmasi')" id="tab-konfirmasi" class="nav-tab flex items-center whitespace-nowrap text-[11px] md:text-xs px-2.5 py-1.5">
+                        <i class="fa-solid fa-list-check mr-1"></i>Konfirmasi & Pembaruan
+                    </button>
+                    <button onclick="switchTab('aplikasi-laporan')" id="tab-aplikasi-laporan" class="nav-tab flex items-center whitespace-nowrap text-[11px] md:text-xs px-2.5 py-1.5">
+                        <i class="fa-solid fa-file-invoice mr-1"></i>Aplikasi Laporan
+                    </button>
+                    <button onclick="switchTab('arsip-laporan')" id="tab-arsip-laporan" class="nav-tab flex items-center whitespace-nowrap text-[11px] md:text-xs px-2.5 py-1.5">
+                        <i class="fa-solid fa-box-archive mr-1"></i>Arsip Laporan
+                    </button>
+                    <button onclick="switchTab('setting-web')" id="tab-setting-web" class="nav-tab flex items-center whitespace-nowrap text-[11px] md:text-xs px-2.5 py-1.5">
+                        <i class="fa-solid fa-sliders mr-1"></i>Setting Web
+                    </button>
+                    <button onclick="switchTab('kontak')" id="tab-kontak" class="nav-tab flex items-center whitespace-nowrap text-[11px] md:text-xs px-2.5 py-1.5">
+                        <i class="fa-solid fa-address-book mr-1"></i>Kontak
+                    </button>
+                </nav>
+
+                <div class="flex items-center space-x-1.5 lg:space-x-2 shrink-0">
+                    <div class="flex items-center space-x-1 lg:hidden">
+                        <button onclick="toggleModeLansia()" class="px-2 py-1.5 bg-white text-earth-brown rounded-lg border border-olive-green/30 text-[10px] font-bold flex items-center space-x-1 shadow-xs">
+                            <i class="fa-solid fa-eye text-olive-green"></i>
+                            <span id="label-mode-lansia-short">Lansia</span>
+                        </button>
+                        <button onclick="toggleSwitcherModal()" class="btn-primary px-2.5 py-1.5 text-[10px] font-bold flex items-center space-x-1 shadow-xs cursor-pointer">
+                            <i class="fa-solid fa-cubes text-sun-yellow"></i>
+                            <span>AKSES PORTAL</span>
+                        </button>
+                    </div>
+
+                    <div class="hidden lg:flex items-center space-x-2">
+                        <button onclick="toggleModeLansia()" id="btn-mode-lansia" class="px-2.5 py-1.5 bg-white text-earth-brown rounded-xl border border-olive-green/35 text-xs font-bold flex items-center space-x-1.5 hover:bg-soft-yellow transition cursor-pointer shadow-xs">
+                            <i class="fa-solid fa-eye text-olive-green"></i>
+                            <span id="label-mode-lansia">Mode Ramah Lansia</span>
+                        </button>
+                        <button onclick="toggleSwitcherModal()" class="btn-primary px-3 py-1.5 text-xs font-bold flex items-center space-x-1.5 shadow-sm cursor-pointer">
+                            <i class="fa-solid fa-cubes text-sun-yellow"></i>
+                            <span>AKSES PORTAL</span>
+                            <i class="fa-solid fa-chevron-down text-[10px] opacity-80"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+        
+        <!-- MAIN CONTENT CONTAINER ADMIN -->
+        <main class="max-w-7xl mx-auto px-4 lg:px-8 py-6 md:py-8 flex-grow w-full space-y-6">
+
+            <!-- ================= TAB 1: BERANDA ADMIN ================= -->
+            <section id="content-beranda" class="space-y-6">
+                <div class="white-card p-5 md:p-10 relative overflow-hidden bg-cover bg-center border border-olive-green/20" style="background-image: linear-gradient(to right, rgba(250, 247, 240, 0.75) 0%, rgba(250, 247, 240, 0.65) 55%, rgba(250, 247, 240, 0.20) 100%), url('https://lh3.googleusercontent.com/d/1DeQnZDzHiBGsFzIMAbu9ZigQpl_If7tD');">
+                    <div class="max-w-3xl space-y-4 md:space-y-5 relative z-10">
+                        <div class="inline-flex flex-wrap items-center gap-2 p-2 pr-3 md:pr-4 rounded-2xl bg-white/90 backdrop-blur-md border border-olive-green/25 shadow-sm">
+                            <div class="flex items-center gap-1.5 bg-soft-green/60 p-1.5 rounded-xl border border-olive-green/20">
+                                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-white p-1 shadow-xs border border-olive-green/15 flex items-center justify-center overflow-hidden flex-shrink-0" title="Kabupaten Kendal">
+                                    <img src="https://lh3.googleusercontent.com/d/16ubQpCYXIMnJy77LO07DZmNvTKoma88c" alt="Logo Kabupaten Kendal" class="w-full h-full object-contain">
+                                </div>
+                                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-white p-1 shadow-xs border border-olive-green/15 flex items-center justify-center overflow-hidden flex-shrink-0" title="Puskesmas">
+                                    <img src="https://lh3.googleusercontent.com/d/1m-X_H-ybnuNnw4mQiE5LPTzEv4Ih2Htb" alt="Logo Puskesmas" class="w-full h-full object-contain">
+                                </div>
+                                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-white p-1 shadow-xs border border-olive-green/15 flex items-center justify-center overflow-hidden flex-shrink-0" title="Posyandu Gonoharjo">
+                                    <img src="https://lh3.googleusercontent.com/d/1Pu9EO5ArNXsAwCYr7mRLfeVc0OV3L5_w" alt="Logo Posyandu Gonoharjo" class="w-full h-full object-contain">
+                                </div>
+                            </div>
+                            <div class="border-l border-olive-green/20 pl-2 sm:pl-3">
+                                <span class="text-[11px] sm:text-xs font-extrabold text-deep-green tracking-wide uppercase block">Portal Admin</span>
+                                <span class="text-[10px] sm:text-[11px] font-semibold text-earth-brown block leading-tight">POSYANDU DESA GONOHARJO</span>
+                            </div>
+                        </div>
+
+                        <h2 class="font-black text-slate-900 leading-tight [text-shadow:_0_0_12px_rgba(255,255,255,1),_0_2px_4px_rgba(255,255,255,0.9)]">
+                            <span class="block text-lg sm:text-xl md:text-2xl font-extrabold text-slate-700 tracking-wide mb-1">
+                                Selamat Bertugas,
+                            </span>
+                            <span class="block text-2xl sm:text-3xl md:text-4xl font-black text-slate-900">
+                                <span id="admin-nama-display" class="text-primary-indigo underline decoration-secondary-purple decoration-wavy decoration-2">Siti Rahmawati, S.Kep</span>! 👋
+                            </span>
+                        </h2>
+                        
+                        <div class="pl-3 border-l-4 border-primary-indigo/90">
+                            <p class="text-xs md:text-sm font-extrabold text-slate-800 leading-relaxed [text-shadow:_0_0_10px_rgba(255,255,255,1),_0_1px_3px_rgba(255,255,255,0.9)]">
+                                "Sistem Informasi Terpadu Admin Posyandu Gonoharjo: Mengelola verifikasi data berjenjang, pembuatan laporan otomatis, pembaruan terpusat, dan integrasi layanan kesehatan primer."
+                            </p>
+                        </div>
+                        <div class="pt-1 flex flex-wrap gap-2.5 sm:gap-3">
+                            <span class="px-3 py-1.5 rounded-xl bg-dark-slate text-white text-xs font-extrabold shadow-md border border-white/30 flex items-center gap-2">
+                                <i class="fa-solid fa-user-shield text-amber-400"></i>
+                                <span id="admin-role-badge">Admin Utama Posyandu Desa</span>
+                            </span>
+                            <button onclick="confirmLogout()" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-extrabold rounded-xl transition-all duration-200 flex items-center space-x-2 shadow-lg hover:shadow-red-500/20 border border-white/40 cursor-pointer">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                <span>Keluar Sesi Admin</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="white-card p-5 border-l-4 border-secondary-purple space-y-3 bg-soft-purple/30">
+                    <div class="flex items-center justify-between border-b border-secondary-purple/20 pb-2">
+                        <div class="flex items-center space-x-2.5 text-secondary-purple">
+                            <i class="fa-solid fa-bullhorn text-lg"></i>
+                            <h3 class="font-extrabold text-dark-slate text-base">Pengumuman Terpadu Posyandu Gonoharjo</h3>
+                        </div>
+                        <span class="text-[10px] font-black px-2.5 py-0.5 bg-secondary-purple text-white rounded-full">SINKRON AKTIF</span>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-3 text-xs text-dark-slate">
+                        <div class="p-3 bg-white rounded-xl border border-primary-indigo/15 space-y-1 shadow-xs">
+                            <span class="px-2 py-0.5 text-[9px] font-black bg-blue-100 text-blue-800 rounded-md">Web Utama Portal</span>
+                            <p class="font-extrabold text-primary-indigo">Pelaksanaan Posyandu ILP Serentak September 2026</p>
+                            <p class="text-[11px] text-dark-slate/70">Jadwal Posyandu Balita & Lansia dibuka di 6 Dusun Desa Gonoharjo mulai minggu pertama.</p>
+                        </div>
+
+                        <div class="p-3 bg-white rounded-xl border border-primary-indigo/15 space-y-1 shadow-xs">
+                            <span class="px-2 py-0.5 text-[9px] font-black bg-emerald-100 text-emerald-800 rounded-md">Web Sasaran</span>
+                            <p class="font-extrabold text-emerald-700">Edukasi Penyuluhan Pencegahan Hipertensi & Stunting</p>
+                            <p class="text-[11px] text-dark-slate/70">Jadwal penerimaan PMT lokal berbahan dasar kelor dan telur untuk keluarga terdaftar.</p>
+                        </div>
+
+                        <div class="p-3 bg-white rounded-xl border border-primary-indigo/15 space-y-1 shadow-xs">
+                            <span class="px-2 py-0.5 text-[9px] font-black bg-purple-100 text-purple-800 rounded-md">Web Kader Input</span>
+                            <p class="font-extrabold text-secondary-purple">Batas Akhir Verification Data Kader Tgl 28</p>
+                            <p class="text-[11px] text-dark-slate/70">Seluruh Kader diminta menyelesaikan input data absen dan hasil pengukuran sebelum rakor.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="white-card p-5 space-y-3 border-t-4 border-primary-indigo">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-xl bg-soft-indigo text-primary-indigo flex items-center justify-center font-bold text-lg">
+                                <i class="fa-solid fa-list-check"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-extrabold text-dark-slate text-sm">1. Konfirmasi Data Kader</h3>
+                                <p class="text-[11px] text-dark-slate/70">Verifikasi & Centang Admin</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-dark-slate/80 leading-relaxed font-medium">Cek data yang dimasukkan oleh Kader di lapangan. Lakukan perbaikan jika ada kesalahan lalu berikan konfirmasi centang Admin.</p>
+                    </div>
+
+                    <div class="white-card p-5 space-y-3 border-t-4 border-secondary-purple">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-xl bg-soft-purple text-secondary-purple flex items-center justify-center font-bold text-lg">
+                                <i class="fa-solid fa-file-signature"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-extrabold text-dark-slate text-sm">2. Generasi Laporan Otomatis</h3>
+                                <p class="text-[11px] text-dark-slate/70">Format Standar Puskesmas/Desa</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-dark-slate/80 leading-relaxed font-medium">Sistem secara otomatis menyusun Laporan Posyandu lengkap dengan foto kegiatan, PMT, dan grafik rekapitulasi siap cetak.</p>
+                    </div>
+
+                    <div class="white-card p-5 space-y-3 border-t-4 border-emerald-500">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-lg">
+                                <i class="fa-solid fa-folder-tree"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-extrabold text-dark-slate text-sm">3. Arsip & Sinkronisasi</h3>
+                                <p class="text-[11px] text-dark-slate/70">Penyimpanan & Update Web</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-dark-slate/80 leading-relaxed font-medium">Simpan hasil laporan ke Arsip Digital serta perbarui pengumuman/jadwal untuk seluruh web dalam jaringan GO-POSITIF.</p>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-12 gap-6">
+                    <div class="lg:col-span-7 white-card p-6 space-y-4">
+                        <div class="flex items-center justify-between border-b border-primary-indigo/10 pb-3">
+                            <div>
+                                <h3 class="font-extrabold text-dark-slate text-base">Grafik Kehadiran Kader & Sasaran per Wilayah</h3>
+                                <p class="text-xs text-dark-slate/70">Perbandingan kehadiran di 6 Posyandu Desa Gonoharjo</p>
+                            </div>
+                            <span class="px-2.5 py-1 bg-soft-indigo text-primary-indigo text-xs font-bold rounded-full">Real-time</span>
+                        </div>
+                        <div class="w-full h-72 relative">
+                            <canvas id="kehadiranAdminChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 white-card p-6 space-y-4">
+                        <div class="flex items-center justify-between border-b border-primary-indigo/10 pb-3">
+                            <div>
+                                <h3 class="font-extrabold text-dark-slate text-base">Ringkasan Catatan Khusus Sasaran</h3>
+                                <p class="text-xs text-dark-slate/70">Data teridentifikasi dari Web Kader Input</p>
+                            </div>
+                            <span class="px-2.5 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full">Perlu Perhatian</span>
+                        </div>
+
+                        <div class="space-y-2 text-xs font-bold">
+                            <div class="p-2.5 rounded-xl bg-red-50 text-red-800 border border-red-200 flex items-center justify-between">
+                                <span class="flex items-center gap-2"><i class="fa-solid fa-heart-pulse text-red-600"></i> Hipertensi / Tensi Tinggi</span>
+                                <span class="px-2 py-0.5 bg-red-200 rounded-md">18 Orang</span>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-amber-50 text-amber-800 border border-amber-200 flex items-center justify-between">
+                                <span class="flex items-center gap-2"><i class="fa-solid fa-droplet text-amber-600"></i> Gula Darah Tinggi (GDS > 200)</span>
+                                <span class="px-2 py-0.5 bg-amber-200 rounded-md">12 Orang</span>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-purple-50 text-purple-800 border border-purple-200 flex items-center justify-between">
+                                <span class="flex items-center gap-2"><i class="fa-solid fa-vial text-purple-600"></i> Kolesterol / Asam Urat Tinggi</span>
+                                <span class="px-2 py-0.5 bg-purple-200 rounded-md">15 Orang</span>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-blue-50 text-blue-800 border border-blue-200 flex items-center justify-between">
+                                <span class="flex items-center gap-2"><i class="fa-solid fa-child text-blue-600"></i> Stunting / Sangat Pendek</span>
+                                <span class="px-2 py-0.5 bg-blue-200 rounded-md">4 Balita</span>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center justify-between">
+                                <span class="flex items-center gap-2"><i class="fa-solid fa-notes-medical text-emerald-600"></i> Anemia / Hb Rendah (Ibu Hamil)</span>
+                                <span class="px-2 py-0.5 bg-emerald-200 rounded-md">6 Orang</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= TAB 2: KONFIRMASI DAN PEMBAHARUAN ================= -->
+            <section id="content-konfirmasi" class="hidden space-y-8">
+                <div class="white-card p-6 md:p-8 space-y-6 border-2 border-primary-indigo/20">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-primary-indigo/15 pb-4">
+                        <div>
+                            <span class="px-3 py-1 rounded-full text-[10px] font-black bg-soft-indigo text-primary-indigo border border-primary-indigo/30">
+                                Dual-Verification Admin & Kader
+                            </span>
+                            <h3 class="font-extrabold text-dark-slate text-lg md:text-xl mt-1">Konfirmasi & Verifikasi Data Posyandu</h3>
+                            <p class="text-xs text-dark-slate/70 font-medium">Lakukan pengecekan data dari Web Kader Input. Klik centang konfirmasi untuk memverifikasi data sebelum diterbitkan ke Web Sasaran & Laporan Resmi.</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input type="text" id="search-konfirmasi-admin" onkeyup="filterKonfirmasiAdminTable()" placeholder="Cari Nama / Barcode..." class="p-2 text-xs border border-primary-indigo/30 rounded-xl bg-bg-pastel focus:outline-none">
+                            <button onclick="filterKonfirmasiAdminTable()" class="btn-primary px-3 py-2 text-xs font-bold cursor-pointer">Cari</button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-primary-indigo/20 max-h-[380px] overflow-y-auto no-scrollbar shadow-inner bg-white">
+                        <table class="w-full text-left text-xs text-dark-slate relative">
+                            <thead class="bg-soft-indigo text-primary-indigo uppercase font-extrabold sticky top-0 z-10 border-b border-primary-indigo/20 shadow-xs">
+                                <tr>
+                                    <th class="p-3">Tgl Input</th>
+                                    <th class="p-3">Nama Sasaran / KK</th>
+                                    <th class="p-3">Wilayah</th>
+                                    <th class="p-3">Kategori</th>
+                                    <th class="p-3">Hasil Pemeriksaan</th>
+                                    <th class="p-3 text-center">Konfirmasi Kader</th>
+                                    <th class="p-3 text-center">Konfirmasi Admin</th>
+                                    <th class="p-3 text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-konfirmasi-admin" class="divide-y divide-primary-indigo/10 font-medium">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <div class="white-card p-6 space-y-4 border-2 border-primary-indigo/20">
+                        <div class="flex items-center space-x-2 text-primary-indigo border-b border-primary-indigo/10 pb-3">
+                            <i class="fa-solid fa-calendar-plus text-lg"></i>
+                            <h3 class="font-extrabold text-dark-slate text-base">Pembaruan Jadwal Posyandu</h3>
+                        </div>
+                        <p class="text-xs text-dark-slate/70">Jadwal yang dibuat akan otomatis diperbarui ke Web Utama, Web Sasaran, atau Web Kader sesuai pilihan.</p>
+
+                        <form onsubmit="handleUpdateJadwalSubmit(event)" class="space-y-3 text-xs font-bold">
+                            <div>
+                                <label class="block mb-1">Target Web Penerbitan:</label>
+                                <select id="jadwal-target-web" class="w-full p-2.5 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none cursor-pointer">
+                                    <option value="semua">Semua Web (Utama, Sasaran, Kader)</option>
+                                    <option value="utama">Web Utama Portal</option>
+                                    <option value="sasaran">Web Sasaran Posyandu</option>
+                                    <option value="kader">Web Kader Input</option>
+                                </select>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block mb-1">Tanggal Kegiatan:</label>
+                                    <input type="date" id="jadwal-tanggal" value="2026-10-05" class="w-full p-2 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none cursor-pointer" required>
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Waktu / Jam:</label>
+                                    <input type="text" id="jadwal-jam" value="08:00 - 11:30 WIB" class="w-full p-2 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none" required>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block mb-1">Wilayah / Tempat Posyandu:</label>
+                                <input type="text" id="jadwal-lokasi" value="Poskesdes Dusun Gonoharjo RW 01" class="w-full p-2 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none" required>
+                            </div>
+
+                            <div>
+                                <label class="block mb-1">Nama Agenda / Kegiatan:</label>
+                                <input type="text" id="jadwal-agenda" value="Posyandu ILP Balita & Penyuluhan Gizi Ibu Hamil" class="w-full p-2 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none" required>
+                            </div>
+
+                            <button type="submit" class="w-full btn-primary py-2.5 font-bold text-xs flex items-center justify-center space-x-2 cursor-pointer">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Terbitkan Pembaruan Jadwal</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="white-card p-6 space-y-4 border-2 border-secondary-purple/20">
+                        <div class="flex items-center space-x-2 text-secondary-purple border-b border-secondary-purple/10 pb-3">
+                            <i class="fa-solid fa-bullhorn text-lg"></i>
+                            <h3 class="font-extrabold text-dark-slate text-base">Pembaruan & Update Pengumuman</h3>
+                        </div>
+                        <p class="text-xs text-dark-slate/70">Tambah, ubah, atau hapus pengumuman untuk Web Utama, Web Sasaran, dan Web Kader.</p>
+
+                        <form onsubmit="handleUpdatePengumumanSubmit(event)" class="space-y-3 text-xs font-bold">
+                            <div>
+                                <label class="block mb-1">Tujuan Web Pengumuman:</label>
+                                <select id="pengumuman-target-web" class="w-full p-2.5 bg-bg-pastel rounded-xl border border-secondary-purple/20 focus:outline-none cursor-pointer">
+                                    <option value="semua">Semua Web Terpadu</option>
+                                    <option value="utama">Web Utama Portal</option>
+                                    <option value="sasaran">Web Sasaran Posyandu</option>
+                                    <option value="kader">Web Kader Posyandu</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block mb-1">Judul Pengumuman:</label>
+                                <input type="text" id="pengumuman-judul" value="Pembagian Vitamin A & PMT Tambahan Bulan Oktober" class="w-full p-2 bg-bg-pastel rounded-xl border border-secondary-purple/20 focus:outline-none" required>
+                            </div>
+
+                            <div>
+                                <label class="block mb-1">Isi Lengkap Pengumuman:</label>
+                                <textarea id="pengumuman-isi" rows="3" class="w-full p-2 bg-bg-pastel rounded-xl border border-secondary-purple/20 focus:outline-none" required>Disampaikan kepada seluruh sasaran posyandu bahwa pembagian PMT lokal dan kapsul Vitamin A akan didistribusikan saat kegiatan Posyandu minggu depan.</textarea>
+                            </div>
+
+                            <button type="submit" class="w-full btn-purple py-2.5 font-bold text-xs flex items-center justify-center space-x-2 cursor-pointer">
+                                <i class="fa-solid fa-bullhorn"></i>
+                                <span>Simpan & Sync Pengumuman</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ================= TAB 3: APLIKASI LAPORAN POSYANDU (AUTOMATIC GENERATOR) ================= -->
+            <section id="content-aplikasi-laporan" class="hidden space-y-6">
+                
+                <div id="banner-edit-laporan" class="hidden p-4 rounded-2xl bg-amber-100 border-2 border-amber-400 text-amber-900 flex items-center justify-between no-print">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid fa-pen-to-square text-xl text-amber-600"></i>
+                        <div>
+                            <h4 class="font-extrabold text-sm">Mode Edit Laporan Arsip Aktif</h4>
+                            <p class="text-xs">Anda sedang mengubah data dari laporan arsip: <span id="edit-laporan-id" class="font-bold underline">#LPR-2026-09</span></p>
+                        </div>
+                    </div>
+                    <button onclick="cancelEditLaporanMode()" class="px-3 py-1.5 bg-amber-200 hover:bg-amber-300 rounded-xl text-xs font-bold cursor-pointer">Batal Edit</button>
+                </div>
+
+                <!-- TOOLBAR DENGAN TOMBOL COPYRIGHT DI SEBELAH KOP SURAT -->
+                <div class="sticky top-[58px] z-30 bg-[#FAF7F0]/95 backdrop-blur-md white-card p-4 border-2 border-olive-green/30 shadow-md flex flex-col md:flex-row items-center justify-between gap-3 no-print">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-deep-green flex items-center justify-center text-white font-bold text-lg shadow-sm">
+                            <i class="fa-solid fa-file-contract text-sun-yellow"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-deep-green text-base">Aplikasi Generator Laporan Posyandu</h3>
+                            <p class="text-xs text-earth-brown">Penyusunan Berita Acara, Data Kehadiran Kader Web, Foto PMT, Kegiatan & TTD Virtual</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button onclick="openConfigModal('kop')" class="bg-white hover:bg-soft-green text-deep-green border border-olive-green/30 text-xs font-extrabold px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-xs cursor-pointer">
+                            <i class="fa-solid fa-heading text-olive-green"></i> KOP SURAT
+                        </button>
+                        <!-- TOMBOL BARU COPYRIGHT DI SEBELAH KOP SURAT -->
+                        <button onclick="openConfigModal('copyright')" class="bg-white hover:bg-purple-50 text-secondary-purple border border-secondary-purple/40 text-xs font-extrabold px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-xs cursor-pointer">
+                            <i class="fa-solid fa-copyright text-secondary-purple"></i> COPYRIGHT
+                        </button>
+                        <button onclick="openConfigModal('paper')" class="bg-white hover:bg-amber-50 text-earth-brown border border-sun-yellow/40 text-xs font-extrabold px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-xs cursor-pointer">
+                            <i class="fa-solid fa-sliders text-sun-yellow"></i> KERTAS
+                        </button>
+                        <button onclick="exportToWord()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-extrabold px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm cursor-pointer">
+                            <i class="fa-solid fa-file-word"></i> WORD
+                        </button>
+                        <button onclick="exportToExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm cursor-pointer">
+                            <i class="fa-solid fa-file-excel"></i> EXCEL
+                        </button>
+                        <button onclick="triggerPrint()" class="btn-primary text-xs font-extrabold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm cursor-pointer">
+                            <i class="fa-solid fa-print text-sun-yellow"></i> CETAK / PDF
+                        </button>
+                        <button onclick="simpanKeArsipLaporan()" class="btn-purple text-xs font-extrabold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm cursor-pointer">
+                            <i class="fa-solid fa-floppy-disk"></i> SIMPAN ARSIP
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- MAIN GENERATOR SPLIT VIEW LAYOUT -->
+                <div class="grid lg:grid-cols-12 gap-6 items-start">
+                    
+                    <!-- LEFT PANEL: EDITOR CONTROLS -->
+                    <div class="lg:col-span-5 xl:col-span-4 white-card p-4 space-y-4 border-2 border-olive-green/30 shadow-md lg:sticky lg:top-[148px] lg:max-h-[calc(100vh-11rem)] flex flex-col justify-between no-print">
+                        
+                        <!-- TAB SELECTOR EDITOR -->
+                        <div class="border-b border-olive-green/20 bg-base-cream p-1.5 rounded-2xl flex gap-1 overflow-x-auto text-[11px] font-extrabold no-scrollbar">
+                            <button onclick="switchEditorTab('tab-ba')" id="btn-tab-ba" class="editor-tab-btn flex-1 min-w-[70px] py-2 px-1 rounded-xl text-earth-brown hover:bg-white transition text-center bg-deep-green text-white font-black shadow-xs cursor-pointer">
+                                <i class="fa-solid fa-file-signature block text-sm mb-0.5 text-sun-yellow"></i> BA
+                            </button>
+                            <button onclick="switchEditorTab('tab-hadir')" id="btn-tab-hadir" class="editor-tab-btn flex-1 min-w-[70px] py-2 px-1 rounded-xl text-earth-brown hover:bg-white transition text-center cursor-pointer">
+                                <i class="fa-solid fa-table-list block text-sm mb-0.5 text-blue-600"></i> Kader Input
+                            </button>
+                            <button onclick="switchEditorTab('tab-pmt')" id="btn-tab-pmt" class="editor-tab-btn flex-1 min-w-[70px] py-2 px-1 rounded-xl text-earth-brown hover:bg-white transition text-center cursor-pointer">
+                                <i class="fa-solid fa-utensils block text-sm mb-0.5 text-emerald-600"></i> PMT
+                            </button>
+                            <button onclick="switchEditorTab('tab-kegiatan')" id="btn-tab-kegiatan" class="editor-tab-btn flex-1 min-w-[70px] py-2 px-1 rounded-xl text-earth-brown hover:bg-white transition text-center cursor-pointer">
+                                <i class="fa-solid fa-camera block text-sm mb-0.5 text-purple-600"></i> Kegiatan
+                            </button>
+                            <button onclick="switchEditorTab('tab-ttd')" id="btn-tab-ttd" class="editor-tab-btn flex-1 min-w-[70px] py-2 px-1 rounded-xl text-earth-brown hover:bg-white transition text-center cursor-pointer">
+                                <i class="fa-solid fa-signature block text-sm mb-0.5 text-amber-600"></i> TTD
+                            </button>
+                        </div>
+
+                        <!-- EDITOR SECTIONS CONTAINER -->
+                        <div class="space-y-4 text-xs text-deep-green flex-grow overflow-y-auto no-scrollbar max-h-[calc(100vh-22rem)]">
+                            
+                            <!-- EDITOR TAB 1: BERITA ACARA -->
+                            <div id="editor-section-ba" class="editor-section space-y-4">
+                                <div class="bg-soft-green border border-olive-green/30 p-3.5 rounded-2xl flex items-center justify-between">
+                                    <div>
+                                        <h3 class="font-extrabold text-deep-green text-sm flex items-center gap-2">
+                                            <i class="fa-solid fa-file-pen text-olive-green"></i> Kelola Berita Acara (BA)
+                                        </h3>
+                                        <p class="text-[11px] text-earth-brown mt-0.5">Tambah beberapa BA & halaman laporan</p>
+                                    </div>
+                                    <button onclick="addNewBA()" class="btn-primary font-extrabold text-[11px] px-3 py-1.5 shadow flex items-center gap-1 cursor-pointer">
+                                        <i class="fa-solid fa-plus text-sun-yellow"></i> Tambah BA
+                                    </button>
+                                </div>
+
+                                <div id="ba-list-controls-container" class="space-y-3"></div>
+                            </div>
+
+                            <!-- EDITOR TAB 2: DATA WEB KADER INPUT -->
+                            <div id="editor-section-hadir" class="editor-section hidden space-y-4">
+                                <div class="bg-blue-50 border border-blue-200 p-3.5 rounded-2xl space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="font-extrabold text-blue-900 text-sm flex items-center gap-2">
+                                            <i class="fa-solid fa-heart-pulse text-blue-600"></i> Data Web Kader Input
+                                        </h3>
+                                        <span class="bg-blue-200 text-blue-800 text-[10px] font-black px-2 py-0.5 rounded-full">Kader Input</span>
+                                    </div>
+                                    <p class="text-[11px] text-blue-800 font-medium">
+                                        Pemeriksaan Antropometri & Medis (Tensi, Gula, Kolesterol, Asam Urat) dari Web Kader Input.
+                                    </p>
+                                </div>
+
+                                <div class="space-y-3 p-3 bg-base-cream rounded-xl border border-olive-green/20 font-bold">
+                                    <div>
+                                        <label class="block mb-1 text-deep-green">Filter Posyandu / Wilayah RW</label>
+                                        <select id="input-filter-posyandu" onchange="applyPosyanduFilter()" class="w-full bg-white border border-olive-green/30 rounded-xl px-3 py-2 text-xs font-bold text-deep-green focus:outline-none cursor-pointer">
+                                            <option value="ALL">-- SEMUA POSYANDU DESA GONOHARJO --</option>
+                                            <option value="Posyandu Mawar (RW 01)">Posyandu Mawar (RW 01)</option>
+                                            <option value="Posyandu Melati (RW 02)">Posyandu Melati (RW 02)</option>
+                                            <option value="Posyandu Anggrek (RW 03)">Posyandu Anggrek (RW 03)</option>
+                                            <option value="Posyandu Dahlia (RW 04)">Posyandu Dahlia (RW 04)</option>
+                                            <option value="Posyandu Flamboyan (RW 05)">Posyandu Flamboyan (RW 05)</option>
+                                            <option value="Posyandu Cempaka (RW 06)">Posyandu Cempaka (RW 06)</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <label class="block mb-0.5">Bulan Laporan</label>
+                                            <select id="input-hadir-bulan" onchange="updateReportState()" class="w-full bg-white border rounded-xl p-1.5 text-xs cursor-pointer">
+                                                <option value="September" selected>September</option>
+                                                <option value="Oktober">Oktober</option>
+                                                <option value="November">November</option>
+                                                <option value="Desember">Desember</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block mb-0.5">Tahun</label>
+                                            <input type="text" id="input-hadir-tahun" value="2026" onkeyup="updateReportState()" class="w-full bg-white border rounded-xl p-1.5 text-xs font-bold">
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label class="block mb-0.5">Baris Per Halaman Kertas</label>
+                                        <select id="input-hadir-rows-per-page" onchange="updateReportState()" class="w-full bg-white border rounded-xl p-1.5 text-xs font-bold cursor-pointer">
+                                            <option value="10">10 Baris / Halaman</option>
+                                            <option value="12" selected>12 Baris / Halaman (Standar)</option>
+                                            <option value="15">15 Baris / Halaman</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2 pt-1 font-bold">
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-deep-green">Daftar Hasil Pengukuran (<span id="count-hadir-rows">0</span> Data)</label>
+                                        <button onclick="addAttendanceRow()" class="text-xs bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-1.5 rounded-xl flex items-center gap-1 shadow cursor-pointer">
+                                            <i class="fa-solid fa-plus text-[10px]"></i> Tambah Data
+                                        </button>
+                                    </div>
+                                    <div id="attendance-input-rows-container" class="space-y-2.5"></div>
+                                </div>
+                            </div>
+
+                            <!-- EDITOR TAB 3: FOTO PMT -->
+                            <div id="editor-section-pmt" class="editor-section hidden space-y-4 font-bold">
+                                <div class="bg-emerald-50 border border-emerald-200 p-3.5 rounded-2xl space-y-1">
+                                    <h3 class="font-extrabold text-emerald-900 text-sm flex items-center gap-2">
+                                        <i class="fa-solid fa-images text-emerald-600"></i> Dokumentasi Foto PMT
+                                    </h3>
+                                    <p class="text-[11px] text-emerald-700">Mendukung layout hingga 8 foto per halaman.</p>
+                                </div>
+
+                                <div>
+                                    <label class="block mb-1">Judul Dokumentasi PMT</label>
+                                    <input type="text" id="input-pmt-judul" onkeyup="updateReportState()" class="w-full bg-base-cream border border-olive-green/20 rounded-xl px-3 py-2 text-xs">
+                                </div>
+
+                                <div>
+                                    <label class="block mb-1">Batas Foto Per Halaman Kertas</label>
+                                    <select id="input-pmt-layout" onchange="updateReportState()" class="w-full bg-base-cream border border-olive-green/20 rounded-xl px-3 py-2 text-xs font-bold cursor-pointer">
+                                        <option value="1">1 Foto / Halaman (Full Banner)</option>
+                                        <option value="2">2 Foto / Halaman (Grid 2 Kolom)</option>
+                                        <option value="4" selected>4 Foto / Halaman (Grid 2x2)</option>
+                                        <option value="8">8 Foto / Halaman (Grid 2x4 - Maksimal)</option>
+                                    </select>
+                                </div>
+
+                                <div class="p-3 bg-base-cream border border-olive-green/20 rounded-xl space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span>Foto Terpilih (<span id="pmt-count-badge">0</span> Foto)</span>
+                                        <button onclick="openPhotoPickerModal('pmt')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow cursor-pointer">
+                                            <i class="fa-solid fa-cloud-arrow-down"></i> Ambil Foto Kader
+                                        </button>
+                                    </div>
+                                    <div id="selected-pmt-photos-list" class="space-y-2"></div>
+                                </div>
+                            </div>
+
+                            <!-- EDITOR TAB 4: FOTO KEGIATAN -->
+                            <div id="editor-section-kegiatan" class="editor-section hidden space-y-4 font-bold">
+                                <div class="bg-purple-50 border border-purple-200 p-3.5 rounded-2xl space-y-1">
+                                    <h3 class="font-extrabold text-purple-900 text-sm flex items-center gap-2">
+                                        <i class="fa-solid fa-camera-retro text-purple-600"></i> Dokumentasi Foto Kegiatan
+                                    </h3>
+                                    <p class="text-[11px] text-purple-700">Mendukung layout hingga 8 foto per halaman.</p>
+                                </div>
+
+                                <div>
+                                    <label class="block mb-1">Judul Dokumentasi Kegiatan</label>
+                                    <input type="text" id="input-kegiatan-judul" onkeyup="updateReportState()" class="w-full bg-base-cream border border-olive-green/20 rounded-xl px-3 py-2 text-xs">
+                                </div>
+
+                                <div>
+                                    <label class="block mb-1">Batas Foto Per Halaman Kertas</label>
+                                    <select id="input-kegiatan-layout" onchange="updateReportState()" class="w-full bg-base-cream border border-olive-green/20 rounded-xl px-3 py-2 text-xs font-bold cursor-pointer">
+                                        <option value="1">1 Foto / Halaman (Full Banner)</option>
+                                        <option value="2">2 Foto / Halaman (Grid 2 Kolom)</option>
+                                        <option value="4" selected>4 Foto / Halaman (Grid 2x2)</option>
+                                        <option value="8">8 Foto / Halaman (Grid 2x4 - Maksimal)</option>
+                                    </select>
+                                </div>
+
+                                <div class="p-3 bg-base-cream border border-olive-green/20 rounded-xl space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span>Foto Terpilih (<span id="kegiatan-count-badge">0</span> Foto)</span>
+                                        <button onclick="openPhotoPickerModal('kegiatan')" class="bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow cursor-pointer">
+                                            <i class="fa-solid fa-cloud-arrow-down"></i> Ambil Foto Kader
+                                        </button>
+                                    </div>
+                                    <div id="selected-kegiatan-photos-list" class="space-y-2"></div>
+                                </div>
+                            </div>
+
+                            <!-- EDITOR TAB 5: TTD PER HALAMAN -->
+                            <div id="editor-section-ttd" class="editor-section hidden space-y-4 font-bold">
+                                <div class="bg-amber-50 border border-amber-200 p-3.5 rounded-2xl">
+                                    <h3 class="font-extrabold text-amber-900 text-sm flex items-center gap-2">
+                                        <i class="fa-solid fa-signature text-amber-600"></i> Pengaturan TTD Per Halaman
+                                    </h3>
+                                    <p class="text-[11px] text-amber-800 mt-0.5">Atur penandatangan & unggah tanda tangan virtual per halaman.</p>
+                                </div>
+
+                                <div>
+                                    <label class="block mb-1">Pilih Bagian Halaman Laporan</label>
+                                    <select id="select-ttd-page" onchange="renderSignatoryConfigurator()" class="w-full bg-base-cream border border-olive-green/20 rounded-xl px-3 py-2 text-xs font-bold cursor-pointer">
+                                        <option value="ba">Halaman Berita Acara (BA)</option>
+                                        <option value="hadir">Halaman Data Web Kader & Pengukuran</option>
+                                        <option value="pmt">Halaman Dokumentasi PMT</option>
+                                        <option value="kegiatan">Halaman Dokumentasi Kegiatan</option>
+                                    </select>
+                                </div>
+
+                                <div class="space-y-3 border border-olive-green/20 rounded-xl p-3 bg-base-cream">
+                                    <div class="flex items-center justify-between border-b border-olive-green/20 pb-2">
+                                        <span class="text-deep-green text-xs">Daftar Penandatangan Terpasang</span>
+                                        <button onclick="addNewSignatoryRole()" class="text-xs bg-amber-600 hover:bg-amber-700 text-white font-bold px-2.5 py-1 rounded-lg flex items-center gap-1 shadow cursor-pointer">
+                                            <i class="fa-solid fa-plus text-[10px]"></i> Tambah TTD
+                                        </button>
+                                    </div>
+                                    <div id="signatory-items-container" class="space-y-3"></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- ACTION BUTTONS EDITOR FOOTER -->
+                        <div class="pt-3 border-t border-olive-green/20 flex items-center justify-between gap-2">
+                            <button onclick="resetReportData()" class="w-full text-xs text-rose-600 hover:bg-rose-50 font-extrabold py-2 rounded-xl border border-rose-200 transition text-center cursor-pointer">
+                                <i class="fa-solid fa-rotate-left mr-1"></i> Reset Data Laporan
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <!-- RIGHT PANEL: LIVE PREVIEW CONTAINER -->
+                    <div class="lg:col-span-7 xl:col-span-8 overflow-y-auto lg:max-h-[calc(100vh-11rem)] p-4 bg-slate-900/10 rounded-2xl border border-olive-green/20 shadow-inner flex flex-col items-center" id="preview-container">
+                        
+                        <!-- BAR KONTROL RENDERER & SKALA ZOOM -->
+                        <div class="max-w-[215mm] w-full mx-auto mb-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-extrabold text-deep-green bg-white px-4 py-2.5 rounded-2xl shadow-xs border border-olive-green/25 no-print sticky top-0 z-20">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                <span>Status Renderer: <strong class="text-deep-green" id="rendered-pages-count">0 Halaman Terbentuk</strong></span>
+                            </div>
+
+                            <!-- KONTROL ZOOM PREVIEW -->
+                            <div class="flex items-center gap-1 bg-base-cream px-2 py-1 rounded-xl border border-olive-green/20">
+                                <button onclick="zoomOut()" class="w-6 h-6 flex items-center justify-center rounded hover:bg-white transition text-deep-green cursor-pointer" title="Perkecil (-10%)">
+                                    <i class="fa-solid fa-minus"></i>
+                                </button>
+                                <span id="zoom-level-text" class="w-12 text-center font-mono font-bold text-deep-green">100%</span>
+                                <button onclick="zoomIn()" class="w-6 h-6 flex items-center justify-center rounded hover:bg-white transition text-deep-green cursor-pointer" title="Perbesar (+10%)">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                                <div class="w-px h-4 bg-olive-green/30 mx-1"></div>
+                                <button onclick="resetZoom()" class="w-6 h-6 flex items-center justify-center rounded hover:bg-white transition text-deep-green cursor-pointer" title="Reset (100%)">
+                                    <i class="fa-solid fa-rotate-right"></i>
+                                </button>
+                            </div>
+
+                            <div class="flex items-center gap-2 text-[11px]">
+                                <span id="badge-paper-size" class="bg-soft-green text-deep-green px-2.5 py-0.5 rounded-md border border-olive-green/30 font-mono">A4 Portrait</span>
+                                <span id="badge-margin-info" class="bg-soft-yellow text-earth-brown px-2.5 py-0.5 rounded-md border border-sun-yellow/40 font-mono">Margin 20mm</span>
+                            </div>
+                        </div>
+
+                        <!-- DYNAMIC PAPER SHEETS RENDER CONTAINER -->
+                        <div id="dynamic-paper-sheets-wrapper" class="w-full flex flex-col items-center space-y-6">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+            
+            <!-- ================= TAB 4: ARSIP LAPORAN DIGITAL ================= -->
+            <section id="content-arsip-laporan" class="hidden space-y-6">
+                <div class="white-card p-6 border-2 border-secondary-purple/20 space-y-4">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-secondary-purple/15 pb-4">
+                        <div>
+                            <span class="px-3 py-1 rounded-full text-[10px] font-black bg-soft-purple text-secondary-purple border border-secondary-purple/30">
+                                Repository & Digital Archive
+                            </span>
+                            <h3 class="font-extrabold text-dark-slate text-xl mt-1">Arsip Laporan Posyandu Tersimpan</h3>
+                            <p class="text-xs text-dark-slate/70 font-medium">Seluruh laporan posyandu yang telah dibuat dan disimpan akan tersimpan secara terstruktur di sini. Anda dapat mencetak ulang atau mengedit kembali kapan saja.</p>
+                        </div>
+                        
+                        <div class="flex items-center gap-2">
+                            <input type="text" id="search-arsip-input" onkeyup="renderArsipTable()" placeholder="Cari Kode / Bulan / RW..." class="p-2 text-xs border border-secondary-purple/30 rounded-xl bg-bg-pastel focus:outline-none">
+                            <button onclick="renderArsipTable()" class="btn-purple px-3 py-2 text-xs font-bold cursor-pointer">Cari</button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                        <div class="p-3 bg-soft-purple/40 rounded-xl border border-secondary-purple/20">
+                            <span class="text-secondary-purple font-extrabold block">Total Laporan Arsip</span>
+                            <span class="text-xl font-black text-dark-slate" id="stat-total-arsip">0</span>
+                        </div>
+                        <div class="p-3 bg-soft-indigo/40 rounded-xl border border-primary-indigo/20">
+                            <span class="text-primary-indigo font-extrabold block">Laporan Tahun 2026</span>
+                            <span class="text-xl font-black text-dark-slate" id="stat-arsip-tahun">0</span>
+                        </div>
+                        <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200">
+                            <span class="text-emerald-700 font-extrabold block">Telah Diverifikasi</span>
+                            <span class="text-xl font-black text-dark-slate" id="stat-arsip-verified">0</span>
+                        </div>
+                        <div class="p-3 bg-amber-50 rounded-xl border border-amber-200">
+                            <span class="text-amber-800 font-extrabold block">Format PDF / Word</span>
+                            <span class="text-xl font-black text-dark-slate">Siap Unduh</span>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-secondary-purple/20 shadow-inner bg-white">
+                        <table class="w-full text-left text-xs text-dark-slate">
+                            <thead class="bg-soft-purple text-secondary-purple uppercase font-extrabold border-b border-secondary-purple/20">
+                                <tr>
+                                    <th class="p-3">Kode Laporan</th>
+                                    <th class="p-3">Bulan & Tahun</th>
+                                    <th class="p-3">Wilayah / RW</th>
+                                    <th class="p-3">Jumlah Sasaran</th>
+                                    <th class="p-3">Tgl Dibuat</th>
+                                    <th class="p-3 text-center">Status Verifikasi</th>
+                                    <th class="p-3 text-center">Aksi Operasi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-arsip-laporan" class="divide-y divide-secondary-purple/10 font-medium">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= TAB 5: SETTING WEB ADMIN ================= -->
+            <section id="content-setting-web" class="hidden space-y-6">
+                <div class="grid lg:grid-cols-12 gap-6">
+                    <div class="lg:col-span-7 white-card p-6 border-2 border-primary-indigo/20 space-y-4">
+                        <div class="flex items-center space-x-2 text-primary-indigo border-b border-primary-indigo/10 pb-3">
+                            <i class="fa-solid fa-sliders text-lg"></i>
+                            <h3 class="font-extrabold text-dark-slate text-base">Pengaturan Profil & Identitas Posyandu</h3>
+                        </div>
+
+                        <form onsubmit="handleSaveWebSettings(event)" class="space-y-3 text-xs font-bold">
+                            <div>
+                                <label class="block mb-1">Nama Organisasi / Lembaga:</label>
+                                <input type="text" id="set-nama-lembaga" value="POSYANDU INTEGRASI LAYANAN PRIMER (ILP)" class="w-full p-2 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block mb-1">Pemerintah Desa:</label>
+                                    <input type="text" id="set-pemdes" value="PEMERINTAH KABUPATEN KENDAL" class="w-full p-2 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block mb-1">Kecamatan / Desa:</label>
+                                    <input type="text" id="set-kec-desa" value="KECAMATAN LIMBANGAN - DESA GONOHARJO" class="w-full p-2 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block mb-1">Alamat Sekretariat Posyandu:</label>
+                                <input type="text" id="set-alamat" value="Jl. Rayo Gonoharjo No. 12, Limbangan, Kendal, Jawa Tengah 51357" class="w-full p-2 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block mb-1">Email Resmi Sekretariat:</label>
+                                    <input type="email" id="set-email" value="posyandu.gonoharjo@gmail.com" class="w-full p-2 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block mb-1">No. Kontak / WhatsApp Admin:</label>
+                                    <input type="text" id="set-kontak" value="+62 812-3456-7890" class="w-full p-2 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="w-full btn-indigo py-2.5 font-bold text-xs flex items-center justify-center space-x-2 cursor-pointer mt-2">
+                                <i class="fa-solid fa-floppy-disk"></i>
+                                <span>Simpan Pengaturan Profil Admin</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="lg:col-span-5 white-card p-6 border-2 border-secondary-purple/20 space-y-4">
+                        <div class="flex items-center space-x-2 text-secondary-purple border-b border-secondary-purple/10 pb-3">
+                            <i class="fa-solid fa-database text-lg"></i>
+                            <h3 class="font-extrabold text-dark-slate text-base">Database & Keamanan Sesi</h3>
+                        </div>
+
+                        <div class="space-y-3 text-xs font-bold">
+                            <div class="p-3 bg-soft-purple/40 rounded-xl border border-secondary-purple/20 space-y-1">
+                                <span class="text-secondary-purple block">Status Sinkronisasi Backend</span>
+                                <p class="text-[11px] text-dark-slate/80">Terhubung ke Serverless Backend Spreadsheet GO-POSITIF Gonoharjo.</p>
+                                <span class="inline-block px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] rounded-md font-bold mt-1">SINKRON AKTIF</span>
+                            </div>
+
+                            <div class="p-3 bg-soft-indigo/40 rounded-xl border border-primary-indigo/20 space-y-1">
+                                <span class="text-primary-indigo block">Mode Ramah Lansia Auto-Detect</span>
+                                <p class="text-[11px] text-dark-slate/80">Secara otomatis menyesuaikan kontras dan ukuran font untuk kenyamanan pembacaan laporan.</p>
+                                <button onclick="toggleModeLansia()" class="mt-1 px-2.5 py-1 bg-white border border-olive-green/40 rounded-lg text-[10px] font-bold text-deep-green cursor-pointer">Beralih Mode Lansia Now</button>
+                            </div>
+
+                            <div class="pt-2 border-t border-secondary-purple/10">
+                                <button onclick="confirmLogout()" class="w-full py-2 bg-red-100 hover:bg-red-200 text-red-800 text-xs font-extrabold rounded-xl transition flex items-center justify-center gap-2 cursor-pointer">
+                                    <i class="fa-solid fa-lock"></i>
+                                    <span>Kunci & Keluar Sesi Admin</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= TAB 6: KONTAK & TANYA ASTI ADMIN ================= -->
+            <section id="content-kontak" class="hidden space-y-8">
+                <div class="grid lg:grid-cols-12 gap-8">
+                    
+                    <div class="lg:col-span-6 space-y-6">
+                        <div class="white-card p-6 space-y-4 border-2 border-primary-indigo/20 shadow-md">
+                            <div class="flex items-center justify-between border-b border-primary-indigo/15 pb-3.5">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-xl flex items-center justify-center bg-soft-indigo text-primary-indigo font-bold shadow-xs">
+                                        <i class="fa-solid fa-location-dot text-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-extrabold text-dark-slate text-lg">Sekretariat Admin Posyandu</h3>
+                                        <p class="text-xs text-dark-slate/70 font-medium">Balai Desa & Poskesdes Desa Gonoharjo</p>
+                                    </div>
+                                </div>
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold bg-soft-indigo text-primary-indigo border border-primary-indigo/30">
+                                    <span class="w-2 h-2 rounded-full bg-primary-indigo animate-pulse"></span> Pusat Admin
+                                </span>
+                            </div>
+
+                            <div class="relative w-full h-72 md:h-80 rounded-2xl overflow-hidden border-2 border-primary-indigo/20 shadow-inner group">
+                                <iframe 
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15837.754751433621!2d110.3156689!3d-7.1214041!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7080d8298b488b%3A0x5027a76e356e7e0!2sGonoharjo%2C%20Kec.%20Limbangan%2C%20Kabupaten%20Kendal%2C%20Jawa%20Tengah!5e0!3m2!1sid!2sid!4v1710000000000!5m2!1sid!2sid" 
+                                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Peta Kantor Admin Posyandu Gonoharjo">
+                                </iframe>
+                                
+                                <a href="https://maps.app.goo.gl/NmTfdSzSU8gGeZUMA" target="_blank" rel="noopener noreferrer" class="absolute bottom-3 right-3 btn-indigo px-3.5 py-2 text-xs font-extrabold flex items-center space-x-1.5 shadow-lg border border-white/30 cursor-pointer">
+                                    <i class="fa-solid fa-diamond-turn-right text-sun-yellow text-sm"></i>
+                                    <span>Petunjuk Arah</span>
+                                </a>
+                            </div>
+
+                            <div class="space-y-2.5 text-xs md:text-sm text-dark-slate font-medium bg-base-cream p-4 rounded-xl border border-primary-indigo/15">
+                                <p><strong class="text-primary-indigo">Alamat Sekretariat:</strong> Balai Desa Gonoharjo, Kec. Limbangan, Kab. Kendal, Jawa Tengah 51381</p>
+                                <p><strong class="text-primary-indigo">Hotline Admin / Bidan:</strong> +62 812-3456-7890</p>
+                                <p><strong class="text-primary-indigo">Email Resmi:</strong> posyandu.gonoharjo@gmail.com</p>
+                            </div>
+
+                            <div class="pt-2 border-t border-primary-indigo/10">
+                                <p class="text-xs font-bold text-dark-slate mb-2">Kanal Komunikasi & Layanan:</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <a href="https://wa.me/6281234567890" target="_blank" class="px-3 py-2 rounded-xl bg-green-50 text-emerald-800 font-bold text-xs flex items-center space-x-2 border border-emerald-200">
+                                        <i class="fa-brands fa-whatsapp text-lg text-emerald-600"></i>
+                                        <span>WhatsApp Bidan Desa</span>
+                                    </a>
+                                    <a href="https://instagram.com" target="_blank" class="px-3 py-2 rounded-xl bg-pink-50 text-pink-800 font-bold text-xs flex items-center space-x-2 border border-pink-200">
+                                        <i class="fa-brands fa-instagram text-lg text-pink-600"></i>
+                                        <span>Instagram Portal</span>
+                                    </a>
+                                    <a href="https://youtu.be/FSqc9qFuqVM" target="_blank" class="px-3 py-2 rounded-xl bg-red-50 text-red-800 font-bold text-xs flex items-center space-x-2 border border-red-200">
+                                        <i class="fa-brands fa-youtube text-lg text-red-600"></i>
+                                        <span>YouTube Kesehatan</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-6">
+                        <div class="white-card p-6 space-y-4 flex flex-col h-[580px] justify-between border-2 border-primary-indigo/30 shadow-md">
+                            
+                            <div class="flex items-center justify-between border-b border-primary-indigo/10 pb-3">
+                                <div class="flex items-center space-x-3">
+                                    <div class="relative">
+                                        <div class="w-12 h-12 rounded-full bg-white p-0.5 border border-primary-indigo/30 shadow-sm overflow-hidden flex items-center justify-center">
+                                            <img src="https://lh3.googleusercontent.com/d/1AW-1Z0iV8ygSM47sk8KSDu_nD2lKFHDi" alt="Logo Tanya ASTI Admin" class="w-full h-full object-cover rounded-full">
+                                        </div>
+                                        <span class="w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full absolute bottom-0 right-0"></span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-extrabold text-dark-slate text-base">Tanya ASTI</h3>
+                                        <p class="text-[11px] text-primary-indigo font-bold">Asisten Konsultasi & Manajemen Admin</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <span id="asti-status-badge" class="text-[10px] bg-soft-indigo text-primary-indigo px-2.5 py-1 rounded-full font-bold border border-primary-indigo/30">Online</span>
+                                    <p id="asti-limit-counter" class="text-[9px] text-dark-slate/70 font-semibold mt-1">Sisa Kuota: <span id="asti-remaining-count" class="font-bold text-primary-indigo">10</span>/10 Tanya</p>
+                                </div>
+                            </div>
+
+                            <div id="chat-messages" class="p-4 rounded-2xl flex-grow overflow-y-auto space-y-3 text-xs bg-base-cream border border-primary-indigo/10 no-scrollbar">
+                                <div class="flex items-start space-x-2">
+                                    <div class="w-8 h-8 rounded-full bg-white p-0.5 border border-primary-indigo/20 overflow-hidden flex-shrink-0 shadow-xs">
+                                        <img src="https://lh3.googleusercontent.com/d/1AW-1Z0iV8ygSM47sk8KSDu_nD2lKFHDi" alt="ASTI Admin" class="w-full h-full object-cover rounded-full">
+                                    </div>
+                                    <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-xs text-dark-slate max-w-[85%] leading-relaxed border border-primary-indigo/10 font-medium">
+                                        Halo Admin! Saya <strong>ASTI</strong> 👩‍⚕️. Silakan tanyakan seputar panduan Berita Acara (BA), validasi verifikasi berjenjang, pembuatan laporan otomatis, atau analisis data stunting & hipertensi desa! <em>(Batas 10 pertanyaan per sesi)</em>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="asti-quick-buttons" class="flex flex-wrap gap-1.5 pt-1">
+                                <button onclick="sendQuickChat('Panduan Berita Acara (BA)')" class="px-2.5 py-1 text-[11px] bg-soft-indigo text-primary-indigo font-bold rounded-lg border border-primary-indigo/30 hover:bg-white transition cursor-pointer">
+                                    📝 Format Berita Acara
+                                </button>
+                                <button onclick="sendQuickChat('Alur Verifikasi Data Kader')" class="px-2.5 py-1 text-[11px] bg-soft-purple text-secondary-purple font-bold rounded-lg border border-secondary-purple/30 hover:bg-white transition cursor-pointer">
+                                    ✔️ Dual-Verification Data
+                                </button>
+                                <button onclick="sendQuickChat('Cara Cetak Laporan PDF')" class="px-2.5 py-1 text-[11px] bg-white text-dark-slate font-bold rounded-lg border border-primary-indigo/20 hover:bg-base-cream transition cursor-pointer">
+                                    🖨️ Cetak / Export Laporan
+                                </button>
+                            </div>
+
+                            <form id="asti-chat-form" onsubmit="handleSendChatAsti(event)" class="flex items-center gap-2 pt-2 border-t border-primary-indigo/10">
+                                <div class="website-field-hp">
+                                    <input type="text" id="hp-asti-check" autocomplete="off">
+                                </div>
+                                <input type="text" id="chat-input" placeholder="Tanyakan seputar pengelolaan & laporan admin..." class="w-full px-4 py-2.5 text-xs text-dark-slate font-medium focus:outline-none bg-base-cream rounded-xl border border-primary-indigo/20" required>
+                                <button type="submit" id="btn-chat-send" class="btn-indigo px-4 py-2.5 text-xs font-bold flex items-center space-x-1 flex-shrink-0 cursor-pointer">
+                                    <span>Kirim</span>
+                                    <i class="fa-solid fa-paper-plane text-xs text-sun-yellow"></i>
+                                </button>
+                            </form>
+
+                            <div id="asti-fallback-wa" class="hidden pt-2 border-t border-primary-indigo/10">
+                                <a href="https://wa.me/6281234567890?text=Halo%20Sekretariat%20Posyandu,%20saya%20Admin%20ingin%20berkonsultasi%20mengenai%20laporan..." target="_blank" class="w-full btn-indigo py-2.5 px-4 text-xs font-bold flex items-center justify-center space-x-2 bg-indigo-700 hover:bg-indigo-800 border border-indigo-500 shadow-md">
+                                    <i class="fa-brands fa-whatsapp text-sm text-emerald-300"></i>
+                                    <span>Hubungi Sekretariat Utama via WhatsApp</span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER PRESISI 4-KOLOM -->
+        <footer class="bg-white/90 backdrop-blur-md border-t border-olive-green/20 pt-8 sm:pt-10 pb-6 px-4 lg:px-8 mt-12 bg-cover bg-center no-print" style="background-image: linear-gradient(rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.90)), url('https://lh3.googleusercontent.com/d/1BUX21ccxQ7HkC2VWsya914pOrcSWE851');">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-8 border-b border-olive-green/10 text-xs">
+                
+                <div class="space-y-3">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-white p-1 shadow-sm border border-olive-green/20 flex items-center justify-center overflow-hidden flex-shrink-0">
+                            <img src="https://lh3.googleusercontent.com/d/1r5Z3o71WH4mpF5qn1Dfeav_V7qNnYldv" alt="Logo GO-Positif Gonoharjo" class="w-full h-full object-contain">
+                        </div>
+                        <div>
+                            <h4 class="font-extrabold text-sm text-deep-green">GO-Positif</h4>
+                            <p class="text-[10px] text-earth-brown font-bold">Posyandu Desa Gonoharjo</p>
+                        </div>
+                    </div>
+                    <p class="text-earth-brown text-xs font-medium leading-relaxed">
+                        Portal resmi Integrasi Layanan Primer (ILP) Posyandu Desa Gonoharjo. Mewujudkan pelayanan kesehatan terpadu dan ramah keluarga sepanjang siklus hidup.
+                    </p>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="font-extrabold text-sm text-deep-green border-b border-olive-green/10 pb-1">Jaringan Portal Terpadu</h4>
+                    <ul class="space-y-2 text-earth-brown font-medium">
+                        <li><a href="#" onclick="toggleSwitcherModal()" class="hover:text-olive-green transition flex items-center gap-1.5"><i class="fa-solid fa-globe text-[11px] text-olive-green"></i> Web Utama Portal Publik</a></li>
+                        <li><a href="https://gopositif.github.io/sasaran/" target="_blank" class="hover:text-olive-green transition flex items-center gap-1.5"><i class="fa-solid fa-qrcode text-[11px] text-sun-yellow"></i> Web Sasaran Posyandu</a></li>
+                        <li><a href="#" onclick="toggleSwitcherModal()" class="hover:text-olive-green transition flex items-center gap-1.5"><i class="fa-solid fa-user-pen text-[11px] text-emerald-600"></i> Web Kader Input Data</a></li>
+                        <li><a href="#" onclick="switchTab('aplikasi-laporan')" class="hover:text-olive-green transition flex items-center gap-1.5 font-bold text-deep-green"><i class="fa-solid fa-file-invoice text-[11px]"></i> Web Admin Laporan (Aktif)</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="font-extrabold text-sm text-deep-green border-b border-olive-green/10 pb-1">Sekretariat & Peta</h4>
+                    <p class="text-earth-brown font-medium leading-relaxed">
+                        <i class="fa-solid fa-location-dot text-olive-green mr-1.5"></i>
+                        Balai Desa Gonoharjo, Kec. Limbangan, Kab. Kendal, Jawa Tengah 51381
+                    </p>
+                    <p class="text-earth-brown font-medium">
+                        <i class="fa-solid fa-phone text-olive-green mr-1.5"></i>
+                        +62 812-3456-7890
+                    </p>
+                    <a href="https://maps.app.goo.gl/NmTfdSzSU8gGeZUMA" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-olive-green hover:underline font-bold text-[11px] gap-1 mt-1">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                        <span>Buka Google Maps Resmi ↗</span>
+                    </a>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="font-extrabold text-sm text-deep-green border-b border-olive-green/10 pb-1">Pengembang Sistem</h4>
+                    <div class="p-3 bg-soft-green/50 rounded-2xl border border-olive-green/20 space-y-1">
+                        <span class="text-[10px] font-black text-deep-green uppercase tracking-wider block">Inovasi Digital Posyandu</span>
+                        <p class="font-extrabold text-earth-brown text-xs">@KreasiCahNdeso</p>
+                        <p class="text-[10px] text-earth-brown/70 font-medium">Sistem Informasi Posyandu ILP Desa Gonoharjo</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="max-w-7xl mx-auto pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-earth-brown font-medium gap-2 text-center sm:text-left">
+                <p>© 2026 GO-POSITIF by KreasiCahNdeso. All rights reserved.</p>
+                <p class="text-olive-green font-bold">Kecamatan Limbangan, Kabupaten Kendal, Jawa Tengah</p>
+            </div>
+        </footer>
+
+    </div>
+    
+    <!-- ================= MODALS CONTAINER ================= -->
+
+    <!-- MODAL: WEB SWITCHER GO-POSITIF -->
+    <div id="modal-switcher" class="fixed inset-0 z-50 bg-stone-900/40 backdrop-blur-sm hidden flex items-center justify-center p-4 no-print">
+        <div class="white-card p-6 max-w-md w-full space-y-5 bg-[#FAF7F0] border-2 border-teal-600/30 shadow-2xl animate-fade-in">
+            <div class="flex items-center justify-between border-b border-teal-600/15 pb-3">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-cubes text-teal-700 text-lg"></i>
+                    <h3 class="font-extrabold text-teal-950 text-base">WEB SWITCHER GO-POSITIF</h3>
+                </div>
+                <button onclick="toggleSwitcherModal()" class="text-earth-brown hover:text-deep-green text-lg cursor-pointer">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <p class="text-xs text-earth-brown font-medium">Pilih portal ekosistem Jaringan GO-Positif Gonoharjo:</p>
+
+            <div class="space-y-2.5 text-xs">
+                <a href="https://gopositif.github.io/utama/" target="_blank" class="w-full p-3 bg-white text-earth-brown font-bold rounded-xl flex items-center justify-between hover:bg-teal-50 border border-teal-600/20 shadow-xs cursor-pointer transition">
+                    <span class="flex items-center space-x-2">
+                        <i class="fa-solid fa-house text-teal-700"></i>
+                        <span>1. PORTAL UTAMA POSYANDU</span>
+                    </span>
+                    <i class="fa-solid fa-arrow-right text-earth-brown/40"></i>
+                </a>
+
+                <a href="https://gopositif.github.io/sasaran/" target="_blank" class="w-full p-3 bg-white text-earth-brown font-bold rounded-xl flex items-center justify-between hover:bg-teal-50 border border-teal-600/20 shadow-xs cursor-pointer transition">
+                    <span class="flex items-center space-x-2">
+                        <i class="fa-solid fa-qrcode text-amber-500"></i>
+                        <span>2. PORTAL SASARAN POSYANDU</span>
+                    </span>
+                    <i class="fa-solid fa-arrow-right text-earth-brown/40"></i>
+                </a>
+
+                <a href="https://gopositif.github.io/kader/" target="_blank" class="w-full p-3 bg-white text-earth-brown font-bold rounded-xl flex items-center justify-between hover:bg-teal-50 border border-teal-600/20 shadow-xs cursor-pointer transition">
+                    <span class="flex items-center space-x-2">
+                        <i class="fa-solid fa-user-pen text-emerald-600"></i>
+                        <span>3. PORTAL KADER POSYANDU</span>
+                    </span>
+                    <i class="fa-solid fa-arrow-right text-earth-brown/40"></i>
+                </a>
+
+                <button onclick="toggleSwitcherModal()" class="w-full p-3 bg-teal-800 hover:bg-teal-900 text-white font-bold rounded-xl flex items-center justify-between shadow-xs cursor-pointer transition">
+                    <span class="flex items-center space-x-2">
+                        <i class="fa-solid fa-file-invoice text-amber-300"></i>
+                        <span>4. PORTAL ADMIN POSYANDU (Aktif)</span>
+                    </span>
+                    <i class="fa-solid fa-circle-check text-amber-300"></i>
+                </button>
+
+                <button onclick="simulasiPortalNav('WEB TEAM IT POSYANDU')" class="w-full p-3 bg-slate-900 hover:bg-slate-950 text-white font-extrabold rounded-xl flex items-center justify-between shadow-md border border-slate-700 cursor-pointer transition">
+                    <span class="flex items-center space-x-2">
+                        <i class="fa-solid fa-lock text-amber-400"></i>
+                        <span>5. PORTAL IT POSYANDU (🔒)</span>
+                    </span>
+                    <i class="fa-solid fa-key text-amber-400"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: CONFIGURATOR KOP SURAT LAPORAN -->
+    <div id="modal-kop" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4 no-print">
+        <div class="white-card max-w-lg w-full p-6 space-y-4 border-2 border-olive-green/30">
+            <div class="flex items-center justify-between border-b border-olive-green/20 pb-3">
+                <div class="flex items-center space-x-2 text-deep-green">
+                    <i class="fa-solid fa-heading text-xl text-olive-green"></i>
+                    <h3 class="font-extrabold text-dark-slate text-base">Konfigurasi Kop Surat Laporan</h3>
+                </div>
+                <button onclick="closeConfigModal('kop')" class="w-8 h-8 rounded-full bg-base-cream flex items-center justify-center text-earth-brown hover:bg-soft-yellow font-bold">✕</button>
+            </div>
+
+            <form onsubmit="saveKopConfig(event)" class="space-y-3 text-xs font-bold">
+                <div>
+                    <label class="block mb-1">Baris 1 (Pemerintah Kabupaten):</label>
+                    <input type="text" id="cfg-kop-b1" value="PEMERINTAH KABUPATEN KENDAL" class="w-full p-2 bg-bg-pastel rounded-xl border border-olive-green/20 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block mb-1">Baris 2 (Kecamatan & Desa):</label>
+                    <input type="text" id="cfg-kop-b2" value="KECAMATAN LIMBANGAN - DESA GONOHARJO" class="w-full p-2 bg-bg-pastel rounded-xl border border-olive-green/20 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block mb-1">Baris 3 (Nama Posyandu Utama):</label>
+                    <input type="text" id="cfg-kop-b3" value="POSYANDU INTEGRASI LAYANAN PRIMER (ILP)" class="w-full p-2 bg-bg-pastel rounded-xl border border-olive-green/20 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block mb-1">Baris 4 (Alamat & Kontak Sekretariat):</label>
+                    <input type="text" id="cfg-kop-b4" value="Sekretariat: Jl. Raya Gonoharjo No. 12, Limbangan, Kendal. Email: posyandu.gonoharjo@gmail.com" class="w-full p-2 bg-bg-pastel rounded-xl border border-olive-green/20 focus:outline-none">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 pt-2">
+                    <div>
+                        <label class="block mb-1">URL Logo Kiri (Garuda/Pemkab):</label>
+                        <input type="text" id="cfg-kop-logo-kiri" value="https://lh3.googleusercontent.com/d/1Pu9EO5ArNXsAwCYr7mRLfeVc0OV3L5_w" class="w-full p-2 bg-bg-pastel rounded-xl border border-olive-green/20 focus:outline-none text-[10px]">
+                    </div>
+                    <div>
+                        <label class="block mb-1">URL Logo Kanan (GO-Positif):</label>
+                        <input type="text" id="cfg-kop-logo-kanan" value="https://lh3.googleusercontent.com/d/1r5Z3o71WH4mpF5qn1Dfeav_V7qNnYldv" class="w-full p-2 bg-bg-pastel rounded-xl border border-olive-green/20 focus:outline-none text-[10px]">
+                    </div>
+                </div>
+
+                <div class="pt-3 flex justify-end gap-2">
+                    <button type="button" onclick="closeConfigModal('kop')" class="px-4 py-2 bg-slate-200 text-slate-800 rounded-xl font-bold">Batal</button>
+                    <button type="submit" class="btn-primary px-4 py-2 font-bold">Simpan Kop Surat</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL BARU: CONFIGURATOR COPYRIGHT LAPORAN -->
+    <div id="modal-copyright" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4 no-print">
+        <div class="white-card max-w-lg w-full p-6 space-y-4 border-2 border-secondary-purple/30">
+            <div class="flex items-center justify-between border-b border-olive-green/20 pb-3">
+                <div class="flex items-center space-x-2 text-deep-green">
+                    <i class="fa-solid fa-copyright text-xl text-secondary-purple"></i>
+                    <h3 class="font-extrabold text-dark-slate text-base">Konfigurasi Hak Cipta & Copyright Laporan</h3>
+                </div>
+                <button onclick="closeConfigModal('copyright')" class="w-8 h-8 rounded-full bg-base-cream flex items-center justify-center text-earth-brown hover:bg-soft-yellow font-bold">✕</button>
+            </div>
+
+            <form onsubmit="saveCopyrightConfig(event)" class="space-y-3 text-xs font-bold">
+                <div class="flex items-center justify-between p-3 bg-soft-purple/30 rounded-xl border border-secondary-purple/20">
+                    <span>Aktifkan Copyright di Semua Halaman Laporan</span>
+                    <input type="checkbox" id="cfg-cp-enabled" checked class="w-4 h-4 accent-secondary-purple cursor-pointer">
+                </div>
+
+                <div>
+                    <label class="block mb-1">Pengaturan Sisi Tampil di Bagian Bawah:</label>
+                    <select id="cfg-cp-sides" class="w-full p-2.5 bg-bg-pastel rounded-xl border border-secondary-purple/20 focus:outline-none cursor-pointer">
+                        <option value="both">Aktif Sisi Kiri & Kanan Bawah (Keduanya)</option>
+                        <option value="left">Hanya Sisi Kiri Bawah Saja</option>
+                        <option value="right">Hanya Sisi Kanan Bawah Saja</option>
+                    </select>
+                </div>
+
+                <div class="flex items-center justify-between p-2.5 bg-base-cream rounded-xl border border-olive-green/20">
+                    <span>Aktifkan Timestamp (Tanggal & Jam Otomatis)</span>
+                    <input type="checkbox" id="cfg-cp-timestamp" checked class="w-4 h-4 accent-deep-green cursor-pointer">
+                </div>
+
+                <div>
+                    <label class="block mb-1">Teks Sisi Kiri (Bisa Diketik Manual):</label>
+                    <input type="text" id="cfg-cp-left-text" value="Posyandu Desa Gonoharjo" class="w-full p-2 bg-bg-pastel rounded-xl border border-secondary-purple/20 focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block mb-1">Teks Sisi Kanan (Bisa Diketik Manual):</label>
+                    <input type="text" id="cfg-cp-right-text" value="© 2026 GO-POSITIF by @KreasiCahNdeso. All rights reserved." class="w-full p-2 bg-bg-pastel rounded-xl border border-secondary-purple/20 focus:outline-none">
+                </div>
+
+                <div class="pt-3 flex justify-end gap-2">
+                    <button type="button" onclick="closeConfigModal('copyright')" class="px-4 py-2 bg-slate-200 text-slate-800 rounded-xl font-bold">Batal</button>
+                    <button type="submit" class="btn-purple px-4 py-2 font-bold">Simpan Copyright</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 3: CONFIGURATOR KERTAS LAPORAN -->
+    <div id="modal-paper" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4 no-print">
+        <div class="white-card max-w-md w-full p-6 space-y-4 border-2 border-sun-yellow/40">
+            <div class="flex items-center justify-between border-b border-olive-green/20 pb-3">
+                <div class="flex items-center space-x-2 text-earth-brown">
+                    <i class="fa-solid fa-sliders text-xl text-sun-yellow"></i>
+                    <h3 class="font-extrabold text-dark-slate text-base">Pengaturan Kertas & Margin</h3>
+                </div>
+                <button onclick="closeConfigModal('paper')" class="w-8 h-8 rounded-full bg-base-cream flex items-center justify-center text-earth-brown hover:bg-soft-yellow font-bold">✕</button>
+            </div>
+
+            <form onsubmit="savePaperConfig(event)" class="space-y-3 text-xs font-bold">
+                <div>
+                    <label class="block mb-1">Ukuran Standar Kertas Cetak:</label>
+                    <select id="cfg-paper-size" class="w-full p-2.5 bg-bg-pastel rounded-xl border border-olive-green/20 focus:outline-none cursor-pointer">
+                        <option value="a4" selected>A4 (210 x 297 mm) - Standar Dinas</option>
+                        <option value="f4">F4 / Folio (215 x 330 mm)</option>
+                        <option value="letter">Letter (216 x 279 mm)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block mb-1">Orientasi Cetak Halaman:</label>
+                    <select id="cfg-paper-orientation" class="w-full p-2.5 bg-bg-pastel rounded-xl border border-olive-green/20 focus:outline-none cursor-pointer">
+                        <option value="portrait" selected>Portrait (Tegak)</option>
+                        <option value="landscape">Landscape (Mendatar)</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block mb-1">Margin Atas/Bawah (mm):</label>
+                        <input type="number" id="cfg-paper-margin-tb" value="15" min="5" max="40" class="w-full p-2 bg-bg-pastel rounded-xl border border-olive-green/20 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Margin Kiri/Kanan (mm):</label>
+                        <input type="number" id="cfg-paper-margin-lr" value="15" min="5" max="40" class="w-full p-2 bg-bg-pastel rounded-xl border border-olive-green/20 focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="pt-3 flex justify-end gap-2">
+                    <button type="button" onclick="closeConfigModal('paper')" class="px-4 py-2 bg-slate-200 text-slate-800 rounded-xl font-bold">Batal</button>
+                    <button type="submit" class="btn-primary px-4 py-2 font-bold">Terapkan Kertas</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 4: PEMILIH FOTO KADER DOKUMENTASI -->
+    <div id="modal-photo-picker" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4 no-print">
+        <div class="white-card max-w-2xl w-full p-6 space-y-4 border-2 border-purple-300">
+            <div class="flex items-center justify-between border-b border-olive-green/20 pb-3">
+                <div>
+                    <h3 class="font-extrabold text-dark-slate text-base">Pemilih Foto Dokumentasi Kader</h3>
+                    <p class="text-xs text-earth-brown">Pilih foto hasil input Web Kader untuk dimasukkan ke halaman laporan <span id="picker-target-type-label" class="font-bold uppercase text-purple-700">PMT</span></p>
+                </div>
+                <button onclick="closePhotoPickerModal()" class="w-8 h-8 rounded-full bg-base-cream flex items-center justify-center text-earth-brown hover:bg-soft-yellow font-bold">✕</button>
+            </div>
+
+            <div id="photo-picker-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-80 overflow-y-auto p-2 border border-olive-green/20 rounded-xl bg-base-cream no-scrollbar">
+            </div>
+
+            <div class="pt-2 border-t border-olive-green/20 flex justify-end">
+                <button onclick="closePhotoPickerModal()" class="btn-purple px-4 py-2 text-xs font-bold">Selesai Pilih Foto</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= SCRIPT ENGINE UTUH WEB LAPORAN ADMIN V6 ================= -->
+    <script>
+        let currentAdmin = {
+            username: "admin.gonoharjo",
+            nama: "Siti Rahmawati, S.Kep",
+            role: "Admin Utama Posyandu Desa"
+        };
+
+        let currentZoomLevel = 100;
+
+        let reportConfig = {
+            paperSize: "a4",
+            paperOrientation: "portrait",
+            marginTB: 15,
+            marginLR: 15,
+            kop: {
+                line1: "PEMERINTAH KABUPATEN KENDAL",
+                line2: "KECAMATAN LIMBANGAN - DESA GONOHARJO",
+                line3: "POSYANDU INTEGRASI LAYANAN PRIMER (ILP)",
+                line4: "Sekretariat: Jl. Raya Gonoharjo No. 12, Limbangan, Kendal. Email: posyandu.gonoharjo@gmail.com",
+                logoKiri: "https://lh3.googleusercontent.com/d/1Pu9EO5ArNXsAwCYr7mRLfeVc0OV3L5_w",
+                logoKanan: "https://lh3.googleusercontent.com/d/1r5Z3o71WH4mpF5qn1Dfeav_V7qNnYldv"
+            },
+            copyright: {
+                enabled: true,
+                activeSides: 'both', // 'both', 'left', 'right'
+                leftText: 'Posyandu Desa Gonoharjo',
+                rightText: '© 2026 GO-POSITIF by @KreasiCahNdeso. All rights reserved.',
+                useTimestamp: true
+            }
+        };
+
+        let repositoryKaderPhotos = [
+            { id: 101, type: 'pmt', url: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=600&auto=format&fit=crop&q=80', caption: 'Penyajian Menu PMT Sup Kelor & Telur Rebus' },
+            { id: 102, type: 'pmt', url: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=600&auto=format&fit=crop&q=80', caption: 'Pembagian Bubur Kacang Hijau Tambahan' },
+            { id: 103, type: 'pmt', url: 'https://images.unsplash.com/photo-1505576399279-565b52d4ac71?w=600&auto=format&fit=crop&q=80', caption: 'Verifikasi Bahan Pangan Lokal Berpotensi Gizi' },
+            { id: 104, type: 'pmt', url: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&auto=format&fit=crop&q=80', caption: 'Pendistribusian Paket PMT Bumil Kek' },
+            { id: 201, type: 'kegiatan', url: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&auto=format&fit=crop&q=80', caption: 'Pemeriksaan Tekanan Darah Lansia RW 01' },
+            { id: 202, type: 'kegiatan', url: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?w=600&auto=format&fit=crop&q=80', caption: 'Pengukuran Panjang Badan Balita Posyandu Mawar' },
+            { id: 203, type: 'kegiatan', url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&auto=format&fit=crop&q=80', caption: 'Penyuluhan Bahaya Hipertensi & Kesehatan Lansia' },
+            { id: 204, type: 'kegiatan', url: 'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?w=600&auto=format&fit=crop&q=80', caption: 'Registrasi & Cek Barcode KARTA Sasaran' }
+        ];
+
+        let dataKonfirmasiAdmin = [
+            { id: 'KNF-01', tgl: '2026-10-02', nama: 'Siti Aminah', kk: '3324019283010001', posyandu: 'Posyandu Mawar (RW 01)', kat: 'Balita', hasil: 'BB: 12.4 kg, TB: 88 cm (Normal)', kaderConf: true, adminConf: true },
+            { id: 'KNF-02', tgl: '2026-10-02', nama: 'Mbah Suparni', kk: '3324018829100003', posyandu: 'Posyandu Melati (RW 02)', kat: 'Lansia', hasil: 'Tensi: 155/95 mmHg (Hipertensi)', kaderConf: true, adminConf: false },
+            { id: 'KNF-03', tgl: '2026-10-03', nama: 'Budi Santoso', kk: '3324017739180004', posyandu: 'Posyandu Anggrek (RW 03)', kat: 'Usia Dewasa', hasil: 'GDS: 215 mg/dL (Gula Darah Tinggi)', kaderConf: true, adminConf: false },
+            { id: 'KNF-04', tgl: '2026-10-03', nama: 'Sri Wahyuni', kk: '3324018829100009', posyandu: 'Posyandu Dahlia (RW 04)', kat: 'Ibu Hamil', hasil: 'LILA: 24 cm, Hb: 11.2 (Sehat)', kaderConf: true, adminConf: true },
+            { id: 'KNF-05', tgl: '2026-10-04', nama: 'Kusno Widodo', kk: '3324011293810002', posyandu: 'Posyandu Flamboyan (RW 05)', kat: 'Lansia', hasil: 'Kolesterol: 230 mg/dL (Tinggi)', kaderConf: true, adminConf: false }
+        ];
+
+        let dataArsipLaporan = [
+            { id: 'LPR-2026-09', bulan: 'September', tahun: '2026', wilayah: 'Posyandu Mawar (RW 01)', sasaran: 48, tglDibuat: '2026-09-28', verified: true },
+            { id: 'LPR-2026-08', bulan: 'Agustus', tahun: '2026', wilayah: 'Semua Posyandu Desa', sasaran: 230, tglDibuat: '2026-08-30', verified: true }
+        ];
+
+        let reportData = {
+            activeBAIndex: 0,
+            baList: [
+                {
+                    noBA: "BA/POS-GON/IX/2026",
+                    tgl: "2026-09-25",
+                    tempat: "Balai Desa Gonoharjo",
+                    isiBA: "Pada hari ini Jumat tanggal Dua Puluh Lima bulan September tahun Dua Ribu Dua Puluh Enam, telah dilaksanakan kegiatan Posyandu Integrasi Layanan Primar (ILP) serentak di Desa Gonoharjo. Pelayanan meliputi penimbangan balita, pemeriksaan tensi dan gula darah lansia, serta pembagian PMT Tambahan."
+                }
+            ],
+            hadirFilterPosyandu: "ALL",
+            hadirBulan: "September",
+            hadirTahun: "2026",
+            hadirRowsPerPage: 12,
+            hadirRows: [
+                { no: 1, nama: 'Siti Aminah', nik: '332401***001', rw: 'RW 01', kat: 'Balita', tb: 88, bb: 12.4, tensi: '-', gds: '-', koles: '-', asamUrat: '-', rujukan: 'Tidak' },
+                { no: 2, nama: 'Mbah Suparni', nik: '332401***003', rw: 'RW 02', kat: 'Lansia', tb: 152, bb: 54, tensi: '155/95', gds: '140', koles: '190', asamUrat: '5.2', rujukan: 'Puskesmas' },
+                { no: 3, nama: 'Budi Santoso', nik: '332401***004', rw: 'RW 03', kat: 'Usia Dewasa', tb: 168, bb: 72, tensi: '130/85', gds: '215', koles: '210', asamUrat: '6.8', rujukan: 'Edukasi Diet' },
+                { no: 4, nama: 'Sri Wahyuni', nik: '332401***009', rw: 'RW 04', kat: 'Ibu Hamil', tb: 158, bb: 61, tensi: '118/78', gds: '110', koles: '180', asamUrat: '4.1', rujukan: 'Tidak' },
+                { no: 5, nama: 'Kusno Widodo', nik: '332401***002', rw: 'RW 05', kat: 'Lansia', tb: 160, bb: 65, tensi: '140/90', gds: '160', koles: '230', asamUrat: '7.2', rujukan: 'Puskesmas' }
+            ],
+            pmtJudul: "DOKUMENTASI PEMBAGIAN Makanan Tambahan (PMT) LOKAL BERGIZI",
+            pmtLayout: 4,
+            pmtPhotoIds: [101, 102, 103, 104],
+            kegiatanJudul: "DOKUMENTASI PELAKSANAAN PELAYANAN POSYANDU ILP DESA GONOHARJO",
+            kegiatanLayout: 4,
+            kegiatanPhotoIds: [201, 202, 203, 204],
+            signatories: {
+                ba: [
+                    { role: "Ketua Kader Posyandu", nama: "Siti Rahmawati, S.Kep", ttdUrl: "" },
+                    { role: "Bidan Desa Gonoharjo", nama: "Bdn. Anisa Putri, S.Tr.Keb", ttdUrl: "" }
+                ],
+                hadir: [
+                    { role: "Ketua Kader Posyandu", nama: "Siti Rahmawati, S.Kep", ttdUrl: "" }
+                ],
+                pmt: [
+                    { role: "Petugas Pelaksana PMT", nama: "Naning Wijaya", ttdUrl: "" }
+                ],
+                kegiatan: [
+                    { role: "Mengetahui Kepala Desa", nama: "H. Sukirman, S.Sos", ttdUrl: "" }
+                ]
+            }
+        };
+
+        let activePickerType = 'pmt';
+        let isEditArsipMode = false;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initKehadiranAdminChart();
+            renderKonfirmasiAdminTable();
+            renderArsipTable();
+            renderBAListControls();
+            renderAttendanceInputRows();
+            renderPhotoPickerGrid();
+            renderSignatoryConfigurator();
+            updateReportState();
+        });
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast-notification');
+            const toastText = document.getElementById('toast-text');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastText.textContent = message;
+            if (isError) {
+                toastIcon.className = "w-8 h-8 rounded-full bg-red-100 text-red-700 flex items-center justify-center font-bold flex-shrink-0";
+                toastIcon.innerHTML = `<i class="fa-solid fa-xmark"></i>`;
+            } else {
+                toastIcon.className = "w-8 h-8 rounded-full bg-soft-green text-deep-green flex items-center justify-center font-bold flex-shrink-0";
+                toastIcon.innerHTML = `<i class="fa-solid fa-check"></i>`;
+            }
+
+            toast.classList.remove('translate-x-full');
+            setTimeout(() => {
+                toast.classList.add('translate-x-full');
+            }, 3000);
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const hpCheck = document.getElementById('hp-check-login').value;
+            if (hpCheck) return;
+
+            const userVal = document.getElementById('admin-username').value;
+            const roleVal = document.getElementById('admin-role').value;
+
+            currentAdmin.username = userVal;
+            currentAdmin.role = roleVal;
+            document.getElementById('admin-role-badge').textContent = roleVal;
+
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('main-app').classList.remove('hidden');
+            showToast("Selamat Datang! Login Admin Berhasil.");
+        }
+
+        function toggleLoginPassword() {
+            const pwdInput = document.getElementById('admin-password');
+            const icon = document.getElementById('togglePasswordIcon');
+            if (pwdInput.type === 'password') {
+                pwdInput.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                pwdInput.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+
+        function confirmLogout() {
+            if (confirm("Apakah Anda yakin ingin keluar dari Sesi Admin Laporan?")) {
+                document.getElementById('main-app').classList.add('hidden');
+                document.getElementById('login-screen').classList.remove('hidden');
+                showToast("Sesi Admin telah dikunci.");
+            }
+        }
+
+        function switchTab(tabId) {
+            const tabs = ['beranda', 'konfirmasi', 'aplikasi-laporan', 'arsip-laporan', 'setting-web', 'kontak'];
+            tabs.forEach(t => {
+                const el = document.getElementById('content-' + t);
+                const btn = document.getElementById('tab-' + t);
+                if (el) el.classList.add('hidden');
+                if (btn) btn.classList.remove('active');
+            });
+
+            const targetContent = document.getElementById('content-' + tabId);
+            const targetBtn = document.getElementById('tab-' + tabId);
+            if (targetContent) targetContent.classList.remove('hidden');
+            if (targetBtn) targetBtn.classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleModeLansia() {
+            document.body.classList.toggle('mode-lansia');
+            const isLansia = document.body.classList.contains('mode-lansia');
+            const labelDesktop = document.getElementById('label-mode-lansia');
+            const labelMobile = document.getElementById('label-mode-lansia-short');
+
+            if (isLansia) {
+                if (labelDesktop) labelDesktop.textContent = "Mode Normal";
+                if (labelMobile) labelMobile.textContent = "Normal";
+                showToast("Mode Ramah Lansia Diaktifkan.");
+            } else {
+                if (labelDesktop) labelDesktop.textContent = "Mode Ramah Lansia";
+                if (labelMobile) labelMobile.textContent = "Lansia";
+                showToast("Mode Normal Diaktifkan.");
+            }
+        }
+
+        function zoomIn() {
+            if (currentZoomLevel < 150) {
+                currentZoomLevel += 10;
+                applyZoom();
+            }
+        }
+
+        function zoomOut() {
+            if (currentZoomLevel > 60) {
+                currentZoomLevel -= 10;
+                applyZoom();
+            }
+        }
+
+        function resetZoom() {
+            currentZoomLevel = 100;
+            applyZoom();
+        }
+
+        function applyZoom() {
+            const wrapper = document.getElementById('dynamic-paper-sheets-wrapper');
+            const zoomText = document.getElementById('zoom-level-text');
+            if (wrapper) {
+                wrapper.style.transform = `scale(${currentZoomLevel / 100})`;
+                wrapper.style.transformOrigin = 'top center';
+            }
+            if (zoomText) zoomText.textContent = `${currentZoomLevel}%`;
+        }
+
+        function initKehadiranAdminChart() {
+            const ctx = document.getElementById('kehadiranAdminChart');
+            if (!ctx) return;
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['RW 01 Mawar', 'RW 02 Melati', 'RW 03 Anggrek', 'RW 04 Dahlia', 'RW 05 Flamboyan', 'RW 06 Cempaka'],
+                    datasets: [
+                        { label: 'Hadir Balita', data: [45, 38, 42, 50, 36, 40], backgroundColor: '#5B67CA' },
+                        { label: 'Hadir Lansia', data: [30, 42, 35, 28, 40, 32], backgroundColor: '#8E62D5' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } }
+                }
+            });
+        }
+
+        function renderKonfirmasiAdminTable() {
+            const tbody = document.getElementById('tbody-konfirmasi-admin');
+            if (!tbody) return;
+
+            tbody.innerHTML = dataKonfirmasiAdmin.map((item, idx) => `
+                <tr class="hover:bg-soft-indigo/30 transition">
+                    <td class="p-3">${item.tgl}</td>
+                    <td class="p-3 font-bold">${item.nama} <span class="block text-[10px] text-dark-slate/60">${item.kk}</span></td>
+                    <td class="p-3">${item.posyandu}</td>
+                    <td class="p-3"><span class="px-2 py-0.5 rounded-full text-[10px] bg-base-cream border">${item.kat}</span></td>
+                    <td class="p-3 font-semibold text-primary-indigo">${item.hasil}</td>
+                    <td class="p-3 text-center">
+                        ${item.kaderConf ? '<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> Kader Ok</span>' : '<span class="text-amber-600">Pending</span>'}
+                    </td>
+                    <td class="p-3 text-center">
+                        ${item.adminConf ? '<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> Admin Verified</span>' : '<span class="text-rose-600 font-bold"><i class="fa-solid fa-clock"></i> Belum</span>'}
+                    </td>
+                    <td class="p-3 text-center">
+                        <button onclick="toggleAdminVerification('${item.id}')" class="px-3 py-1 text-[11px] font-extrabold rounded-lg ${item.adminConf ? 'bg-amber-100 text-amber-800' : 'bg-emerald-600 text-white'} cursor-pointer">
+                            ${item.adminConf ? 'Batal' : 'Verifikasi'}
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function toggleAdminVerification(id) {
+            const target = dataKonfirmasiAdmin.find(d => d.id === id);
+            if (target) {
+                target.adminConf = !target.adminConf;
+                renderKonfirmasiAdminTable();
+                showToast(`Status verifikasi ${target.nama} diperbarui.`);
+            }
+        }
+
+        function filterKonfirmasiAdminTable() {
+            const query = document.getElementById('search-konfirmasi-admin').value.toLowerCase();
+            const rows = document.querySelectorAll('#tbody-konfirmasi-admin tr');
+            rows.forEach(r => {
+                r.style.display = r.textContent.toLowerCase().includes(query) ? '' : 'none';
+            });
+        }
+
+        function handleUpdateJadwalSubmit(e) {
+            e.preventDefault();
+            showToast("Jadwal Posyandu berhasil diperbarui & disinkronkan ke Web Penerbitan!");
+        }
+
+        function handleUpdatePengumumanSubmit(e) {
+            e.preventDefault();
+            showToast("Pengumuman berhasil disinkronkan ke seluruh web!");
+        }
+
+        function switchEditorTab(tabId) {
+            const sections = ['ba', 'hadir', 'pmt', 'kegiatan', 'ttd'];
+            sections.forEach(s => {
+                document.getElementById('editor-section-' + s).classList.add('hidden');
+                document.getElementById('btn-tab-' + s).classList.remove('bg-deep-green', 'text-white');
+            });
+
+            document.getElementById('editor-section-' + tabId.replace('tab-', '')).classList.remove('hidden');
+            document.getElementById('btn-' + tabId).classList.add('bg-deep-green', 'text-white');
+        }
+
+        function renderBAListControls() {
+            const container = document.getElementById('ba-list-controls-container');
+            if (!container) return;
+
+            container.innerHTML = reportData.baList.map((ba, idx) => `
+                <div class="p-3 rounded-xl border ${idx === reportData.activeBAIndex ? 'bg-soft-green border-olive-green' : 'bg-white border-olive-green/20'} space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="font-extrabold text-xs">Berita Acara #${idx + 1}</span>
+                        ${reportData.baList.length > 1 ? `<button onclick="deleteBA(${idx})" class="text-red-600 hover:text-red-800 text-xs font-bold"><i class="fa-solid fa-trash"></i></button>` : ''}
+                    </div>
+                    <input type="text" value="${ba.noBA}" onkeyup="updateBAField(${idx}, 'noBA', this.value)" placeholder="No. Surat BA" class="w-full p-2 bg-white border border-olive-green/20 rounded-lg text-xs font-bold">
+                    <input type="date" value="${ba.tgl}" onchange="updateBAField(${idx}, 'tgl', this.value)" class="w-full p-2 bg-white border border-olive-green/20 rounded-lg text-xs font-bold">
+                    <textarea rows="2" onkeyup="updateBAField(${idx}, 'isiBA', this.value)" class="w-full p-2 bg-white border border-olive-green/20 rounded-lg text-xs font-medium">${ba.isiBA}</textarea>
+                </div>
+            `).join('');
+        }
+
+        function updateBAField(idx, field, val) {
+            reportData.baList[idx][field] = val;
+            updateReportState();
+        }
+
+        function addNewBA() {
+            reportData.baList.push({
+                noBA: `BA/POS-GON/IX/2026-${reportData.baList.length + 1}`,
+                tgl: "2026-09-25",
+                tempat: "Balai Desa Gonoharjo",
+                isiBA: "Isi Berita Acara tambahan..."
+            });
+            renderBAListControls();
+            updateReportState();
+        }
+
+        function deleteBA(idx) {
+            reportData.baList.splice(idx, 1);
+            if (reportData.activeBAIndex >= reportData.baList.length) reportData.activeBAIndex = 0;
+            renderBAListControls();
+            updateReportState();
+        }
+
+        function applyPosyanduFilter() {
+            reportData.hadirFilterPosyandu = document.getElementById('input-filter-posyandu').value;
+            updateReportState();
+        }
+
+        function renderAttendanceInputRows() {
+            const container = document.getElementById('attendance-input-rows-container');
+            const countLabel = document.getElementById('count-hadir-rows');
+            if (!container) return;
+
+            countLabel.textContent = reportData.hadirRows.length;
+            container.innerHTML = reportData.hadirRows.map((r, idx) => `
+                <div class="p-2.5 bg-white rounded-xl border border-olive-green/20 space-y-1.5 text-xs">
+                    <div class="flex items-center justify-between font-bold">
+                        <span>#${idx + 1} ${r.nama} (${r.kat})</span>
+                        <button onclick="removeAttendanceRow(${idx})" class="text-rose-600"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div class="grid grid-cols-3 gap-1.5 text-[11px]">
+                        <input type="text" value="${r.nama}" onkeyup="updateHadirRow(${idx}, 'nama', this.value)" placeholder="Nama" class="p-1 border rounded bg-bg-pastel font-bold">
+                        <input type="text" value="${r.kat}" onkeyup="updateHadirRow(${idx}, 'kat', this.value)" placeholder="Kategori" class="p-1 border rounded bg-bg-pastel">
+                        <input type="text" value="${r.tensi}" onkeyup="updateHadirRow(${idx}, 'tensi', this.value)" placeholder="Tensi" class="p-1 border rounded bg-bg-pastel">
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateHadirRow(idx, field, val) {
+            reportData.hadirRows[idx][field] = val;
+            updateReportState();
+        }
+
+        function addAttendanceRow() {
+            reportData.hadirRows.push({
+                no: reportData.hadirRows.length + 1,
+                nama: 'Sasaran Baru',
+                nik: '332401***999',
+                rw: 'RW 01',
+                kat: 'Lansia',
+                tb: 160, bb: 60, tensi: '120/80', gds: '110', koles: '180', asamUrat: '5.0', rujukan: 'Tidak'
+            });
+            renderAttendanceInputRows();
+            updateReportState();
+        }
+
+        function removeAttendanceRow(idx) {
+            reportData.hadirRows.splice(idx, 1);
+            renderAttendanceInputRows();
+            updateReportState();
+        }
+
+        function openPhotoPickerModal(type) {
+            activePickerType = type;
+            document.getElementById('picker-target-type-label').textContent = type;
+            document.getElementById('modal-photo-picker').classList.remove('hidden');
+            renderPhotoPickerGrid();
+        }
+
+        function closePhotoPickerModal() {
+            document.getElementById('modal-photo-picker').classList.add('hidden');
+            updateReportState();
+        }
+
+        function renderPhotoPickerGrid() {
+            const container = document.getElementById('photo-picker-grid');
+            if (!container) return;
+
+            const selectedArray = activePickerType === 'pmt' ? reportData.pmtPhotoIds : reportData.kegiatanPhotoIds;
+            const filteredPhotos = repositoryKaderPhotos.filter(p => p.type === activePickerType);
+
+            container.innerHTML = filteredPhotos.map(p => {
+                const isSelected = selectedArray.includes(p.id);
+                return `
+                    <div onclick="toggleSelectPhoto(${p.id})" class="relative rounded-xl overflow-hidden border-2 cursor-pointer transition ${isSelected ? 'border-purple-600 ring-2 ring-purple-400' : 'border-transparent'}">
+                        <img src="${p.url}" class="w-full h-24 object-cover">
+                        <div class="absolute inset-x-0 bottom-0 bg-black/60 p-1 text-[9px] text-white font-bold truncate">${p.caption}</div>
+                        ${isSelected ? '<div class="absolute top-1 right-1 bg-purple-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">✓</div>' : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleSelectPhoto(photoId) {
+            const targetArray = activePickerType === 'pmt' ? reportData.pmtPhotoIds : reportData.kegiatanPhotoIds;
+            const idx = targetArray.indexOf(photoId);
+            if (idx > -1) {
+                targetArray.splice(idx, 1);
+            } else {
+                targetArray.push(photoId);
+            }
+            renderPhotoPickerGrid();
+            renderSelectedPhotosList();
+        }
+
+        function renderSelectedPhotosList() {
+            const pmtList = document.getElementById('selected-pmt-photos-list');
+            const pmtBadge = document.getElementById('pmt-count-badge');
+            if (pmtList) {
+                pmtBadge.textContent = reportData.pmtPhotoIds.length;
+                pmtList.innerHTML = reportData.pmtPhotoIds.map(id => {
+                    const item = repositoryKaderPhotos.find(p => p.id === id);
+                    return item ? `<div class="p-1.5 bg-white border rounded-lg text-[11px] font-bold flex items-center justify-between"><span class="truncate">${item.caption}</span><button onclick="toggleSelectPhoto(${id})" class="text-red-600"><i class="fa-solid fa-trash"></i></button></div>` : '';
+                }).join('');
+            }
+
+            const kegiatanList = document.getElementById('selected-kegiatan-photos-list');
+            const kegiatanBadge = document.getElementById('kegiatan-count-badge');
+            if (kegiatanList) {
+                kegiatanBadge.textContent = reportData.kegiatanPhotoIds.length;
+                kegiatanList.innerHTML = reportData.kegiatanPhotoIds.map(id => {
+                    const item = repositoryKaderPhotos.find(p => p.id === id);
+                    return item ? `<div class="p-1.5 bg-white border rounded-lg text-[11px] font-bold flex items-center justify-between"><span class="truncate">${item.caption}</span><button onclick="toggleSelectPhoto(${id})" class="text-red-600"><i class="fa-solid fa-trash"></i></button></div>` : '';
+                }).join('');
+            }
+        }
+
+        function renderSignatoryConfigurator() {
+            const page = document.getElementById('select-ttd-page').value;
+            const container = document.getElementById('signatory-items-container');
+            if (!container) return;
+
+            const items = reportData.signatories[page] || [];
+            container.innerHTML = items.map((item, idx) => `
+                <div class="p-2.5 bg-white rounded-xl border border-amber-200 space-y-1.5 text-xs">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold">Penandatangan #${idx + 1}</span>
+                        <button onclick="removeSignatoryRole('${page}', ${idx})" class="text-red-600 text-xs"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                    <input type="text" value="${item.role}" onkeyup="updateSignatory('${page}', ${idx}, 'role', this.value)" placeholder="Jabatan" class="w-full p-1.5 border rounded bg-bg-pastel font-bold">
+                    <input type="text" value="${item.nama}" onkeyup="updateSignatory('${page}', ${idx}, 'nama', this.value)" placeholder="Nama Lengkap" class="w-full p-1.5 border rounded bg-bg-pastel font-bold">
+                </div>
+            `).join('');
+        }
+
+        function updateSignatory(page, idx, field, val) {
+            reportData.signatories[page][idx][field] = val;
+            updateReportState();
+        }
+
+        function addNewSignatoryRole() {
+            const page = document.getElementById('select-ttd-page').value;
+            reportData.signatories[page].push({ role: "Jabatan Baru", nama: "Nama Pejabat", ttdUrl: "" });
+            renderSignatoryConfigurator();
+            updateReportState();
+        }
+
+        function removeSignatoryRole(page, idx) {
+            reportData.signatories[page].splice(idx, 1);
+            renderSignatoryConfigurator();
+            updateReportState();
+        }
+
+        function updateReportState() {
+            renderSelectedPhotosList();
+
+            const wrapper = document.getElementById('dynamic-paper-sheets-wrapper');
+            if (!wrapper) return;
+
+            let paperClass = `paper-${reportConfig.paperSize}`;
+            let orientationClass = reportConfig.paperOrientation === 'landscape' ? 'orientation-landscape' : '';
+            let marginStyle = `padding: ${reportConfig.marginTB}mm ${reportConfig.marginLR}mm;`;
+
+            let kopHTML = `
+                <div class="border-b-4 border-double border-black pb-3 mb-4 text-center relative font-heading">
+                    <img src="${reportConfig.kop.logoKiri}" class="absolute left-0 top-0 w-14 h-14 object-contain">
+                    <img src="${reportConfig.kop.logoKanan}" class="absolute right-0 top-0 w-14 h-14 object-contain">
+                    <h4 class="font-extrabold text-xs uppercase tracking-wider text-slate-800">${reportConfig.kop.line1}</h4>
+                    <h3 class="font-extrabold text-sm uppercase tracking-wide text-slate-900">${reportConfig.kop.line2}</h3>
+                    <h2 class="font-black text-base uppercase text-slate-900">${reportConfig.kop.line3}</h2>
+                    <p class="text-[10px] font-medium text-slate-600 mt-0.5">${reportConfig.kop.line4}</p>
+                </div>
+            `;
+
+            // RENDER COPYRIGHT FOOTER BUILDER
+            let copyrightFooterHTML = '';
+            if (reportConfig.copyright.enabled) {
+                let timestampStr = '';
+                if (reportConfig.copyright.useTimestamp) {
+                    const now = new Date();
+                    const pad = (n) => String(n).padStart(2, '0');
+                    const dateStr = `${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()}`;
+                    const timeStr = `${pad(now.getHours())}:${pad(now.getMinutes())} WIB`;
+                    timestampStr = `${dateStr} ${timeStr} — `;
+                }
+
+                let leftContent = reportConfig.copyright.activeSides === 'both' || reportConfig.copyright.activeSides === 'left' 
+                    ? `<div class="text-[9px] font-medium text-slate-500">${timestampStr}${reportConfig.copyright.leftText}</div>` 
+                    : `<div></div>`;
+
+                let rightContent = reportConfig.copyright.activeSides === 'both' || reportConfig.copyright.activeSides === 'right' 
+                    ? `<div class="text-[9px] font-medium text-slate-500 text-right">${reportConfig.copyright.rightText}</div>` 
+                    : `<div></div>`;
+
+                if (reportConfig.copyright.activeSides === 'left') {
+                    rightContent = `<div></div>`;
+                } else if (reportConfig.copyright.activeSides === 'right') {
+                    leftContent = `<div></div>`;
+                }
+
+                copyrightFooterHTML = `
+                    <div class="mt-auto pt-4 border-t border-slate-200 flex items-center justify-between no-print-footer">
+                        ${leftContent}
+                        ${rightContent}
+                    </div>
+                `;
+            }
+
+            let pagesCount = 0;
+            let finalPagesHTML = '';
+
+            // HALAMAN 1: BERITA ACARA
+            reportData.baList.forEach((ba, index) => {
+                pagesCount++;
+                let ttdHTML = renderSignatoryBlock(reportData.signatories.ba);
+                finalPagesHTML += `
+                    <div class="paper-page ${paperClass} ${orientationClass}" style="${marginStyle}">
+                        <div>
+                            ${kopHTML}
+                            <div class="text-center my-4">
+                                <h3 class="font-black text-base underline uppercase">BERITA ACARA PELAKSANAAN POSYANDU ILP</h3>
+                                <p class="text-xs font-bold">Nomor: ${ba.noBA}</p>
+                            </div>
+                            <div class="text-xs space-y-3 font-serif leading-relaxed text-slate-800 my-6">
+                                <p>${ba.isiBA}</p>
+                            </div>
+                            <div class="mt-12">${ttdHTML}</div>
+                        </div>
+                        ${copyrightFooterHTML}
+                    </div>
+                `;
+            });
+
+            // HALAMAN 2: DATA HASIL PENGUKURAN
+            pagesCount++;
+            let filteredRows = reportData.hadirRows;
+            if (reportData.hadirFilterPosyandu !== 'ALL') {
+                filteredRows = filteredRows.filter(r => r.rw.includes(reportData.hadirFilterPosyandu.match(/RW \d+/)?.[0] || ''));
+            }
+
+            let tableRowsHTML = filteredRows.map((r, i) => `
+                <tr class="border-b border-slate-300 text-[10px]">
+                    <td class="p-1.5 text-center">${i + 1}</td>
+                    <td class="p-1.5 font-bold">${r.nama}</td>
+                    <td class="p-1.5">${r.nik}</td>
+                    <td class="p-1.5 text-center">${r.rw}</td>
+                    <td class="p-1.5 text-center">${r.kat}</td>
+                    <td class="p-1.5 text-center">${r.bb} / ${r.tb}</td>
+                    <td class="p-1.5 text-center font-semibold text-indigo-900">${r.tensi}</td>
+                    <td class="p-1.5 text-center">${r.gds}</td>
+                    <td class="p-1.5 text-center">${r.koles}</td>
+                    <td class="p-1.5 text-center">${r.asamUrat}</td>
+                    <td class="p-1.5 text-center">${r.rujukan}</td>
+                </tr>
+            `).join('');
+
+            finalPagesHTML += `
+                <div class="paper-page ${paperClass} ${orientationClass}" style="${marginStyle}">
+                    <div>
+                        ${kopHTML}
+                        <div class="text-center my-3">
+                            <h3 class="font-black text-sm uppercase underline">REKAPITULASI HASIL PELAYANAN POSYANDU ILP</h3>
+                            <p class="text-xs font-bold">Bulan: ${document.getElementById('input-hadir-bulan')?.value || 'September'} ${document.getElementById('input-hadir-tahun')?.value || '2026'}</p>
+                        </div>
+                        <table class="w-full text-left border-collapse border border-slate-400 my-4">
+                            <thead>
+                                <tr class="bg-slate-100 text-[9px] uppercase font-bold text-slate-800 border-b border-slate-400 text-center">
+                                    <th class="p-1 border">No</th>
+                                    <th class="p-1 border">Nama Sasaran</th>
+                                    <th class="p-1 border">NIK</th>
+                                    <th class="p-1 border">RW</th>
+                                    <th class="p-1 border">Kat</th>
+                                    <th class="p-1 border">BB/TB</th>
+                                    <th class="p-1 border">Tensi</th>
+                                    <th class="p-1 border">GDS</th>
+                                    <th class="p-1 border">Koles</th>
+                                    <th class="p-1 border">Urat</th>
+                                    <th class="p-1 border">Rujukan</th>
+                                </tr>
+                            </thead>
+                            <tbody>${tableRowsHTML}</tbody>
+                        </table>
+                        <div class="mt-8">${renderSignatoryBlock(reportData.signatories.hadir)}</div>
+                    </div>
+                    ${copyrightFooterHTML}
+                </div>
+            `;
+
+            // HALAMAN 3: DOKUMENTASI PMT
+            if (reportData.pmtPhotoIds.length > 0) {
+                pagesCount++;
+                let pmtPhotosHTML = reportData.pmtPhotoIds.map(id => {
+                    const photo = repositoryKaderPhotos.find(p => p.id === id);
+                    return photo ? `
+                        <div class="border rounded-xl p-2 bg-slate-50 text-center space-y-1">
+                            <img src="${photo.url}" class="w-full h-36 object-cover rounded-lg">
+                            <p class="text-[10px] font-bold text-slate-700">${photo.caption}</p>
+                        </div>
+                    ` : '';
+                }).join('');
+
+                finalPagesHTML += `
+                    <div class="paper-page ${paperClass} ${orientationClass}" style="${marginStyle}">
+                        <div>
+                            ${kopHTML}
+                            <h3 class="font-black text-xs uppercase text-center underline my-3">${reportData.pmtJudul}</h3>
+                            <div class="grid grid-cols-2 gap-4 my-4">${pmtPhotosHTML}</div>
+                            <div class="mt-8">${renderSignatoryBlock(reportData.signatories.pmt)}</div>
+                        </div>
+                        ${copyrightFooterHTML}
+                    </div>
+                `;
+            }
+
+            // HALAMAN 4: DOKUMENTASI KEGIATAN
+            if (reportData.kegiatanPhotoIds.length > 0) {
+                pagesCount++;
+                let kegPhotosHTML = reportData.kegiatanPhotoIds.map(id => {
+                    const photo = repositoryKaderPhotos.find(p => p.id === id);
+                    return photo ? `
+                        <div class="border rounded-xl p-2 bg-slate-50 text-center space-y-1">
+                            <img src="${photo.url}" class="w-full h-36 object-cover rounded-lg">
+                            <p class="text-[10px] font-bold text-slate-700">${photo.caption}</p>
+                        </div>
+                    ` : '';
+                }).join('');
+
+                finalPagesHTML += `
+                    <div class="paper-page ${paperClass} ${orientationClass}" style="${marginStyle}">
+                        <div>
+                            ${kopHTML}
+                            <h3 class="font-black text-xs uppercase text-center underline my-3">${reportData.kegiatanJudul}</h3>
+                            <div class="grid grid-cols-2 gap-4 my-4">${kegPhotosHTML}</div>
+                            <div class="mt-8">${renderSignatoryBlock(reportData.signatories.kegiatan)}</div>
+                        </div>
+                        ${copyrightFooterHTML}
+                    </div>
+                `;
+            }
+
+            wrapper.innerHTML = finalPagesHTML;
+            document.getElementById('rendered-pages-count').textContent = `${pagesCount} Halaman Terbentuk`;
+            document.getElementById('badge-paper-size').textContent = `${reportConfig.paperSize.toUpperCase()} ${reportConfig.paperOrientation}`;
+            document.getElementById('badge-margin-info').textContent = `Margin ${reportConfig.marginTB}mm`;
+
+            applyZoom();
+        }
+
+        function renderSignatoryBlock(signatories) {
+            if (!signatories || signatories.length === 0) return '';
+            const cols = signatories.length;
+            return `
+                <div class="grid grid-cols-${cols} gap-4 text-center text-xs font-serif text-slate-800">
+                    ${signatories.map(s => `
+                        <div class="space-y-12">
+                            <p class="font-bold">${s.role}</p>
+                            <div class="h-10"></div>
+                            <p class="font-black underline">${s.nama}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function openConfigModal(type) {
+            document.getElementById('modal-' + type).classList.remove('hidden');
+        }
+
+        function closeConfigModal(type) {
+            document.getElementById('modal-' + type).classList.add('hidden');
+        }
+
+        function saveKopConfig(e) {
+            e.preventDefault();
+            reportConfig.kop.line1 = document.getElementById('cfg-kop-b1').value;
+            reportConfig.kop.line2 = document.getElementById('cfg-kop-b2').value;
+            reportConfig.kop.line3 = document.getElementById('cfg-kop-b3').value;
+            reportConfig.kop.line4 = document.getElementById('cfg-kop-b4').value;
+            reportConfig.kop.logoKiri = document.getElementById('cfg-kop-logo-kiri').value;
+            reportConfig.kop.logoKanan = document.getElementById('cfg-kop-logo-kanan').value;
+            closeConfigModal('kop');
+            updateReportState();
+            showToast("Pengaturan Kop Surat berhasil diterapkan.");
+        }
+
+        function saveCopyrightConfig(e) {
+            e.preventDefault();
+            reportConfig.copyright.enabled = document.getElementById('cfg-cp-enabled').checked;
+            reportConfig.copyright.activeSides = document.getElementById('cfg-cp-sides').value;
+            reportConfig.copyright.useTimestamp = document.getElementById('cfg-cp-timestamp').checked;
+            reportConfig.copyright.leftText = document.getElementById('cfg-cp-left-text').value;
+            reportConfig.copyright.rightText = document.getElementById('cfg-cp-right-text').value;
+            closeConfigModal('copyright');
+            updateReportState();
+            showToast("Pengaturan Copyright laporan berhasil diterapkan.");
+        }
+
+        function savePaperConfig(e) {
+            e.preventDefault();
+            reportConfig.paperSize = document.getElementById('cfg-paper-size').value;
+            reportConfig.paperOrientation = document.getElementById('cfg-paper-orientation').value;
+            reportConfig.marginTB = parseInt(document.getElementById('cfg-paper-margin-tb').value || 15);
+            reportConfig.marginLR = parseInt(document.getElementById('cfg-paper-margin-lr').value || 15);
+            closeConfigModal('paper');
+            updateReportState();
+            showToast("Ukuran kertas & margin diperbarui.");
+        }
+
+        function toggleSwitcherModal() {
+            const modal = document.getElementById('modal-switcher');
+            if (modal) modal.classList.toggle('hidden');
+        }
+
+        function simulasiPortalNav(portalName) {
+            toggleSwitcherModal();
+            showToast(`Mengalihkan ke ${portalName}...`, "info");
+        }
+
+        function triggerPrint() {
+            window.print();
+        }
+
+        function exportToWord() {
+            showToast("Mengunduh Laporan Posyandu (.DOC)...");
+        }
+
+        function exportToExcel() {
+            showToast("Mengunduh Rekapitulasi Data (.XLS)...");
+        }
+
+        function simpanKeArsipLaporan() {
+            const newId = `LPR-2026-${String(dataArsipLaporan.length + 1).padStart(2, '0')}`;
+            dataArsipLaporan.unshift({
+                id: newId,
+                bulan: document.getElementById('input-hadir-bulan')?.value || 'September',
+                tahun: document.getElementById('input-hadir-tahun')?.value || '2026',
+                wilayah: reportData.hadirFilterPosyandu === 'ALL' ? 'Semua Posyandu Desa' : reportData.hadirFilterPosyandu,
+                sasaran: reportData.hadirRows.length,
+                tglDibuat: new Date().toISOString().split('T')[0],
+                verified: true
+            });
+            renderArsipTable();
+            showToast("Laporan Berhasil Disimpan ke Arsip Digital!");
+            switchTab('arsip-laporan');
+        }
+
+        function renderArsipTable() {
+            const tbody = document.getElementById('tbody-arsip-laporan');
+            if (!tbody) return;
+
+            document.getElementById('stat-total-arsip').textContent = dataArsipLaporan.length;
+            document.getElementById('stat-arsip-tahun').textContent = dataArsipLaporan.filter(a => a.tahun === '2026').length;
+            document.getElementById('stat-arsip-verified').textContent = dataArsipLaporan.filter(a => a.verified).length;
+
+            tbody.innerHTML = dataArsipLaporan.map(a => `
+                <tr class="hover:bg-soft-purple/30 transition">
+                    <td class="p-3 font-mono font-bold text-secondary-purple">${a.id}</td>
+                    <td class="p-3 font-bold">${a.bulan} ${a.tahun}</td>
+                    <td class="p-3">${a.wilayah}</td>
+                    <td class="p-3 font-semibold">${a.sasaran} Warga</td>
+                    <td class="p-3">${a.tglDibuat}</td>
+                    <td class="p-3 text-center"><span class="px-2 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-800 font-bold">Terverifikasi</span></td>
+                    <td class="p-3 text-center flex justify-center gap-1.5">
+                        <button onclick="editArsipLaporan('${a.id}')" class="px-2.5 py-1 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-[10px] font-bold cursor-pointer" title="Edit Laporan Ini"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+                        <button onclick="triggerPrint()" class="px-2.5 py-1 bg-primary-indigo hover:bg-hover-indigo text-white rounded-lg text-[10px] font-bold cursor-pointer" title="Cetak PDF"><i class="fa-solid fa-print"></i> Cetak</button>
+                        <button onclick="deleteArsip('${a.id}')" class="px-2 py-1 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-[10px] font-bold cursor-pointer"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function editArsipLaporan(id) {
+            isEditArsipMode = true;
+            document.getElementById('banner-edit-laporan').classList.remove('hidden');
+            document.getElementById('edit-laporan-id').textContent = '#' + id;
+            switchTab('aplikasi-laporan');
+            showToast(`Memuat data arsip #${id} ke generator.`);
+        }
+
+        function cancelEditLaporanMode() {
+            isEditArsipMode = false;
+            document.getElementById('banner-edit-laporan').classList.add('hidden');
+            showToast("Mode edit arsip dibatalkan.");
+        }
+
+        function deleteArsip(id) {
+            if (confirm(`Apakah Anda yakin ingin menghapus arsip ${id}?`)) {
+                dataArsipLaporan = dataArsipLaporan.filter(a => a.id !== id);
+                renderArsipTable();
+                showToast(`Arsip ${id} berhasil dihapus.`);
+            }
+        }
+
+        function handleSaveWebSettings(e) {
+            e.preventDefault();
+            showToast("Pengaturan profil & identitas posyandu berhasil disimpan.");
+        }
+
+        let astiAdminChatCount = 0;
+        const maxAstiAdminQuota = 10;
+        let lastAdminChatTimestamp = 0;
+        const minAdminChatIntervalMs = 2000;
+
+        function handleSendChatAsti(e) {
+            e.preventDefault();
+
+            const hpVal = document.getElementById('hp-asti-check')?.value;
+            if (hpVal && hpVal !== '') return false;
+
+            const input = document.getElementById('chat-input');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            if (astiAdminChatCount >= maxAstiAdminQuota) {
+                triggerAstiAdminQuotaLimit();
+                return;
+            }
+
+            const now = Date.now();
+            if (now - lastAdminChatTimestamp < minAdminChatIntervalMs) {
+                showToast("Anti-Spam: Mohon tunggu sebentar sebelum mengirim pertanyaan berikutnya.", true);
+                return;
+            }
+
+            lastAdminChatTimestamp = now;
+            astiAdminChatCount++;
+            updateAstiAdminCounter();
+
+            appendAdminChatMessage('user', msg);
+            input.value = '';
+
+            setTimeout(() => {
+                let botReply = "Terima kasih atas pertanyaannya, Admin! Rekapitulasi laporan dan verifikasi data Posyandu ILP Gonoharjo telah disesuaikan dengan standar Dinas Kesehatan.";
+                const query = msg.toLowerCase();
+
+                if (query.includes('berita acara') || query.includes('ba')) {
+                    botReply = "<strong>Format Berita Acara (BA):</strong> BA dapat disesuaikan pada tab <strong>Aplikasi Laporan</strong> (Sub-Tab BA). Masukkan nomor surat resmi, tanggal pelaksanaan, serta hasil rakor/penimbangan sebelum mencetak PDF.";
+                } else if (query.includes('verifikasi') || query.includes('kader') || query.includes('dual')) {
+                    botReply = "<strong>Dual-Verification System:</strong> Data yang diinput oleh Kader akan muncul pada tab <strong>Konfirmasi & Pembaruan</strong>. Klik tombol <em>Verifikasi</em> untuk menyetujui data agar masuk ke arsip laporan resmi dan publikasi Web Sasaran.";
+                } else if (query.includes('cetak') || query.includes('pdf') || query.includes('export') || query.includes('word') || query.includes('excel')) {
+                    botReply = "<strong>Pengaturan Cetak Laporan:</strong> Buka tab <strong>Aplikasi Laporan</strong>. Anda dapat mengonfigurasi Kop Surat, Copyright Hak Cipta, Ukuran Kertas (A4/F4), Margin, serta mengunduh format DOC, XLS, atau Cetak PDF langsung.";
+                } else if (query.includes('stunting') || query.includes('hipertensi')) {
+                    botReply = "<strong>Analisis Indikator:</strong> Data kasus stunting (TB/U < -2 SD) dan Hipertensi (Sistolik ≥ 140 mmHg) diurutkan secara otomatis dari hasil pengukuran Web Kader dan disajikan pada ringkasan dashboard Beranda Admin.";
+                }
+
+                appendAdminChatMessage('bot', botReply);
+
+                if (astiAdminChatCount >= maxAstiAdminQuota) {
+                    setTimeout(() => triggerAstiAdminQuotaLimit(), 800);
+                }
+            }, 700);
+        }
+
+        function sendQuickChat(text) {
+            if (astiAdminChatCount >= maxAstiAdminQuota) {
+                triggerAstiAdminQuotaLimit();
+                return;
+            }
+            const input = document.getElementById('chat-input');
+            if (input) {
+                input.value = text;
+                handleSendChatAsti(new Event('submit'));
+            }
+        }
+
+        function updateAstiAdminCounter() {
+            const sisa = maxAstiAdminQuota - astiAdminChatCount;
+            const counterEl = document.getElementById('asti-remaining-count');
+            if (counterEl) counterEl.innerText = sisa;
+
+            if (sisa <= 3) {
+                const badge = document.getElementById('asti-status-badge');
+                if (badge) {
+                    badge.classList.remove('bg-soft-indigo', 'text-primary-indigo');
+                    badge.classList.add('bg-amber-100', 'text-amber-800');
+                }
+            }
+        }
+
+        function triggerAstiAdminQuotaLimit() {
+            appendAdminChatMessage('bot', '🔒 <strong>Batas Kuota Sesi Admin Terpakai (10/10)</strong><br>Sesi konsultasi AI ASTI untuk sesi ini telah mencapai batas maksimal 10 pertanyaan. Silakan hubungi Sekretariat Utama atau Bidan Desa untuk konsultasi langsung.');
+
+            const form = document.getElementById('asti-chat-form');
+            const quickBtns = document.getElementById('asti-quick-buttons');
+            const fallbackWA = document.getElementById('asti-fallback-wa');
+
+            if (form) form.classList.add('hidden');
+            if (quickBtns) quickBtns.classList.add('hidden');
+            if (fallbackWA) fallbackWA.classList.remove('hidden');
+
+            const badge = document.getElementById('asti-status-badge');
+            if (badge) {
+                badge.innerText = "Kuota Sesi Habis";
+                badge.className = "text-[10px] bg-red-100 text-red-800 px-2.5 py-1 rounded-full font-bold border border-red-300";
+            }
+        }
+
+        function appendAdminChatMessage(sender, text) {
+            const box = document.getElementById('chat-messages');
+            if (!box) return;
+
+            const div = document.createElement('div');
+            if (sender === 'user') {
+                div.className = "flex items-start space-x-2 justify-end";
+                div.innerHTML = `
+                    <div class="bg-primary-indigo text-white p-3 rounded-2xl rounded-tr-none shadow-xs max-w-[85%] leading-relaxed font-bold">
+                        ${text}
+                    </div>
+                `;
+            } else {
+                div.className = "flex items-start space-x-2";
+                div.innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-white p-0.5 border border-primary-indigo/20 overflow-hidden flex-shrink-0 shadow-xs">
+                        <img src="https://lh3.googleusercontent.com/d/1AW-1Z0iV8ygSM47sk8KSDu_nD2lKFHDi" alt="ASTI Admin" class="w-full h-full object-cover rounded-full">
+                    </div>
+                    <div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-xs text-dark-slate max-w-[85%] leading-relaxed border border-primary-indigo/10 font-medium">
+                        ${text}
+                    </div>
+                `;
+            }
+            box.appendChild(div);
+            box.scrollTop = box.scrollHeight;
+        }
+    </script>
+</body>
+</html>
