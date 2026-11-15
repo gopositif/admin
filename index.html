@@ -31,6 +31,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
 
@@ -39,20 +40,20 @@
             theme: {
                 extend: {
                     colors: {
-                        'base-cream': '#FAF7F0',
-                        'olive-green': '#7C9246',
+                        'base-cream': 'rgb(var(--bg) / <alpha-value>)',
+                        'olive-green': 'rgb(var(--soft) / <alpha-value>)',
                         'sun-yellow': '#F3A94B',
-                        'deep-green': '#1E4620',
-                        'earth-brown': '#5A3B21',
-                        'soft-green': '#EBF2DF',
+                        'deep-green': 'rgb(var(--deep) / <alpha-value>)',
+                        'earth-brown': 'rgb(var(--ink) / <alpha-value>)',
+                        'soft-green': 'rgb(var(--tint) / <alpha-value>)',
                         'soft-yellow': '#FEF4E6',
                         'calm-blue': '#E8F4F8',
-                        'primary-indigo': '#5B67CA',  
-                        'hover-indigo': '#4753B8',    
-                        'secondary-purple': '#8E62D5',
+                        'primary-indigo': 'rgb(var(--pri) / <alpha-value>)',  
+                        'hover-indigo': 'rgb(var(--prid) / <alpha-value>)',    
+                        'secondary-purple': 'rgb(var(--sec) / <alpha-value>)',
                         'dark-slate': '#1E2538',      
-                        'soft-indigo': '#EBEFFE',     
-                        'soft-purple': '#F4EFFF',    
+                        'soft-indigo': 'rgb(var(--tint2) / <alpha-value>)',     
+                        'soft-purple': 'rgb(var(--tint3) / <alpha-value>)',    
                     },
                     fontFamily: {
                         sans: ['Plus Jakarta Sans', 'sans-serif'],
@@ -65,13 +66,13 @@
 
     <style>
         :root {
-            --bg-base: #FAF7F0;
-            --olive-green: #7C9246;
+            --bg-base: rgb(var(--bg));
+            --olive-green: rgb(var(--soft));
             --sun-yellow: #F3A94B;
-            --deep-green: #1E4620;
-            --earth-brown: #5A3B21;
-            --primary-indigo: #5B67CA;
-            --secondary-purple: #8E62D5;
+            --deep-green: rgb(var(--deep));
+            --earth-brown: rgb(var(--ink));
+            --primary-indigo: rgb(var(--pri));
+            --secondary-purple: rgb(var(--sec));
             --dark-slate: #1E2538;
         }
 
@@ -104,13 +105,13 @@
         .white-card {
             background-color: #FFFFFF;
             border-radius: 16px;
-            box-shadow: 0 4px 20px -2px rgba(30, 70, 32, 0.05), 0 2px 6px -1px rgba(30, 70, 32, 0.03);
-            border: 1px solid rgba(124, 146, 70, 0.12);
+            box-shadow: 0 4px 20px -2px rgb(var(--deep) / 0.05), 0 2px 6px -1px rgb(var(--deep) / 0.03);
+            border: 1px solid rgb(var(--soft) / 0.12);
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .white-card:hover {
-            box-shadow: 0 10px 25px -3px rgba(30, 70, 32, 0.08), 0 4px 10px -2px rgba(30, 70, 32, 0.04);
+            box-shadow: 0 10px 25px -3px rgb(var(--deep) / 0.08), 0 4px 10px -2px rgb(var(--deep) / 0.04);
         }
 
         .btn-primary {
@@ -121,9 +122,9 @@
         }
 
         .btn-primary:hover {
-            background-color: #143216;
+            background-color: rgb(var(--deep));
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(30, 70, 32, 0.25);
+            box-shadow: 0 4px 12px rgb(var(--deep) / 0.25);
         }
 
         .btn-purple {
@@ -165,7 +166,7 @@
         .nav-tab.active {
             background-color: var(--deep-green);
             color: #FFFFFF;
-            box-shadow: 0 2px 8px rgba(30, 70, 32, 0.2);
+            box-shadow: 0 2px 8px rgb(var(--deep) / 0.2);
         }
 
         body.mode-lansia {
@@ -185,8 +186,8 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
         ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #FAF7F0; }
-        ::-webkit-scrollbar-thumb { background: #C5D1AA; border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: rgb(var(--bg)); }
+        ::-webkit-scrollbar-thumb { background: rgb(var(--soft)); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #7C9246; }
 
         .paper-page {
@@ -229,9 +230,30 @@
             top: 0; left: 0; height: 0; width: 0;
             z-index: -1;
         }
-    </style>
+    
+:root{--bg:246 242 253;--deep:74 58 124;--ink:91 76 134;--soft:154 134 212;--tint:239 232 251;--pri:124 108 214;--prid:106 88 198;--sec:157 111 219;--tint2:236 233 253;--tint3:245 239 255}
+body{background-image:radial-gradient(900px 500px at 8% -5%,rgb(var(--tint)),transparent 60%),radial-gradient(700px 420px at 100% 0,rgb(var(--tint3)),transparent 55%);background-attachment:fixed}
+body[data-tex=titik]::before{opacity:.6!important;background-image:radial-gradient(rgb(var(--soft)/.3) 1px,transparent 1.3px)!important;background-size:20px 20px!important}
+body[data-tex=polos]::before{opacity:0!important}
+.white-card{border-radius:18px;border-color:rgb(var(--soft)/.22)}
+.nav-tab.active{background:linear-gradient(135deg,rgb(var(--pri)),rgb(var(--sec)))}
+.fld{width:100%;padding:.55rem .75rem;border-radius:12px;border:1px solid rgb(var(--soft)/.4);background:rgb(var(--bg)/.7);font-size:.75rem;font-weight:600;color:#1E2538}
+.fld:focus{outline:2px solid rgb(var(--pri)/.55);outline-offset:1px}
+.chip{padding:.4rem .85rem;border-radius:999px;font-size:.72rem;font-weight:800;border:1px solid rgb(var(--soft)/.45);background:#fff;color:rgb(var(--ink));cursor:pointer}
+.chip.on{background:rgb(var(--deep));color:#fff;border-color:transparent}
+.pill{padding:.1rem .55rem;border-radius:999px;font-size:10px;font-weight:700;background:rgb(var(--tint));color:rgb(var(--deep))}
+.ib{width:2rem;height:2rem;border-radius:10px;background:rgb(var(--tint));font-size:.75rem;cursor:pointer}
+.sw{border:2px solid rgb(var(--soft)/.25);border-radius:14px;padding:.65rem;background:#fff;text-align:left;font-size:.72rem;font-weight:800;cursor:pointer}
+.sw.on{border-color:rgb(var(--pri));box-shadow:0 0 0 3px rgb(var(--pri)/.18)}
+.step{display:flex;align-items:center;gap:.5rem;padding:.55rem .7rem;border-radius:14px;border:1px solid rgb(var(--soft)/.35);background:#fff;font-size:.72rem;font-weight:800;cursor:pointer;text-align:left}
+.step b{width:1.5rem;height:1.5rem;border-radius:999px;background:rgb(var(--tint));display:grid;place-items:center;color:rgb(var(--deep))}
+.bg-bg-pastel{background:rgb(var(--bg)/.7)}
+#content-aplikasi-laporan .white-card{border-radius:20px}
+@media(max-width:640px){main{padding-left:.75rem!important;padding-right:.75rem!important}table{font-size:11px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
 </head>
-<body class="min-h-screen flex flex-col justify-between antialiased bg-[#FAF7F0]">
+<body class="min-h-screen flex flex-col justify-between antialiased bg-base-cream">
 
     <!-- TOAST NOTIFICATION -->
     <div id="toast-notification" class="fixed top-5 right-5 z-50 transform translate-x-full transition-transform duration-300 ease-in-out max-w-sm no-print">
@@ -400,7 +422,7 @@
     <!-- ================= MAIN APP ADMIN ================= -->
     <div id="main-app" class="hidden min-h-screen flex flex-col justify-between">
         
-        <header class="sticky top-0 z-40 bg-[#FAF7F0]/95 backdrop-blur-md px-3 sm:px-4 lg:px-8 py-2.5 border-b border-olive-green/15 bg-cover bg-center shadow-sm no-print" style="background-image: linear-gradient(rgba(250, 247, 240, 0.95), rgba(250, 247, 240, 0.95)), url('https://lh3.googleusercontent.com/d/1BUX21ccxQ7HkC2VWsya914pOrcSWE851');">
+        <header class="sticky top-0 z-40 bg-base-cream/95 backdrop-blur-md px-3 sm:px-4 lg:px-8 py-2.5 border-b border-olive-green/15 bg-cover bg-center shadow-sm no-print" style="background-image: linear-gradient(rgba(250, 247, 240, 0.95), rgba(250, 247, 240, 0.95)), url('https://lh3.googleusercontent.com/d/1BUX21ccxQ7HkC2VWsya914pOrcSWE851');">
             <div class="max-w-7xl mx-auto flex items-center justify-between gap-2 lg:gap-4">
                 
                 <div class="flex items-center space-x-2 cursor-pointer shrink-0" onclick="switchTab('beranda')">
@@ -415,13 +437,12 @@
                     </div>
                 </div>
 
-                <nav class="flex items-center bg-white/95 p-1 rounded-full border border-olive-green/20 shadow-inner overflow-x-auto max-w-[340px] sm:max-w-md md:max-w-lg lg:max-w-xl space-x-1 no-scrollbar shrink">
+                <nav class="flex items-center bg-white/95 p-1 rounded-full border border-olive-green/20 shadow-inner overflow-x-auto max-w-[250px] sm:max-w-sm md:max-w-xl lg:max-w-3xl space-x-1 no-scrollbar shrink">
                     <button onclick="switchTab('beranda')" id="tab-beranda" class="nav-tab active flex items-center whitespace-nowrap text-[11px] md:text-xs px-2.5 py-1.5">
                         <i class="fa-solid fa-house mr-1"></i>Beranda
                     </button>
-                    <button onclick="switchTab('konfirmasi')" id="tab-konfirmasi" class="nav-tab flex items-center whitespace-nowrap text-[11px] md:text-xs px-2.5 py-1.5">
-                        <i class="fa-solid fa-list-check mr-1"></i>Konfirmasi & Pembaruan
-                    </button>
+                    <button onclick="switchTab('konfirmasi')" id="tab-konfirmasi" class="nav-tab flex items-center whitespace-nowrap text-[11px] md:text-xs px-2.5 py-1.5"><i class="fa-solid fa-list-check mr-1"></i>Konfirmasi</button>
+<button onclick="switchTab('pembaruan')" id="tab-pembaruan" class="nav-tab flex items-center whitespace-nowrap text-[11px] md:text-xs px-2.5 py-1.5"><i class="fa-solid fa-bullhorn mr-1"></i>Pembaruan</button>
                     <button onclick="switchTab('aplikasi-laporan')" id="tab-aplikasi-laporan" class="nav-tab flex items-center whitespace-nowrap text-[11px] md:text-xs px-2.5 py-1.5">
                         <i class="fa-solid fa-file-invoice mr-1"></i>Aplikasi Laporan
                     </button>
@@ -645,7 +666,7 @@
                                 Dual-Verification Admin & Kader
                             </span>
                             <h3 class="font-extrabold text-dark-slate text-lg md:text-xl mt-1">Konfirmasi & Verifikasi Data Posyandu</h3>
-                            <p class="text-xs text-dark-slate/70 font-medium">Lakukan pengecekan data dari Web Kader Input. Klik centang konfirmasi untuk memverifikasi data sebelum diterbitkan ke Web Sasaran & Laporan Resmi.</p>
+                            <p class="text-xs text-dark-slate/70 font-medium">Lakukan pengecekan data dari Web Kader Input, termasuk usulan perubahan data keluarga dari Web Sasaran yang sudah dicek kader. Klik centang konfirmasi untuk memverifikasi data sebelum diterbitkan ke Web Sasaran & Laporan Resmi.</p>
                         </div>
                         <div class="flex items-center gap-2">
                             <input type="text" id="search-konfirmasi-admin" onkeyup="filterKonfirmasiAdminTable()" placeholder="Cari Nama / Barcode..." class="p-2 text-xs border border-primary-indigo/30 rounded-xl bg-bg-pastel focus:outline-none">
@@ -673,92 +694,48 @@
                     </div>
                 </div>
 
-                <div class="grid lg:grid-cols-2 gap-8">
-                    <div class="white-card p-6 space-y-4 border-2 border-primary-indigo/20">
-                        <div class="flex items-center space-x-2 text-primary-indigo border-b border-primary-indigo/10 pb-3">
-                            <i class="fa-solid fa-calendar-plus text-lg"></i>
-                            <h3 class="font-extrabold text-dark-slate text-base">Pembaruan Jadwal Posyandu</h3>
-                        </div>
-                        <p class="text-xs text-dark-slate/70">Jadwal yang dibuat akan otomatis diperbarui ke Web Utama, Web Sasaran, atau Web Kader sesuai pilihan.</p>
+                </section>
 
-                        <form onsubmit="handleUpdateJadwalSubmit(event)" class="space-y-3 text-xs font-bold">
-                            <div>
-                                <label class="block mb-1">Target Web Penerbitan:</label>
-                                <select id="jadwal-target-web" class="w-full p-2.5 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none cursor-pointer">
-                                    <option value="semua">Semua Web (Utama, Sasaran, Kader)</option>
-                                    <option value="utama">Web Utama Portal</option>
-                                    <option value="sasaran">Web Sasaran Posyandu</option>
-                                    <option value="kader">Web Kader Input</option>
-                                </select>
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block mb-1">Tanggal Kegiatan:</label>
-                                    <input type="date" id="jadwal-tanggal" value="2026-10-05" class="w-full p-2 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none cursor-pointer" required>
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Waktu / Jam:</label>
-                                    <input type="text" id="jadwal-jam" value="08:00 - 11:30 WIB" class="w-full p-2 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none" required>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block mb-1">Wilayah / Tempat Posyandu:</label>
-                                <input type="text" id="jadwal-lokasi" value="Poskesdes Dusun Gonoharjo RW 01" class="w-full p-2 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none" required>
-                            </div>
-
-                            <div>
-                                <label class="block mb-1">Nama Agenda / Kegiatan:</label>
-                                <input type="text" id="jadwal-agenda" value="Posyandu ILP Balita & Penyuluhan Gizi Ibu Hamil" class="w-full p-2 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none" required>
-                            </div>
-
-                            <button type="submit" class="w-full btn-primary py-2.5 font-bold text-xs flex items-center justify-center space-x-2 cursor-pointer">
-                                <i class="fa-solid fa-paper-plane"></i>
-                                <span>Terbitkan Pembaruan Jadwal</span>
-                            </button>
-                        </form>
-                    </div>
-
-                    <div class="white-card p-6 space-y-4 border-2 border-secondary-purple/20">
-                        <div class="flex items-center space-x-2 text-secondary-purple border-b border-secondary-purple/10 pb-3">
-                            <i class="fa-solid fa-bullhorn text-lg"></i>
-                            <h3 class="font-extrabold text-dark-slate text-base">Pembaruan & Update Pengumuman</h3>
-                        </div>
-                        <p class="text-xs text-dark-slate/70">Tambah, ubah, atau hapus pengumuman untuk Web Utama, Web Sasaran, dan Web Kader.</p>
-
-                        <form onsubmit="handleUpdatePengumumanSubmit(event)" class="space-y-3 text-xs font-bold">
-                            <div>
-                                <label class="block mb-1">Tujuan Web Pengumuman:</label>
-                                <select id="pengumuman-target-web" class="w-full p-2.5 bg-bg-pastel rounded-xl border border-secondary-purple/20 focus:outline-none cursor-pointer">
-                                    <option value="semua">Semua Web Terpadu</option>
-                                    <option value="utama">Web Utama Portal</option>
-                                    <option value="sasaran">Web Sasaran Posyandu</option>
-                                    <option value="kader">Web Kader Posyandu</option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label class="block mb-1">Judul Pengumuman:</label>
-                                <input type="text" id="pengumuman-judul" value="Pembagian Vitamin A & PMT Tambahan Bulan Oktober" class="w-full p-2 bg-bg-pastel rounded-xl border border-secondary-purple/20 focus:outline-none" required>
-                            </div>
-
-                            <div>
-                                <label class="block mb-1">Isi Lengkap Pengumuman:</label>
-                                <textarea id="pengumuman-isi" rows="3" class="w-full p-2 bg-bg-pastel rounded-xl border border-secondary-purple/20 focus:outline-none" required>Disampaikan kepada seluruh sasaran posyandu bahwa pembagian PMT lokal dan kapsul Vitamin A akan didistribusikan saat kegiatan Posyandu minggu depan.</textarea>
-                            </div>
-
-                            <button type="submit" class="w-full btn-purple py-2.5 font-bold text-xs flex items-center justify-center space-x-2 cursor-pointer">
-                                <i class="fa-solid fa-bullhorn"></i>
-                                <span>Simpan & Sync Pengumuman</span>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- ================= TAB 3: APLIKASI LAPORAN POSYANDU (AUTOMATIC GENERATOR) ================= -->
+<section id="content-pembaruan" class="hidden space-y-6">
+<div class="white-card p-5 md:p-6 space-y-4">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+<div><h2 class="font-extrabold text-lg md:text-xl text-dark-slate">Pengumuman Terpadu Posyandu Gonoharjo</h2>
+<p class="text-xs text-dark-slate/70 max-w-2xl">Ubah, tambah, atau hapus isi semua kotak informasi di Web Utama, Web Sasaran, dan Web Kader dari satu tempat. Perubahan langsung tayang.</p></div>
+<button onclick="annNew()" class="btn-primary px-4 py-2.5 text-xs font-bold cursor-pointer"><i class="fa-solid fa-plus mr-1"></i>Tambah pengumuman</button></div>
+<div id="ann-chips" class="flex flex-wrap gap-2"></div></div>
+<form id="ann-form" onsubmit="annSave(event)" class="hidden white-card p-5 md:p-6 space-y-3 text-xs font-bold border-2 border-primary-indigo/30">
+<div class="flex justify-between items-center"><h3 id="ann-ftitle" class="font-extrabold text-base text-dark-slate">Pengumuman baru</h3><button type="button" onclick="annClose()" class="ib" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button></div>
+<div class="grid md:grid-cols-2 gap-4">
+<div class="space-y-3">
+<label class="block">Judul<input id="a-t" class="fld mt-1" required maxlength="120"></label>
+<label class="block">Isi<textarea id="a-b" rows="5" class="fld mt-1" required></textarea></label>
+<div class="grid sm:grid-cols-2 gap-3"><label>Gambar (link URL)<input id="a-img" class="fld mt-1" placeholder="https://..." oninput="annPrev()"></label>
+<label>Link tujuan (opsional)<input id="a-link" class="fld mt-1" placeholder="https://..."></label></div>
+<label class="block">Teks tombol link<input id="a-lt" class="fld mt-1" placeholder="Selengkapnya"></label>
+<img id="a-prev" alt="Pratinjau gambar" class="hidden h-28 rounded-xl object-cover"></div>
+<div class="space-y-2"><p>Tayangkan di:</p>
+<div class="flex flex-wrap gap-2"><button type="button" class="chip" onclick="annTarget('all')">Semua web</button><button type="button" class="chip" onclick="annTarget('utama')">Hanya Utama</button><button type="button" class="chip" onclick="annTarget('sasaran')">Hanya Sasaran</button><button type="button" class="chip" onclick="annTarget('kader')">Hanya Kader</button></div>
+<div id="a-boxes" class="space-y-2"></div></div></div>
+<div class="flex gap-2 justify-end"><button type="button" onclick="annClose()" class="chip">Batal</button><button class="btn-primary px-4 py-2 font-bold cursor-pointer">Simpan & tayangkan</button></div>
+</form>
+<div id="ann-list" class="grid lg:grid-cols-2 gap-4"></div>
+</section>
+<!-- ================= TAB 3: APLIKASI LAPORAN POSYANDU (AUTOMATIC GENERATOR) ================= -->
             <section id="content-aplikasi-laporan" class="hidden space-y-6">
+<div class="white-card p-4 md:p-6 space-y-4 no-print">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+<div><h2 class="font-extrabold text-lg md:text-xl text-dark-slate">Aplikasi Laporan Posyandu Otomatis</h2>
+<p class="text-xs text-dark-slate/70">Pilih periode, tarik data dari Web Kader, lengkapi tiap bagian, lalu cetak atau simpan ke arsip.</p></div>
+<div class="flex flex-wrap gap-2"><select id="lap-periode" class="fld !w-auto"></select>
+<button onclick="lapTarik()" class="btn-primary px-3 py-2 text-xs font-bold cursor-pointer"><i class="fa-solid fa-cloud-arrow-down mr-1"></i>Tarik data Web Kader</button></div></div>
+<ol class="grid grid-cols-2 md:grid-cols-5 gap-2">
+<li><button class="step w-full" onclick="switchEditorTab('tab-ba')"><b>1</b>Berita acara</button></li>
+<li><button class="step w-full" onclick="switchEditorTab('tab-hadir')"><b>2</b>Data kehadiran</button></li>
+<li><button class="step w-full" onclick="switchEditorTab('tab-pmt')"><b>3</b>Foto PMT</button></li>
+<li><button class="step w-full" onclick="switchEditorTab('tab-kegiatan')"><b>4</b>Foto kegiatan</button></li>
+<li class="col-span-2 md:col-span-1"><button class="step w-full" onclick="switchEditorTab('tab-ttd')"><b>5</b>Tanda tangan</button></li></ol>
+<p id="lap-status" class="text-[11px] font-bold rounded-xl bg-soft-purple text-deep-green px-3 py-2"><i class="fa-solid fa-circle-info mr-1"></i>Data Web Kader belum ditarik untuk periode ini.</p></div>
+
                 
                 <div id="banner-edit-laporan" class="hidden p-4 rounded-2xl bg-amber-100 border-2 border-amber-400 text-amber-900 flex items-center justify-between no-print">
                     <div class="flex items-center space-x-3">
@@ -772,14 +749,14 @@
                 </div>
 
                 <!-- TOOLBAR DENGAN TOMBOL COPYRIGHT DI SEBELAH KOP SURAT -->
-                <div class="sticky top-[58px] z-30 bg-[#FAF7F0]/95 backdrop-blur-md white-card p-4 border-2 border-olive-green/30 shadow-md flex flex-col md:flex-row items-center justify-between gap-3 no-print">
+                <div class="sticky top-[58px] z-30 bg-base-cream/95 backdrop-blur-md white-card p-4 border-2 border-olive-green/30 shadow-md flex flex-col md:flex-row items-center justify-between gap-3 no-print">
                     <div class="flex items-center space-x-3">
                         <div class="w-10 h-10 rounded-xl bg-deep-green flex items-center justify-center text-white font-bold text-lg shadow-sm">
                             <i class="fa-solid fa-file-contract text-sun-yellow"></i>
                         </div>
                         <div>
                             <h3 class="font-extrabold text-deep-green text-base">Aplikasi Generator Laporan Posyandu</h3>
-                            <p class="text-xs text-earth-brown">Penyusunan Berita Acara, Data Kehadiran Kader Web, Foto PMT, Kegiatan & TTD Virtual</p>
+                            <p class="text-xs text-earth-brown">Penyusunan Berita Acara, Data Kehadiran Kader Web, Foto PMT, Kegiatan & TTD Virtual. Cetak dan ekspor otomatis tersimpan di Arsip Laporan.</p>
                         </div>
                     </div>
 
@@ -800,8 +777,11 @@
                         <button onclick="exportToExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm cursor-pointer">
                             <i class="fa-solid fa-file-excel"></i> EXCEL
                         </button>
+                        <button onclick="exportToPDF()" class="bg-rose-600 hover:bg-rose-700 text-white text-xs font-extrabold px-3 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm cursor-pointer">
+                            <i class="fa-solid fa-file-pdf"></i> PDF
+                        </button>
                         <button onclick="triggerPrint()" class="btn-primary text-xs font-extrabold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm cursor-pointer">
-                            <i class="fa-solid fa-print text-sun-yellow"></i> CETAK / PDF
+                            <i class="fa-solid fa-print text-sun-yellow"></i> CETAK
                         </button>
                         <button onclick="simpanKeArsipLaporan()" class="btn-purple text-xs font-extrabold px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm cursor-pointer">
                             <i class="fa-solid fa-floppy-disk"></i> SIMPAN ARSIP
@@ -1128,86 +1108,21 @@
                 </div>
             </section>
 
-            <!-- ================= TAB 5: SETTING WEB ADMIN ================= -->
-            <section id="content-setting-web" class="hidden space-y-6">
-                <div class="grid lg:grid-cols-12 gap-6">
-                    <div class="lg:col-span-7 white-card p-6 border-2 border-primary-indigo/20 space-y-4">
-                        <div class="flex items-center space-x-2 text-primary-indigo border-b border-primary-indigo/10 pb-3">
-                            <i class="fa-solid fa-sliders text-lg"></i>
-                            <h3 class="font-extrabold text-dark-slate text-base">Pengaturan Profil & Identitas Posyandu</h3>
-                        </div>
+            <!-- ================= TAB 5: SETTING WEB ================= -->
+<section id="content-setting-web" class="hidden space-y-6">
+<div class="white-card p-5 md:p-6 space-y-3"><h2 class="font-extrabold text-lg md:text-xl text-dark-slate">Pusat Pengaturan GO-Positif</h2>
+<p class="text-xs text-dark-slate/70 max-w-3xl">Atur Portal Utama, Sasaran, Kader, dan Admin dari satu tempat. Setiap perubahan tercatat di Riwayat.</p>
+<div id="set-secs" class="flex flex-wrap gap-2"></div>
+<div id="set-webrow" class="flex flex-wrap items-center gap-2 pt-3 border-t border-olive-green/25"><span class="text-xs font-bold">Web yang diatur:</span><div id="set-webs" class="flex flex-wrap gap-2"></div></div></div>
+<div id="sp-portal" class="grid md:grid-cols-2 gap-4"></div>
+<div id="sp-tampilan" class="hidden white-card p-5 space-y-4"></div>
+<div id="sp-menu" class="hidden white-card p-5 space-y-3"></div>
+<div id="sp-fitur" class="hidden white-card p-5 space-y-4"></div>
+<form id="sp-profil" onsubmit="saveProfil(event)" class="hidden white-card p-5 md:p-6 space-y-3 text-xs font-bold"></form>
+<div id="sp-cadangan" class="hidden grid lg:grid-cols-2 gap-4"></div>
+</section>
 
-                        <form onsubmit="handleSaveWebSettings(event)" class="space-y-3 text-xs font-bold">
-                            <div>
-                                <label class="block mb-1">Nama Organisasi / Lembaga:</label>
-                                <input type="text" id="set-nama-lembaga" value="POSYANDU INTEGRASI LAYANAN PRIMER (ILP)" class="w-full p-2 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none">
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block mb-1">Pemerintah Desa:</label>
-                                    <input type="text" id="set-pemdes" value="PEMERINTAH KABUPATEN KENDAL" class="w-full p-2 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none">
-                                </div>
-                                <div>
-                                    <label class="block mb-1">Kecamatan / Desa:</label>
-                                    <input type="text" id="set-kec-desa" value="KECAMATAN LIMBANGAN - DESA GONOHARJO" class="w-full p-2 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none">
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block mb-1">Alamat Sekretariat Posyandu:</label>
-                                <input type="text" id="set-alamat" value="Jl. Rayo Gonoharjo No. 12, Limbangan, Kendal, Jawa Tengah 51357" class="w-full p-2 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none">
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block mb-1">Email Resmi Sekretariat:</label>
-                                    <input type="email" id="set-email" value="posyandu.gonoharjo@gmail.com" class="w-full p-2 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none">
-                                </div>
-                                <div>
-                                    <label class="block mb-1">No. Kontak / WhatsApp Admin:</label>
-                                    <input type="text" id="set-kontak" value="+62 812-3456-7890" class="w-full p-2 bg-bg-pastel rounded-xl border border-primary-indigo/20 focus:outline-none">
-                                </div>
-                            </div>
-
-                            <button type="submit" class="w-full btn-indigo py-2.5 font-bold text-xs flex items-center justify-center space-x-2 cursor-pointer mt-2">
-                                <i class="fa-solid fa-floppy-disk"></i>
-                                <span>Simpan Pengaturan Profil Admin</span>
-                            </button>
-                        </form>
-                    </div>
-
-                    <div class="lg:col-span-5 white-card p-6 border-2 border-secondary-purple/20 space-y-4">
-                        <div class="flex items-center space-x-2 text-secondary-purple border-b border-secondary-purple/10 pb-3">
-                            <i class="fa-solid fa-database text-lg"></i>
-                            <h3 class="font-extrabold text-dark-slate text-base">Database & Keamanan Sesi</h3>
-                        </div>
-
-                        <div class="space-y-3 text-xs font-bold">
-                            <div class="p-3 bg-soft-purple/40 rounded-xl border border-secondary-purple/20 space-y-1">
-                                <span class="text-secondary-purple block">Status Sinkronisasi Backend</span>
-                                <p class="text-[11px] text-dark-slate/80">Terhubung ke Serverless Backend Spreadsheet GO-POSITIF Gonoharjo.</p>
-                                <span class="inline-block px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] rounded-md font-bold mt-1">SINKRON AKTIF</span>
-                            </div>
-
-                            <div class="p-3 bg-soft-indigo/40 rounded-xl border border-primary-indigo/20 space-y-1">
-                                <span class="text-primary-indigo block">Mode Ramah Lansia Auto-Detect</span>
-                                <p class="text-[11px] text-dark-slate/80">Secara otomatis menyesuaikan kontras dan ukuran font untuk kenyamanan pembacaan laporan.</p>
-                                <button onclick="toggleModeLansia()" class="mt-1 px-2.5 py-1 bg-white border border-olive-green/40 rounded-lg text-[10px] font-bold text-deep-green cursor-pointer">Beralih Mode Lansia Now</button>
-                            </div>
-
-                            <div class="pt-2 border-t border-secondary-purple/10">
-                                <button onclick="confirmLogout()" class="w-full py-2 bg-red-100 hover:bg-red-200 text-red-800 text-xs font-extrabold rounded-xl transition flex items-center justify-center gap-2 cursor-pointer">
-                                    <i class="fa-solid fa-lock"></i>
-                                    <span>Kunci & Keluar Sesi Admin</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ================= TAB 6: KONTAK & TANYA ASTI ADMIN ================= -->
+<!-- ================= TAB 6: KONTAK & TANYA ASTI ADMIN ================= -->
             <section id="content-kontak" class="hidden space-y-8">
                 <div class="grid lg:grid-cols-12 gap-8">
                     
@@ -1405,7 +1320,7 @@
 
     <!-- MODAL: WEB SWITCHER GO-POSITIF (UPDATED UNTUK WEB ADMIN) -->
     <div id="modal-switcher" class="fixed inset-0 z-50 bg-stone-900/40 backdrop-blur-sm hidden flex items-center justify-center p-4 no-print">
-        <div class="white-card p-6 max-w-md w-full space-y-5 bg-[#FAF7F0] border-2 border-teal-600/30 shadow-2xl animate-fade-in">
+        <div class="white-card p-6 max-w-md w-full space-y-5 bg-base-cream border-2 border-teal-600/30 shadow-2xl animate-fade-in">
             <div class="flex items-center justify-between border-b border-teal-600/15 pb-3">
                 <div class="flex items-center space-x-2">
                     <i class="fa-solid fa-cubes text-teal-700 text-lg"></i>
@@ -1795,7 +1710,7 @@
         }
 
         function switchTab(tabId) {
-            const tabs = ['beranda', 'konfirmasi', 'aplikasi-laporan', 'arsip-laporan', 'setting-web', 'kontak'];
+            const tabs = ['beranda', 'konfirmasi', 'pembaruan', 'aplikasi-laporan', 'arsip-laporan', 'setting-web', 'kontak'];
             tabs.forEach(t => {
                 const el = document.getElementById('content-' + t);
                 const btn = document.getElementById('tab-' + t);
@@ -2603,5 +2518,198 @@
             box.scrollTop = box.scrollHeight;
         }
     </script>
+<script>
+(()=>{
+const $=id=>document.getElementById(id);
+const LS=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}};
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const bc='BroadcastChannel'in window?new BroadcastChannel('gopositif-sync'):null;
+// Semua perubahan disimpan (kunci gp_*), disiarkan ke tab lain, dan memanggil window.GP_PUBLISH jika Anda menyambungkan backend.
+const pub=(t,d)=>{try{localStorage.setItem('gp_'+t,JSON.stringify(d))}catch(e){}bc&&bc.postMessage({t,d,at:Date.now()});window.GP_PUBLISH&&window.GP_PUBLISH(t,d)};
+const WEB={utama:'Web Utama',sasaran:'Web Sasaran',kader:'Web Kader',admin:'Web Admin'};
+const BOX=[{id:'jadwal-utama',w:'utama',n:'Jadwal Pelayanan Hangat GO-Positif'},{id:'info-utama',w:'utama',n:'Kabari & Informasi Ramah'},{id:'jadwal-sasaran',w:'sasaran',n:'Jadwal Posyandu Anda'},{id:'info-sasaran',w:'sasaran',n:'Info & Penyuluhan Sasaran'},{id:'info-kader',w:'kader',n:'Pengumuman & Info Khusus Kader Posyandu'}];
+const bn=id=>(BOX.find(x=>x.id==id)||{n:id}).n;
+
+/* ===== PENGUMUMAN TERPADU ===== */
+let ANN=LS('gp_ann',null)||[
+{id:1,t:'Posyandu ILP bulan ini: Balita & Ibu Hamil',b:'Pelayanan dimulai pukul 08.00 WIB di Poskesdes Gonoharjo. Bawa buku KIA/KMS.',img:'',link:'',lt:'',bx:['jadwal-utama','jadwal-sasaran','info-kader']},
+{id:2,t:'Pembagian Vitamin A & PMT Tambahan',b:'Vitamin A untuk balita 6-59 bulan dan PMT lokal bergizi dibagikan saat Posyandu.',img:'',link:'',lt:'',bx:['info-utama','info-sasaran']},
+{id:3,t:'Rapat evaluasi kader',b:'Seluruh kader diharapkan hadir untuk rekap data dan persiapan laporan bulanan.',img:'',link:'',lt:'',bx:['info-kader']}];
+let flt='all',eid=null;
+const WC={utama:'bg-violet-100 text-violet-800',sasaran:'bg-teal-100 text-teal-800',kader:'bg-amber-100 text-amber-800'};
+const WB={utama:'border-violet-400',sasaran:'border-teal-400',kader:'border-amber-400'};
+const webs=a=>[...new Set(a.bx.map(b=>BOX.find(x=>x.id==b).w))];
+function renderAnn(){
+ const ch=[['all','Semua web'],['w:utama','Web Utama'],['w:sasaran','Web Sasaran'],['w:kader','Web Kader']].concat(BOX.map(b=>[b.id,b.n]));
+ $('ann-chips').innerHTML=ch.map(([k,n])=>`<button class="chip ${flt==k?'on':''}" onclick="annFilter('${k}')">${esc(n)}</button>`).join('');
+ const L=ANN.filter(a=>flt=='all'||(flt.startsWith('w:')?webs(a).includes(flt.slice(2)):a.bx.includes(flt)));
+ $('ann-list').innerHTML=L.length?L.map(a=>`<article class="white-card p-4 flex gap-3 border-l-4 ${WB[webs(a)[0]]}">${a.img?`<img src="${esc(a.img)}" alt="" class="w-20 h-20 rounded-xl object-cover shrink-0" onerror="this.remove()">`:''}<div class="min-w-0 flex-1"><div class="flex flex-wrap gap-1 mb-1.5">${a.bx.map(b=>{const w=BOX.find(x=>x.id==b).w;return `<span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold ${WC[w]}">${WEB[w]}: ${esc(bn(b))}</span>`}).join('')}</div><h4 class="font-extrabold text-sm text-dark-slate">${esc(a.t)}</h4><p class="text-xs text-dark-slate/70 mt-1">${esc(a.b)}</p>${a.link?`<a href="${esc(a.link)}" target="_blank" rel="noopener" class="text-[11px] font-bold text-primary-indigo underline">${esc(a.lt||'Selengkapnya')}</a>`:''}</div><div class="flex flex-col gap-1"><button class="ib" aria-label="Ubah" onclick="annEdit(${a.id})"><i class="fa-solid fa-pen"></i></button><button class="ib text-rose-600" aria-label="Hapus" onclick="annDel(${a.id})"><i class="fa-solid fa-trash"></i></button></div></article>`).join(''):'<p class="text-xs font-bold text-dark-slate/60 p-4">Belum ada pengumuman di kotak ini. Klik Tambah pengumuman untuk mulai.</p>';
+}
+function boxes(sel){$('a-boxes').innerHTML=['utama','sasaran','kader'].map(w=>`<fieldset class="rounded-xl bg-soft-purple/60 p-2.5"><legend class="px-1 text-[11px] text-primary-indigo">${WEB[w]}</legend>${BOX.filter(b=>b.w==w).map(b=>`<label class="flex items-center gap-2 py-0.5"><input type="checkbox" value="${b.id}" ${sel.includes(b.id)?'checked':''}>${esc(b.n)}</label>`).join('')}</fieldset>`).join('')}
+function annOpen(a){eid=a?a.id:null;$('ann-form').classList.remove('hidden');$('ann-ftitle').textContent=a?'Ubah pengumuman':'Pengumuman baru';$('a-t').value=a?a.t:'';$('a-b').value=a?a.b:'';$('a-img').value=a?a.img:'';$('a-link').value=a?a.link:'';$('a-lt').value=a?a.lt:'';boxes(a?a.bx:BOX.map(b=>b.id));annPrev();$('ann-form').scrollIntoView({behavior:'smooth',block:'start'})}
+function annPrev(){const p=$('a-prev'),v=$('a-img').value.trim();p.src=v;p.classList.toggle('hidden',!v)}
+function annTarget(w){document.querySelectorAll('#a-boxes input').forEach(c=>c.checked=w=='all'||BOX.find(b=>b.id==c.value).w==w)}
+function annSave(e){e.preventDefault();
+ const bx=[...document.querySelectorAll('#a-boxes input:checked')].map(c=>c.value);
+ if(!bx.length){showToast('Pilih minimal satu kotak tujuan.',true);return}
+ const o={id:eid||Date.now(),t:$('a-t').value.trim(),b:$('a-b').value.trim(),img:$('a-img').value.trim(),link:$('a-link').value.trim(),lt:$('a-lt').value.trim(),bx};
+ ANN=eid?ANN.map(a=>a.id==eid?o:a):[o].concat(ANN);pub('ann',ANN);renderAnn();annClose();
+ showToast('Tersimpan dan tayang di '+new Set(bx.map(b=>WEB[BOX.find(x=>x.id==b).w])).size+' web.')}
+function annDel(id){if(!confirm('Hapus pengumuman ini dari semua web tujuannya?'))return;ANN=ANN.filter(a=>a.id!=id);pub('ann',ANN);renderAnn();showToast('Pengumuman dihapus.')}
+
+/* ===== LAPORAN ===== */
+(()=>{const o=$('lap-periode'),d=new Date();for(let i=0;i<6;i++){const x=new Date(d.getFullYear(),d.getMonth()-i,1);o.add(new Option(x.toLocaleDateString('id-ID',{month:'long',year:'numeric'}),i))}})();
+function lapTarik(){const o=$('lap-periode');$('lap-status').innerHTML='<i class="fa-solid fa-circle-check mr-1"></i>Data Web Kader periode '+esc(o.options[o.selectedIndex].text)+' ditarik pada '+new Date().toLocaleString('id-ID')+'.';if(typeof updateReportState=='function')updateReportState();showToast('Data Web Kader dimuat ke laporan.')}
+
+Object.assign(window,{annFilter:k=>{flt=k;renderAnn()},annNew:()=>annOpen(),annEdit:id=>annOpen(ANN.find(a=>a.id==id)),annClose:()=>$('ann-form').classList.add('hidden'),annPrev,annTarget,annSave,annDel});
+window.GP={pub,esc,LS,WEB,ANN:()=>ANN,setANN:v=>{ANN=v;pub('ann',ANN);renderAnn()},render:renderAnn};
+renderAnn();
+})();
+
+</script>
+<script>
+(()=>{
+const $=id=>document.getElementById(id),{pub,esc,LS,WEB}=window.GP;
+const dl=(b,n)=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=n;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)};
+const URLS={utama:'https://gopositif.github.io/home/',sasaran:'https://gopositif.github.io/sasaran/',kader:'https://gopositif.github.io/kader/',admin:'https://gopositif.github.io/admin/'};
+
+/* ================= PUSAT SETTING ================= */
+const TH={ungu:['Ungu Pastel','246 242 253','74 58 124','91 76 134','154 134 212','239 232 251','124 108 214','106 88 198','157 111 219','236 233 253','245 239 255'],
+hijau:['Hijau Hangat','250 247 240','30 70 32','90 59 33','124 146 70','235 242 223','91 103 202','71 83 184','142 98 213','235 239 254','244 239 255'],
+biru:['Biru Langit','240 247 253','30 64 110','62 86 122','110 156 214','226 238 251','61 112 200','47 94 180','112 120 220','225 235 252','238 240 255'],
+peach:['Peach Lembut','253 246 241','122 62 48','128 84 70','224 150 120','252 236 228','214 110 100','196 92 82','200 110 160','252 234 232','250 238 246'],
+mint:['Mint Segar','240 250 246','28 84 72','60 100 90','100 190 160','224 245 238','54 160 140','40 140 120','90 140 210','222 244 242','232 242 252']};
+const TX={halus:'Halus',titik:'Titik lembut',polos:'Polos'};
+const MN={utama:['Jadwal Pelayanan Hangat GO-Positif','Kabari & Informasi Ramah','Akses Portal','Tanya ASTI'],sasaran:['Jadwal Posyandu Anda','Info & Penyuluhan Sasaran','Pembaruan Data Keluarga','Cetak / Ekspor'],kader:['Pengumuman & Info Khusus Kader Posyandu','Input Data Pemeriksaan','Konfirmasi Usulan Perubahan Data Keluarga Sasaran'],admin:['Beranda','Konfirmasi','Pembaruan','Aplikasi Laporan','Arsip Laporan','Setting Web','Kontak']};
+const FT=[['asti','Asisten ASTI (tanya jawab)'],['lansia','Tombol Mode Ramah Lansia'],['ekspor','Cetak & ekspor data'],['galeri','Galeri foto kegiatan'],['kontak','Halaman kontak & tautan WhatsApp']];
+const PF=[['nama','Nama Posyandu'],['desa','Desa / Wilayah'],['alamat','Alamat'],['wa','WhatsApp kontak'],['email','Email'],['jam','Jam pelayanan'],['logo','Logo (link URL)']];
+const per=f=>Object.fromEntries(Object.keys(WEB).map(k=>[k,f(k)]));
+const DEF=()=>({th:{utama:'hijau',sasaran:'hijau',kader:'hijau',admin:'ungu'},tx:per(()=>'halus'),mn:per(k=>MN[k].map(n=>({n,on:1}))),
+ pf:{nama:'Posyandu ILP Gonoharjo',desa:'Desa Gonoharjo',alamat:'',wa:'',email:'',jam:'',logo:'https://lh3.googleusercontent.com/d/1r5Z3o71WH4mpF5qn1Dfeav_V7qNnYldv'},
+ mt:per(()=>({on:0,msg:'Sedang pemeliharaan. Silakan kembali beberapa saat lagi.'})),bn:per(()=>({on:0,txt:''})),ft:per(()=>Object.fromEntries(FT.map(([k])=>[k,1]))),
+ ti:{utama:'GO-Positif Posyandu Gonoharjo',sasaran:'Portal Sasaran Posyandu Gonoharjo',kader:'Portal Kader Posyandu Gonoharjo',admin:'Admin Posyandu - GO-Positif Gonoharjo'},lg:[],sync:0});
+let SET=Object.assign(DEF(),LS('gp_set',{})),sw='utama',sec='portal';
+const K=['bg','deep','ink','soft','tint','pri','prid','sec','tint2','tint3'];
+const applyAdmin=()=>{const t=TH[SET.th.admin]||TH.ungu;K.forEach((k,i)=>document.documentElement.style.setProperty('--'+k,t[i+1]));document.body.dataset.tex=SET.tx.admin;document.title=SET.ti.admin};
+const sv=m=>{SET.lg=[{t:Date.now(),x:m}].concat(SET.lg||[]).slice(0,30);SET.sync=Date.now();pub('set',SET)};
+const tm=t=>new Date(t).toLocaleString('id-ID',{dateStyle:'medium',timeStyle:'short'});
+const SECS=[['portal','Portal & Status','fa-globe'],['tampilan','Tampilan','fa-palette'],['menu','Box & Menu','fa-table-cells-large'],['fitur','Fitur & Banner','fa-toggle-on'],['profil','Profil Posyandu','fa-id-card'],['cadangan','Cadangan & Riwayat','fa-clock-rotate-left']];
+const H=t=>`<h3 class="font-extrabold text-base text-dark-slate">${t}</h3>`;
+function renderSet(){
+ $('set-secs').innerHTML=SECS.map(([k,n,i])=>`<button class="chip ${sec==k?'on':''}" onclick="setSec('${k}')"><i class="fa-solid ${i} mr-1"></i>${n}</button>`).join('');
+ SECS.forEach(([k])=>$('sp-'+k).classList.toggle('hidden',k!=sec));
+ $('set-webrow').classList.toggle('hidden',!['tampilan','menu','fitur'].includes(sec));
+ $('set-webs').innerHTML=Object.keys(WEB).map(k=>`<button class="chip ${sw==k?'on':''}" onclick="setWeb('${k}')">${WEB[k]}</button>`).join('');
+ const W=WEB[sw];
+ $('sp-portal').innerHTML=`<p class="md:col-span-2 text-[11px] font-bold text-dark-slate/60">${SET.sync?'Terakhir disiarkan '+tm(SET.sync):'Belum ada perubahan yang disiarkan.'}</p>`+Object.keys(WEB).map(k=>{const m=SET.mt[k];return `<div class="white-card p-4 space-y-3"><div class="flex items-center justify-between gap-2">${H(WEB[k])}<span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${m.on?'bg-amber-100 text-amber-800':'bg-emerald-100 text-emerald-700'}">${m.on?'Pemeliharaan':'Aktif'}</span></div><p class="text-[11px] break-all text-primary-indigo font-bold">${URLS[k]}</p><p class="text-[11px] text-dark-slate/70">Tema ${TH[SET.th[k]][0]}, tekstur ${TX[SET.tx[k]]}</p><div class="flex flex-wrap gap-2"><a href="${URLS[k]}" target="_blank" rel="noopener" class="btn-primary px-3 py-1.5 text-[11px] font-bold">Buka portal</a><button class="chip" onclick="copyUrl('${k}')">Salin link</button><label class="chip flex items-center gap-1"><input type="checkbox" ${m.on?'checked':''} ${k=='admin'?'disabled':''} onchange="setMt('${k}',this.checked)">Mode pemeliharaan</label></div>${m.on&&k!='admin'?`<input class="fld" value="${esc(m.msg)}" onchange="setMtMsg('${k}',this.value)" aria-label="Pesan pemeliharaan">`:''}</div>`}).join('');
+ $('sp-tampilan').innerHTML=H('Tema warna - '+W)+`<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">${Object.entries(TH).map(([k,t])=>`<button class="sw ${SET.th[sw]==k?'on':''}" onclick="setTheme('${k}')"><span class="flex gap-1 mb-1.5">${[2,4,6,8].map(i=>`<i class="w-4 h-4 rounded-full" style="background:rgb(${t[i]})"></i>`).join('')}</span>${t[0]}</button>`).join('')}</div>`+H('Tekstur latar')+`<div class="flex flex-wrap gap-2">${Object.entries(TX).map(([k,n])=>`<button class="chip ${SET.tx[sw]==k?'on':''}" onclick="setTex('${k}')">${n}</button>`).join('')}</div><label class="block text-xs font-bold">Judul halaman (tab browser)<input class="fld mt-1" value="${esc(SET.ti[sw])}" onchange="setTitle(this.value)"></label><p class="text-[11px] text-dark-slate/60">${sw=='admin'?'Perubahan langsung terlihat di halaman ini.':'Tersimpan sebagai pengaturan bersama untuk '+W+'.'}</p>`;
+ $('sp-menu').innerHTML=H('Box & menu - '+W)+(sw=='admin'?'<p class="text-xs text-dark-slate/70">Menu Web Admin dikunci agar Anda tidak terkunci dari pengaturan.</p>'+SET.mn.admin.map(m=>`<p class="text-xs font-bold px-1">${esc(m.n)}</p>`).join(''):SET.mn[sw].map((m,i)=>`<div class="flex items-center gap-2"><input type="checkbox" ${m.on?'checked':''} onchange="menuOn(${i},this.checked)" aria-label="Tampilkan"><input class="fld" value="${esc(m.n)}" onchange="menuName(${i},this.value)"><button class="ib text-rose-600" aria-label="Hapus" onclick="menuDel(${i})"><i class="fa-solid fa-trash"></i></button></div>`).join('')+`<div class="flex gap-2"><input id="set-newmenu" class="fld" placeholder="Nama box atau menu baru"><button onclick="menuAdd()" class="btn-primary px-3 text-xs font-bold cursor-pointer">Tambah</button></div>`);
+ const b=SET.bn[sw];
+ $('sp-fitur').innerHTML=H('Fitur & banner - '+W)+(sw=='admin'?'<p class="text-xs text-dark-slate/70">Web Admin selalu memakai fitur lengkap.</p>':`<div class="grid sm:grid-cols-2 gap-2">${FT.map(([k,n])=>`<label class="chip flex items-center gap-2 !rounded-xl"><input type="checkbox" ${SET.ft[sw][k]?'checked':''} onchange="setFt('${k}',this.checked)">${n}</label>`).join('')}</div>`+H('Banner informasi di bagian atas web')+`<label class="chip inline-flex items-center gap-2"><input type="checkbox" ${b.on?'checked':''} onchange="setBn(this.checked)">Tampilkan banner</label><textarea class="fld" rows="2" placeholder="Contoh: Posyandu bulan ini dimajukan ke hari Kamis." onchange="setBnTxt(this.value)">${esc(b.txt)}</textarea>`);
+ $('sp-profil').innerHTML=H('Profil & Identitas Posyandu (semua web)')+`<div class="grid sm:grid-cols-2 gap-3">${PF.map(([k,n])=>`<label>${n}<input id="p-${k}" class="fld mt-1" value="${esc(SET.pf[k]||'')}"></label>`).join('')}</div><button class="btn-primary px-4 py-2 font-bold cursor-pointer">Simpan profil</button>`;
+ $('sp-cadangan').innerHTML=`<div class="white-card p-5 space-y-3">${H('Cadangan & pemulihan')}<p class="text-xs text-dark-slate/70">Unduh pengaturan, pengumuman, dan arsip laporan sebagai satu berkas.</p><div class="flex flex-wrap gap-2"><button class="btn-primary px-3 py-2 text-xs font-bold cursor-pointer" onclick="bkExport()"><i class="fa-solid fa-download mr-1"></i>Unduh cadangan</button><label class="chip"><i class="fa-solid fa-upload mr-1"></i>Pulihkan<input type="file" accept="application/json" class="hidden" onchange="bkImport(this)"></label><button class="chip text-rose-600" onclick="bkReset()">Kembalikan ke awal</button></div></div><div class="white-card p-5 space-y-2">${H('Riwayat perubahan')}${(SET.lg||[]).length?SET.lg.slice(0,12).map(l=>`<p class="text-xs"><b>${tm(l.t)}</b> ${esc(l.x)}</p>`).join(''):'<p class="text-xs text-dark-slate/60">Belum ada perubahan tercatat.</p>'}</div>`;
+}
+const R=m=>{sv(m);renderSet()};
+Object.assign(window,{setSec:k=>{sec=k;renderSet()},setWeb:k=>{sw=k;renderSet()},
+ setTheme:k=>{SET.th[sw]=k;if(sw=='admin')applyAdmin();R('Tema '+WEB[sw]+': '+TH[k][0]);showToast('Tema '+TH[k][0]+' dipilih untuk '+WEB[sw]+'.')},
+ setTex:k=>{SET.tx[sw]=k;if(sw=='admin')applyAdmin();R('Tekstur '+WEB[sw]+': '+TX[k])},
+ setTitle:v=>{SET.ti[sw]=v.trim()||SET.ti[sw];if(sw=='admin')applyAdmin();R('Judul halaman '+WEB[sw]+' diubah')},
+ menuOn:(i,v)=>{SET.mn[sw][i].on=v?1:0;sv('Menu '+SET.mn[sw][i].n+' ('+WEB[sw]+') '+(v?'ditampilkan':'disembunyikan'))},
+ menuName:(i,v)=>{SET.mn[sw][i].n=v.trim()||SET.mn[sw][i].n;sv('Menu '+WEB[sw]+' diganti nama')},
+ menuDel:i=>{if(confirm('Hapus box/menu ini dari '+WEB[sw]+'?')){const n=SET.mn[sw].splice(i,1)[0].n;R('Menu '+n+' dihapus dari '+WEB[sw])}},
+ menuAdd:()=>{const v=$('set-newmenu').value.trim();if(!v)return;SET.mn[sw].push({n:v,on:1});R('Menu '+v+' ditambah ke '+WEB[sw])},
+ setFt:(k,v)=>{SET.ft[sw][k]=v?1:0;sv('Fitur '+k+' '+WEB[sw]+(v?' aktif':' nonaktif'))},
+ setBn:v=>{SET.bn[sw].on=v?1:0;sv('Banner '+WEB[sw]+(v?' ditampilkan':' disembunyikan'))},
+ setBnTxt:v=>{SET.bn[sw].txt=v.trim();sv('Teks banner '+WEB[sw]+' diubah')},
+ setMt:(k,v)=>{SET.mt[k].on=v?1:0;R((v?'Pemeliharaan aktif: ':'Kembali aktif: ')+WEB[k]);showToast(WEB[k]+(v?' masuk mode pemeliharaan.':' kembali aktif.'))},
+ setMtMsg:(k,v)=>{SET.mt[k].msg=v.trim();sv('Pesan pemeliharaan '+WEB[k]+' diubah')},
+ copyUrl:k=>navigator.clipboard.writeText(URLS[k]).then(()=>showToast('Link '+WEB[k]+' disalin.')).catch(()=>showToast('Gagal menyalin. Salin manual dari teks link.',true)),
+ saveProfil:e=>{e.preventDefault();PF.forEach(([k])=>SET.pf[k]=$('p-'+k).value.trim());R('Profil Posyandu diperbarui');showToast('Profil Posyandu tersimpan untuk semua web.')},
+ bkExport:()=>dl(new Blob([JSON.stringify({v:8,at:new Date().toISOString(),set:SET,ann:GP.ANN(),arsip:dataArsipLaporan},null,1)],{type:'application/json'}),'gopositif-cadangan-'+new Date().toISOString().slice(0,10)+'.json'),
+ bkImport:inp=>{const f=inp.files[0];if(!f)return;f.text().then(t=>{try{const o=JSON.parse(t);if(o.set)SET=Object.assign(DEF(),o.set);if(o.ann)GP.setANN(o.ann);if(o.arsip){dataArsipLaporan=o.arsip;saveArs()}applyAdmin();R('Cadangan dipulihkan');renderArsipTable();showToast('Cadangan dipulihkan.')}catch(e){showToast('Berkas cadangan tidak valid.',true)}})},
+ bkReset:()=>{if(confirm('Kembalikan semua pengaturan ke awal? Pengumuman dan arsip tidak berubah.')){SET=DEF();applyAdmin();R('Pengaturan dikembalikan ke awal')}}});
+
+/* ================= MESIN LAPORAN ================= */
+const PAPER={a4:[210,297],f4:[215,330],letter:[216,279]};
+const dims=c=>{const [w,h]=PAPER[c.paperSize]||PAPER.a4;return c.paperOrientation=='landscape'?[h,w]:[w,h]};
+const fmtD=t=>{const d=new Date(t);return isNaN(d)?String(t||''):d.toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'})};
+const curMeta=()=>({bulan:$('input-hadir-bulan')?.value||reportData.hadirBulan||'September',tahun:$('input-hadir-tahun')?.value||reportData.hadirTahun||'2026',wilayah:reportData.hadirFilterPosyandu=='ALL'?'Semua Posyandu Desa':reportData.hadirFilterPosyandu});
+const rowsOf=d=>{let r=d.hadirRows;if(d.hadirFilterPosyandu!=='ALL'){const rw=(d.hadirFilterPosyandu.match(/RW \d+/)||[''])[0];r=r.filter(x=>x.rw.includes(rw))}return r};
+const RPT=`.rp-kop{width:100%;border-collapse:collapse}.rp-kop td{vertical-align:middle;padding:0}.rp-kop .l,.rp-kop .r{width:22mm}.rp-kop img{width:20mm;height:20mm;object-fit:contain;display:block;margin:auto}.rp-kop .m{text-align:center}.k1{font:bold 11pt 'Times New Roman',serif;text-transform:uppercase}.k2{font:bold 12pt 'Times New Roman',serif;text-transform:uppercase}.k3{font:bold 14pt 'Times New Roman',serif;text-transform:uppercase}.k4{font:8.5pt 'Times New Roman',serif;color:#333}
+.rp-rule{border-top:3px solid #000;border-bottom:1px solid #000;height:2px;margin:2mm 0 5mm}.rp-h{text-align:center;font-weight:bold;font-size:12.5pt;text-transform:uppercase;text-decoration:underline;margin:2mm 0 1mm}.rp-sub{text-align:center;font-size:10pt;margin-bottom:4mm}
+.rp-tx{font-size:11pt;line-height:1.65;text-align:justify;text-indent:10mm;margin:0 0 3mm}.rp-info{border-collapse:collapse;font-size:10.5pt;margin:2mm 0 4mm}.rp-info td{padding:1mm 3mm 1mm 0}
+.rp-tb{width:100%;border-collapse:collapse;table-layout:fixed;font-size:8.5pt;margin:2mm 0}.rp-tb th{background:#e9e5f5;border:1px solid #444;padding:1.4mm;font-size:8pt}.rp-tb td{border:1px solid #666;padding:1.2mm;text-align:center;word-wrap:break-word}.rp-tb td.n{text-align:left}.rp-tb tr{break-inside:avoid}.rp-sum{font-size:9.5pt;margin:3mm 0}
+.rp-gr{width:100%;border-collapse:separate;border-spacing:3mm}.rp-gr td{width:50%;border:1px solid #999;padding:2mm;text-align:center;vertical-align:top;font-size:9pt}.rp-gr img{width:100%;object-fit:cover;display:block}
+.rp-ttd{width:100%;border-collapse:collapse;margin-top:4mm;font-size:10.5pt;text-align:center;break-inside:avoid}.rp-ttd td{vertical-align:top;padding:0 2mm}.rp-ttd .sp{height:20mm}.rp-ttd b{text-decoration:underline}.rp-date{text-align:right;font-size:10.5pt;margin-top:6mm}
+.rp-foot{width:100%;border-collapse:collapse;border-top:1px solid #888;margin-top:6mm;font:8pt 'Times New Roman',serif;color:#555}.rp-foot td{padding-top:1.5mm;width:33%}.rp-foot .fc{text-align:center}.rp-foot .fr{text-align:right}`;
+const SCR=`.rp-page{width:var(--pw);min-height:var(--ph);box-sizing:border-box;display:flex;flex-direction:column;background:#fff;color:#111;font-family:'Times New Roman',Times,serif;box-shadow:0 8px 28px rgba(60,40,120,.18);margin:0 auto}.rp-in{flex:1}#print-root{display:none}#pdf-stage .rp-page{box-shadow:none;margin:0}
+@media print{body>*:not(#print-root){display:none!important}#print-root{display:block!important}#print-root .rp-page{box-shadow:none;margin:0;height:var(--ph);overflow:hidden;break-after:page;page-break-after:always}#print-root .rp-page:last-child{break-after:auto;page-break-after:auto}body{background:#fff!important}body::before{display:none!important}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}`;
+const st=document.createElement('style');st.textContent=RPT+SCR;document.head.appendChild(st);
+const pg=document.createElement('style');pg.id='dyn-page';document.head.appendChild(pg);
+const pr=document.createElement('div');pr.id='print-root';document.body.appendChild(pr);
+
+function build(d,c,m,mode){
+ const [pw,ph]=dims(c),land=pw>ph,P=[],t0=(d.baList[0]&&d.baList[0].tgl)||new Date(),tgl='Gonoharjo, '+fmtD(t0).replace(/^[^,]+, /,'');
+ const kop=`<table class="rp-kop"><tr><td class="l"><img src="${esc(c.kop.logoKiri)}" alt=""></td><td class="m"><div class="k1">${esc(c.kop.line1)}</div><div class="k2">${esc(c.kop.line2)}</div><div class="k3">${esc(c.kop.line3)}</div><div class="k4">${esc(c.kop.line4)}</div></td><td class="r"><img src="${esc(c.kop.logoKanan)}" alt=""></td></tr></table><div class="rp-rule"></div>`;
+ const sign=a=>!a||!a.length?'':`<div class="rp-date">${esc(tgl)}</div><table class="rp-ttd"><tr>${a.map(s=>`<td style="width:${100/a.length}%">${esc(s.role)}<div class="sp">${s.ttdUrl?`<img src="${esc(s.ttdUrl)}" alt="" style="height:18mm;max-width:100%">`:''}</div><b>${esc(s.nama)}</b></td>`).join('')}</tr></table>`;
+ const foot=(n,t)=>{const k=c.copyright,s=k.activeSides,ts=k.useTimestamp?new Date().toLocaleString('id-ID',{dateStyle:'short',timeStyle:'short'})+' WIB | ':'';return `<table class="rp-foot"><tr><td>${k.enabled&&s!='right'?esc(ts+k.leftText):''}</td><td class="fc">Halaman ${n} dari ${t}</td><td class="fr">${k.enabled&&s!='left'?esc(k.rightText):''}</td></tr></table>`};
+ d.baList.forEach(ba=>P.push(`<div class="rp-h">Berita Acara Pelaksanaan Posyandu ILP</div><div class="rp-sub">Nomor: ${esc(ba.noBA)}</div><table class="rp-info"><tr><td>Hari/Tanggal</td><td>: ${esc(fmtD(ba.tgl))}</td></tr><tr><td>Tempat</td><td>: ${esc(ba.tempat)}</td></tr></table>${String(ba.isiBA||'').split(/\n+/).map(x=>`<p class="rp-tx">${esc(x)}</p>`).join('')}${sign(d.signatories.ba)}`));
+ const rows=rowsOf(d),pp=land?9:17,ch=[];for(let i=0;i<Math.max(rows.length,1);i+=pp)ch.push(rows.slice(i,i+pp));
+ const cg='<colgroup>'+[5,17,14,7,10,9,9,7,7,7,8].map(w=>`<col style="width:${w}%">`).join('')+'</colgroup>',hd='<thead><tr>'+['No','Nama Sasaran','NIK','RW','Kategori','BB/TB','Tensi','GDS','Kolesterol','Asam Urat','Rujukan'].map(h=>`<th>${h}</th>`).join('')+'</tr></thead>';
+ const kat={};rows.forEach(r=>kat[r.kat]=(kat[r.kat]||0)+1);
+ ch.forEach((cr,ci)=>{const last=ci==ch.length-1;P.push(`<div class="rp-h">Rekapitulasi Hasil Pelayanan Posyandu ILP</div><div class="rp-sub">Periode ${esc(m.bulan)} ${esc(m.tahun)} | ${esc(m.wilayah)}${ch.length>1?` | Lanjutan ${ci+1} dari ${ch.length}`:''}</div><table class="rp-tb">${cg}${hd}<tbody>${cr.map((r,i)=>`<tr><td>${ci*pp+i+1}</td><td class="n">${esc(r.nama)}</td><td>${esc(r.nik)}</td><td>${esc(r.rw)}</td><td>${esc(r.kat)}</td><td>${esc(r.bb)} / ${esc(r.tb)}</td><td>${esc(r.tensi)}</td><td>${esc(r.gds)}</td><td>${esc(r.koles)}</td><td>${esc(r.asamUrat)}</td><td>${esc(r.rujukan)}</td></tr>`).join('')||'<tr><td colspan="11">Belum ada data sasaran.</td></tr>'}</tbody></table>${last?`<p class="rp-sum"><b>Total sasaran dilayani: ${rows.length} orang.</b> ${Object.entries(kat).map(([a,b])=>esc(a)+': '+b).join('; ')}.</p>`+sign(d.signatories.hadir):''}`)});
+ const ph_=(ids,judul,sg)=>{const L=ids.map(id=>repositoryKaderPhotos.find(p=>p.id===id)).filter(Boolean),n=land?2:4,ih=land?36:44,ca=mode=='pdf'?' crossorigin="anonymous"':'';for(let i=0;i<L.length;i+=n){const x=L.slice(i,i+n);let r='';for(let j=0;j<x.length;j+=2)r+='<tr>'+[x[j],x[j+1]].map(p=>p?`<td><img src="${esc(p.url)}"${ca} alt="" style="height:${ih}mm"><div>${esc(p.caption)}</div></td>`:'<td style="border:none"></td>').join('')+'</tr>';P.push(`<div class="rp-h">${esc(judul)}</div><div class="rp-sub">Periode ${esc(m.bulan)} ${esc(m.tahun)} | ${esc(m.wilayah)}</div><table class="rp-gr">${r}</table>${i+n>=L.length?sign(sg):''}`)}};
+ ph_(d.pmtPhotoIds,d.pmtJudul,d.signatories.pmt);ph_(d.kegiatanPhotoIds,d.kegiatanJudul,d.signatories.kegiatan);
+ const T=P.length;
+ return {n:T,html:P.map((x,i)=>mode=='doc'?`<div style="page-break-after:always">${kop}${x}${foot(i+1,T)}</div>`:`<section class="rp-page" style="--pw:${pw}mm;--ph:${ph}mm;padding:${c.marginTB}mm ${c.marginLR}mm"><div class="rp-in">${kop}${x}</div>${foot(i+1,T)}</section>`).join('')};
+}
+window.updateReportState=()=>{renderSelectedPhotosList();const w=$('dynamic-paper-sheets-wrapper');if(!w)return;const r=build(reportData,reportConfig,curMeta(),'screen');w.innerHTML=r.html;$('rendered-pages-count').textContent=r.n+' Halaman Terbentuk';$('badge-paper-size').textContent=reportConfig.paperSize.toUpperCase()+' '+reportConfig.paperOrientation;$('badge-margin-info').textContent='Margin '+reportConfig.marginTB+'mm';applyZoom()};
+window.applyZoom=()=>{const w=$('dynamic-paper-sheets-wrapper'),pc=$('preview-container');if(!w||!pc)return;const cw=pc.clientWidth,fit=cw>80?Math.min(1,(cw-32)/(dims(reportConfig)[0]*3.7795)):1,z=fit*currentZoomLevel/100;w.style.transform='none';w.style.zoom=z;const t=$('zoom-level-text');if(t)t.textContent=Math.round(z*100)+'%'};
+const _st=window.switchTab;window.switchTab=t=>{_st(t);if(t=='aplikasi-laporan')setTimeout(applyZoom,40)};
+window.addEventListener('resize',()=>applyZoom());
+
+/* ===== EKSPOR & ARSIP OTOMATIS ===== */
+const FM={print:'Cetak',pdf:'PDF',doc:'DOC',xls:'XLS',simpan:'Simpan'};
+const fname=m=>('Laporan-Posyandu-'+m.bulan+'-'+m.tahun).replace(/\s+/g,'-');
+const imgsReady=el=>Promise.race([Promise.all([...el.querySelectorAll('img')].map(i=>i.complete?1:new Promise(r=>{i.onload=i.onerror=r}))),new Promise(r=>setTimeout(r,3000))]);
+const saveArs=()=>{try{localStorage.setItem('gp_arsip',JSON.stringify(dataArsipLaporan))}catch(e){}};
+{const s=LS('gp_arsip',null);if(s&&s.length)dataArsipLaporan=s}
+let editId=null;
+async function exec(kind,d,c,m){
+ const [pw,ph]=dims(c);
+ if(kind=='print'){$('dyn-page').textContent=`@page{size:${pw}mm ${ph}mm;margin:0}`;$('print-root').innerHTML=build(d,c,m,'print').html;const t=document.title;document.title=fname(m);await imgsReady($('print-root'));window.print();document.title=t}
+ else if(kind=='pdf'){
+  if(!window.html2canvas||!window.jspdf){showToast('Pustaka PDF belum termuat. Gunakan Cetak lalu pilih Simpan sebagai PDF.',true);return exec('print',d,c,m)}
+  showToast('Membuat PDF...');const box=document.createElement('div');box.id='pdf-stage';box.style.cssText='position:absolute;left:0;top:0;z-index:-1;width:'+pw+'mm';box.innerHTML=build(d,c,m,'pdf').html;document.body.appendChild(box);const y=scrollY;scrollTo(0,0);
+  try{await imgsReady(box);const o=pw>ph?'l':'p',pdf=new jspdf.jsPDF({unit:'mm',format:[pw,ph],orientation:o});const P=box.querySelectorAll('.rp-page');
+   for(let i=0;i<P.length;i++){const cv=await html2canvas(P[i],{scale:2,useCORS:true,backgroundColor:'#fff',scrollX:0,scrollY:0});if(i)pdf.addPage([pw,ph],o);pdf.addImage(cv.toDataURL('image/jpeg',.92),'JPEG',0,0,pw,ph)}
+   pdf.save(fname(m)+'.pdf');showToast('PDF diunduh.')}catch(e){showToast('Gagal membuat PDF. Coba Cetak lalu Simpan sebagai PDF.',true)}finally{box.remove();scrollTo(0,y)}}
+ else if(kind=='doc'){const h=build(d,c,m,'doc').html;dl(new Blob(['\ufeff',`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><style>@page Section1{size:${pw}mm ${ph}mm;margin:${c.marginTB}mm ${c.marginLR}mm}div.Section1{page:Section1}body{font-family:'Times New Roman',serif}${RPT}</style></head><body><div class="Section1">${h}</div></body></html>`],{type:'application/msword'}),fname(m)+'.doc');showToast('Word (.doc) diunduh.')}
+ else if(kind=='xls'){const r=rowsOf(d),b='style="border:.5pt solid #555;text-align:center"',hh=['No','Nama Sasaran','NIK','RW','Kategori','BB (kg)','TB (cm)','Tensi','GDS','Kolesterol','Asam Urat','Rujukan'];
+  dl(new Blob(['\ufeff',`<html xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta charset="utf-8"></head><body><table><tr><td colspan="12" style="font:bold 14pt Arial">${esc(c.kop.line3)}</td></tr><tr><td colspan="12">${esc(c.kop.line2)}</td></tr><tr><td colspan="12" style="font-weight:bold">REKAPITULASI HASIL PELAYANAN | ${esc(m.bulan)} ${esc(m.tahun)} | ${esc(m.wilayah)}</td></tr><tr></tr><tr style="background:#e9e5f5;font-weight:bold">${hh.map(h=>`<td ${b}>${h}</td>`).join('')}</tr>${r.map((x,i)=>`<tr><td ${b}>${i+1}</td><td style="border:.5pt solid #555">${esc(x.nama)}</td><td style="border:.5pt solid #555;mso-number-format:\\@">${esc(x.nik)}</td>${[x.rw,x.kat,x.bb,x.tb,x.tensi,x.gds,x.koles,x.asamUrat,x.rujukan].map(v=>`<td ${b}>${esc(v)}</td>`).join('')}</tr>`).join('')}<tr><td colspan="12" style="font-weight:bold">Total sasaran: ${r.length}</td></tr></table></body></html>`],{type:'application/vnd.ms-excel'}),fname(m)+'.xls');showToast('Excel (.xls) diunduh.')}
+}
+function archiveCurrent(kind){
+ const m=curMeta(),snap=JSON.parse(JSON.stringify({d:reportData,c:reportConfig,m})),A=dataArsipLaporan;
+ let rec=editId?A.find(a=>a.id==editId):A.find(a=>a.snap&&a.bulan==m.bulan&&a.tahun==m.tahun&&a.wilayah==m.wilayah&&JSON.stringify(a.snap)==JSON.stringify(snap));
+ if(!rec){let n=A.filter(a=>a.tahun==m.tahun).length+1,id;do{id='LPR-'+m.tahun+'-'+String(n++).padStart(2,'0')}while(A.some(a=>a.id==id));rec={id,fm:[]};A.unshift(rec)}
+ Object.assign(rec,{bulan:m.bulan,tahun:m.tahun,wilayah:m.wilayah,sasaran:rowsOf(reportData).length,tglDibuat:new Date().toISOString().slice(0,10),verified:true,snap});
+ rec.fm=[...new Set((rec.fm||[]).concat(kind))];saveArs();renderArsipTable();showToast('Tersimpan otomatis di Arsip Laporan ('+rec.id+').');return rec}
+const run=k=>{archiveCurrent(k);return exec(k,reportData,reportConfig,curMeta())};
+const ctx=rec=>rec.snap?[rec.snap.d,rec.snap.c,rec.snap.m]:[reportData,reportConfig,{bulan:rec.bulan,tahun:rec.tahun,wilayah:rec.wilayah}];
+Object.assign(window,{triggerPrint:()=>run('print'),exportToPDF:()=>run('pdf'),exportToWord:()=>run('doc'),exportToExcel:()=>run('xls'),simpanKeArsipLaporan:()=>{archiveCurrent('simpan');switchTab('arsip-laporan')},
+ arsipAct:(k,id)=>{const r=dataArsipLaporan.find(a=>a.id==id);if(!r)return;r.fm=[...new Set((r.fm||[]).concat(k))];saveArs();renderArsipTable();return exec(k,...ctx(r))},
+ editArsipLaporan:id=>{const r=dataArsipLaporan.find(a=>a.id==id);if(!r)return;editId=id;isEditArsipMode=true;if(r.snap){Object.assign(reportData,JSON.parse(JSON.stringify(r.snap.d)));Object.assign(reportConfig,JSON.parse(JSON.stringify(r.snap.c)))}
+  $('banner-edit-laporan').classList.remove('hidden');$('edit-laporan-id').textContent='#'+id;switchTab('aplikasi-laporan');try{renderBAListControls();renderAttendanceInputRows();renderSignatoryConfigurator();renderPhotoPickerGrid()}catch(e){}updateReportState();showToast('Data arsip #'+id+' dimuat ke generator.')},
+ cancelEditLaporanMode:()=>{editId=null;isEditArsipMode=false;$('banner-edit-laporan').classList.add('hidden');showToast('Mode edit arsip dibatalkan.')},
+ deleteArsip:id=>{if(confirm('Hapus arsip '+id+'?')){dataArsipLaporan=dataArsipLaporan.filter(a=>a.id!==id);saveArs();renderArsipTable();showToast('Arsip '+id+' dihapus.')}},
+ lapTarik:()=>{const o=$('lap-periode'),t=o.options[o.selectedIndex].text,[b,y]=t.split(' '),bl=$('input-hadir-bulan'),th=$('input-hadir-tahun');if(bl)bl.value=b.charAt(0).toUpperCase()+b.slice(1);if(th)th.value=y;$('lap-status').innerHTML='<i class="fa-solid fa-circle-check mr-1"></i>Data Web Kader periode '+esc(t)+' ditarik pada '+new Date().toLocaleString('id-ID')+'.';updateReportState();showToast('Data Web Kader dimuat ke laporan.')},
+ renderArsipTable:()=>{const tb=$('tbody-arsip-laporan');if(!tb)return;const A=dataArsipLaporan,q=($('search-arsip-input')?.value||'').toLowerCase();$('stat-total-arsip').textContent=A.length;$('stat-arsip-tahun').textContent=A.filter(a=>a.tahun==='2026').length;$('stat-arsip-verified').textContent=A.filter(a=>a.verified).length;
+  const B=(cl,ic,lb,fn)=>`<button onclick="${fn}" class="px-2 py-1 ${cl} text-white rounded-lg text-[10px] font-bold cursor-pointer" title="${lb}"><i class="fa-solid ${ic}"></i> ${lb}</button>`;
+  tb.innerHTML=A.filter(a=>(a.id+a.bulan+a.tahun+a.wilayah).toLowerCase().includes(q)).map(a=>`<tr class="hover:bg-soft-purple/30 transition"><td class="p-3 font-mono font-bold text-secondary-purple">${esc(a.id)}<div class="flex flex-wrap gap-1 mt-1">${(a.fm||[]).map(f=>`<span class="pill">${FM[f]||f}</span>`).join('')}</div></td><td class="p-3 font-bold">${esc(a.bulan)} ${esc(a.tahun)}</td><td class="p-3">${esc(a.wilayah)}</td><td class="p-3 font-semibold">${a.sasaran} Warga</td><td class="p-3">${esc(a.tglDibuat)}</td><td class="p-3 text-center"><span class="px-2 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-800 font-bold">Terverifikasi</span></td><td class="p-3"><div class="flex flex-wrap justify-center gap-1 min-w-[250px]">${B('bg-amber-500','fa-pen-to-square','Edit',`editArsipLaporan('${a.id}')`)}${B('bg-primary-indigo','fa-print','Cetak',`arsipAct('print','${a.id}')`)}${B('bg-rose-600','fa-file-pdf','PDF',`arsipAct('pdf','${a.id}')`)}${B('bg-blue-600','fa-file-word','DOC',`arsipAct('doc','${a.id}')`)}${B('bg-emerald-600','fa-file-excel','XLS',`arsipAct('xls','${a.id}')`)}${B('bg-slate-600','fa-trash','Hapus',`deleteArsip('${a.id}')`)}</div></td></tr>`).join('')||'<tr><td colspan="7" class="p-6 text-center text-xs font-bold text-dark-slate/60">Belum ada laporan di arsip. Cetak atau ekspor laporan agar tersimpan otomatis.</td></tr>'}});
+
+applyAdmin();renderSet();renderArsipTable();updateReportState();
+})();
+
+</script>
 </body>
 </html>
