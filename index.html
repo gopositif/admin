@@ -348,7 +348,8 @@ body.gx-lock{overflow:hidden}
  table.rtable td.act{display:block}
  table.rtable td.act::before{display:block;max-width:none;margin-bottom:.3rem}
  table.rtable td.act>div{justify-content:flex-start!important;min-width:0!important}
- .gx-tablewrap{max-height:none;overflow:visible;border:0;background:transparent;box-shadow:none;padding:0}
+ .gx-tablewrap{max-height:none!important;overflow:visible!important;border:0;background:transparent;box-shadow:none;padding:0}
+ table.rtable td>.cv{min-width:0;flex:1;text-align:right}
  .gx-modal{align-items:flex-end;padding:0}
  .gx-sheet{max-width:none;border-radius:20px 20px 0 0;max-height:94vh}
  .gx-btn{min-height:42px}
@@ -367,6 +368,39 @@ body.gx-lock{overflow:hidden}
  #toast-notification{left:.75rem;right:.75rem;max-width:none}
 }
 @media print{.gx-modal{display:none!important}}
+
+/* ================= V11 ================= */
+.st{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:10px;font-weight:800;border:1px solid;white-space:nowrap;flex-shrink:0}
+.st i{font-size:9px}
+.st-ok{background:#D1FAE5;color:#065F46;border-color:#6EE7B7}.st-edit{background:#E0E7FF;color:#3730A3;border-color:#A5B4FC}.st-no{background:#FEF3C7;color:#92400E;border-color:#FCD34D}.st-rej{background:#FEE2E2;color:#991B1B;border-color:#FCA5A5}.st-gray{background:#F1F5F9;color:#475569;border-color:#CBD5E1}
+.notif{margin-left:6px;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:#DC2626;color:#fff;font-size:10px;font-weight:800;display:inline-flex;align-items:center;justify-content:center}
+.notif.hidden{display:none}
+.kf-wrap thead th{position:sticky;top:0;z-index:2}
+        .kk-stage { display: flex; justify-content: center; padding: 4px 0; }
+        .kk-card { --r: clamp(18px, 4.5vw, 26px); position: relative; isolation: isolate; overflow: hidden; width: min(100%, 520px); aspect-ratio: 1.586 / 1; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; padding: clamp(16px, 4.2vw, 26px); border-radius: var(--r); color: #1F4260; border: 1px solid rgba(255,255,255,.85);
+            background: radial-gradient(110% 80% at 0% 0%, rgba(255,255,255,.8), transparent 58%), radial-gradient(90% 80% at 100% 100%, rgba(190,200,236,.75), transparent 62%), linear-gradient(150deg, #E7F2FB, #D2E6F6 52%, #C0DAF0);
+            box-shadow: 0 24px 36px -22px rgba(47,100,150,.6), 0 3px 6px rgba(47,100,150,.12), inset 0 2px 0 rgba(255,255,255,.8), inset 0 -3px 6px rgba(90,140,190,.18); }
+        .kk-card::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .6;
+            background-image: repeating-linear-gradient(0deg, rgba(255,255,255,.38) 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, rgba(95,140,190,.14) 0 1px, transparent 1px 3px), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85 .55' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .32 0 0 0 0 .5 0 0 0 0 .72 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E"); background-size: auto, auto, 140px 140px; }
+        .kk-card::after { content: ""; position: absolute; inset: 9px; z-index: -1; pointer-events: none; border: 1.5px dashed rgba(255,255,255,.9); border-radius: calc(var(--r) - 8px); }
+        .kk-top { display: flex; align-items: center; gap: 12px; text-align: left; }
+        .kk-chip, .kk-qr { width: 42px; height: 42px; border-radius: 13px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .kk-chip { font-size: 18px; color: #fff; background: linear-gradient(135deg, #5B9BCB, #2F6A9B); box-shadow: 0 6px 12px -6px rgba(31,78,121,.6), inset 0 1px 0 rgba(255,255,255,.4); }
+        .kk-qr { font-size: 22px; color: #2F6A9B; background: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.9); }
+        .kk-ttl { min-width: 0; flex: 1; display: flex; flex-direction: column; line-height: 1.25; }
+        .kk-ttl b { font-family: 'Quicksand', sans-serif; font-size: 20px; font-weight: 800; letter-spacing: .06em; color: #1B3D5A; }
+        .kk-ttl span { font-size: 11px; font-weight: 600; color: #3F6584; }
+        .kk-act { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+        .kk-btn { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 14px; border-radius: 14px; font-size: 13px; font-weight: 800; text-align: center; text-decoration: none; cursor: pointer; transition: transform .15s, box-shadow .15s; }
+        .kk-btn-main { color: #fff; background: linear-gradient(180deg, #2F72A3, #234F75); box-shadow: 0 8px 14px -8px rgba(31,78,121,.7), inset 0 1px 0 rgba(255,255,255,.35); }
+        .kk-btn-ghost { color: #1F4D70; background: rgba(255,255,255,.85); border: 1.5px solid rgba(63,131,182,.4); }
+        .kk-btn:hover { transform: translateY(-2px); }
+        .kk-url { margin: 0; font-size: 11px; font-weight: 600; text-align: center; color: #2D5878; word-break: break-all; }
+        .kk-url i { margin-right: 6px; color: #2F6A9B; }
+        @media (max-width: 479px) { .kk-act { grid-template-columns: minmax(0, 1fr); } }
+        .al-b { border-radius: 16px; padding: 12px; background: linear-gradient(160deg, #fff, color-mix(in srgb, var(--c) 9%, #fff)); border: 1px solid color-mix(in srgb, var(--c) 35%, #fff); border-top: 4px solid var(--c); display: flex; flex-direction: column; }
+        .al-i { width: 32px; height: 32px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; background: var(--c); color: #fff; font-size: 14px; flex-shrink: 0; }
+
 </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between antialiased bg-base-cream">
@@ -557,7 +591,8 @@ body.gx-lock{overflow:hidden}
                     <button onclick="switchTab('beranda')" id="tab-beranda" class="nav-tab active flex items-center whitespace-nowrap text-[11px] md:text-xs px-2.5 py-1.5">
                         <i class="fa-solid fa-house mr-1"></i>Beranda
                     </button>
-                    <button onclick="switchTab('konfirmasi')" id="tab-konfirmasi" class="nav-tab flex items-center whitespace-nowrap text-[11px] md:text-xs px-2.5 py-1.5"><i class="fa-solid fa-list-check mr-1"></i>Konfirmasi</button>
+                    <button onclick="switchTab('konfirmasi')" id="tab-konfirmasi" class="nav-tab flex items-center whitespace-nowrap text-[11px] md:text-xs px-2.5 py-1.5"><i class="fa-solid fa-list-check mr-1"></i>Konfirmasi<span id="notif-konf" class="notif hidden" role="status">0</span></button>
+<button onclick="switchTab('kartu')" id="tab-kartu" class="nav-tab flex items-center whitespace-nowrap text-[11px] md:text-xs px-2.5 py-1.5"><i class="fa-solid fa-id-card-clip mr-1"></i>Kartu KARTA</button>
 <button onclick="switchTab('pembaruan')" id="tab-pembaruan" class="nav-tab flex items-center whitespace-nowrap text-[11px] md:text-xs px-2.5 py-1.5"><i class="fa-solid fa-bullhorn mr-1"></i>Pembaruan</button>
                     <button onclick="switchTab('aplikasi-laporan')" id="tab-aplikasi-laporan" class="nav-tab flex items-center whitespace-nowrap text-[11px] md:text-xs px-2.5 py-1.5">
                         <i class="fa-solid fa-file-invoice mr-1"></i>Aplikasi Laporan
@@ -776,14 +811,12 @@ body.gx-lock{overflow:hidden}
             <!-- ================= TAB 2: KONFIRMASI DAN PEMBAHARUAN ================= -->
             <section id="content-konfirmasi" class="hidden space-y-6">
 <p id="sync-status" class="hidden text-[11px] font-bold px-3 py-2 rounded-xl bg-soft-purple text-deep-green"></p>
-
-<!-- ===== A. KONFIRMASI & VERIFIKASI ===== -->
 <div class="white-card p-4 md:p-6 space-y-4 border-2 border-primary-indigo/20">
   <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-3 border-b border-primary-indigo/15 pb-4">
     <div class="min-w-0">
       <span class="px-3 py-1 rounded-full text-[10px] font-black bg-soft-indigo text-primary-indigo border border-primary-indigo/30">Dual-Verification Admin &amp; Kader</span>
       <h3 class="font-extrabold text-dark-slate text-lg md:text-xl mt-1">Konfirmasi &amp; Verifikasi Data Posyandu</h3>
-      <p class="text-xs text-dark-slate/70 font-medium max-w-3xl">Periksa data dari Web Kader Input dan usulan perubahan data keluarga dari Web Sasaran yang sudah dicek kader. Klik Verifikasi agar data sah diterbitkan ke Web Sasaran dan Laporan Resmi.</p>
+      <p class="text-xs text-dark-slate/70 font-medium max-w-3xl">Data baru masuk dari Web Kader dan usulan perubahan data keluarga dari Web Sasaran. Keputusan admin dan kader saling tersinkron: bila keduanya sama (disetujui, disetujui setelah diubah, atau ditolak), pengajuan dikunci dan hilang dari tabel setelah 24 jam.</p>
     </div>
     <div class="gx-hdr-actions shrink-0">
       <button class="gx-btn doc" onclick="kxExport('doc')"><i class="fa-solid fa-file-word"></i>DOC</button>
@@ -793,16 +826,15 @@ body.gx-lock{overflow:hidden}
     </div>
   </div>
 
-  <!-- Cari -->
   <div class="gx-box space-y-3">
     <div class="gx-row">
-      <div class="gx-field gx-grow"><label class="gx-label" for="search-konfirmasi-admin">Cari nama, alamat, atau kategori</label>
-        <input type="search" id="search-konfirmasi-admin" oninput="filterKonfirmasiAdminTable()" placeholder="Ketik nama sasaran..." class="fld" autocomplete="off"></div>
+      <div class="gx-field gx-grow"><label class="gx-label" for="search-konfirmasi-admin">Cari nama, ID Karta, alamat, atau posyandu</label>
+        <input type="search" id="search-konfirmasi-admin" oninput="filterKonfirmasiAdminTable()" placeholder="Ketik untuk mencari..." class="fld" autocomplete="off"></div>
       <button onclick="filterKonfirmasiAdminTable()" class="gx-btn pri"><i class="fa-solid fa-magnifying-glass"></i>Cari</button>
     </div>
     <div class="gx-row">
       <div class="gx-field gx-grow"><label class="gx-label" for="kx-karta-input">Cari pengajuan berdasarkan Kartu KARTA</label>
-        <div class="gx-inline"><input id="kx-karta-input" class="fld gx-karta-id" placeholder="Input manual ID Karta, mis. KRT-0001" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();kxCariKarta()}">
+        <div class="gx-inline"><input id="kx-karta-input" class="fld gx-karta-id" placeholder="Input manual ID Karta, mis. KRT-001" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();kxCariKarta()}">
         <button onclick="kxCariKarta()" class="gx-btn ind"><i class="fa-solid fa-keyboard"></i>Cari ID</button></div></div>
       <button onclick="kxScanSearch()" class="gx-btn sec"><i class="fa-solid fa-qrcode"></i>Scan QR Karta</button>
       <button id="kx-karta-clear" onclick="kxClearKarta()" class="gx-btn dng gx-hide"><i class="fa-solid fa-xmark"></i>Hapus filter Karta</button>
@@ -810,28 +842,30 @@ body.gx-lock{overflow:hidden}
     <div id="kx-karta-info" class="gx-hide"></div>
   </div>
 
-  <!-- Filter tanggal / bulan / tahun -->
   <div class="gx-grid">
     <div class="gx-field"><label class="gx-label" for="kx-from">Dari tanggal</label><input type="date" id="kx-from" class="fld" onchange="kxFilterChange()"></div>
     <div class="gx-field"><label class="gx-label" for="kx-to">Sampai tanggal</label><input type="date" id="kx-to" class="fld" onchange="kxFilterChange()"></div>
     <div class="gx-field"><label class="gx-label" for="kx-bulan">Bulan</label><select id="kx-bulan" class="fld" onchange="kxFilterChange()"></select></div>
     <div class="gx-field"><label class="gx-label" for="kx-tahun">Tahun</label><select id="kx-tahun" class="fld" onchange="kxFilterChange()"></select></div>
-    <div class="gx-field"><label class="gx-label" for="kx-status">Status Admin</label>
-      <select id="kx-status" class="fld" onchange="kxFilterChange()"><option value="">Semua status</option><option value="belum">Belum diverifikasi</option><option value="sudah">Sudah diverifikasi</option></select></div>
+    <div class="gx-field"><label class="gx-label" for="kx-pos">Posyandu</label><select id="kx-pos" class="fld" onchange="kxFilterChange()"></select></div>
+    <div class="gx-field"><label class="gx-label" for="kx-status">Status</label>
+      <select id="kx-status" class="fld" onchange="kxFilterChange()"><option value="">Semua status</option><option value="belum">Belum diputuskan admin</option><option value="menunggu">Menunggu kader</option><option value="disetujui">Disetujui admin</option><option value="ditolak">Ditolak admin</option><option value="diedit">Diedit</option><option value="final">Selesai 2 web (24 jam)</option></select></div>
     <div class="gx-field" style="justify-content:flex-end"><button class="gx-btn sec" onclick="kxResetFilter()"><i class="fa-solid fa-rotate-left"></i>Reset filter</button></div>
   </div>
 
-  <p id="kx-count" class="text-[11px] font-bold text-dark-slate/70"></p>
+  <div class="flex flex-wrap items-center justify-between gap-2">
+    <p id="kx-count" class="text-[11px] font-bold text-dark-slate/70"></p>
+    <div class="flex flex-wrap items-center gap-1.5 text-[10px] font-bold"><span class="st st-ok">Disetujui</span><span class="st st-rej">Ditolak</span><span class="st st-no">Menunggu</span><span class="st st-edit"><i class="fa-solid fa-pen"></i>Diedit</span></div>
+  </div>
 
-  <div class="gx-tablewrap">
+  <div class="gx-tablewrap kf-wrap" style="max-height:32rem">
     <table class="rtable text-left text-xs text-dark-slate">
       <thead class="bg-soft-indigo text-primary-indigo uppercase font-extrabold border-b border-primary-indigo/20">
         <tr>
-          <th class="p-3">Tgl Input</th>
-          <th class="p-3">Nama Sasaran / Alamat</th>
-          <th class="p-3">Wilayah</th>
+          <th class="p-3">Tgl Usulan</th>
+          <th class="p-3">Nama Usulan</th>
           <th class="p-3">Kategori</th>
-          <th class="p-3">Hasil / Usulan</th>
+          <th class="p-3">Jenis Usulan &amp; Alasan</th>
           <th class="p-3 text-center">Konfirmasi Kader</th>
           <th class="p-3 text-center">Konfirmasi Admin</th>
           <th class="p-3 text-center">Aksi</th>
@@ -840,32 +874,28 @@ body.gx-lock{overflow:hidden}
       <tbody id="tbody-konfirmasi-admin" class="divide-y divide-primary-indigo/10 font-medium"></tbody>
     </table>
   </div>
+  <div id="kf-pager" class="gx-pager"></div>
+  <p class="gx-note info"><i class="fa-solid fa-circle-info mt-0.5"></i><span>Data usulan anggota baru/hapus efektif masuk ke database utama setelah mendapat <b>konfirmasi Kader</b> (Web Kader) dan <b>konfirmasi Admin</b> (di sini) dengan keputusan yang sama.</span></p>
 </div>
+</section>
 
-<!-- ===== B. KELOLA DATA KELUARGA KARTA ===== -->
-<div id="kx-keluarga" class="white-card p-4 md:p-6 space-y-4 border-2 border-secondary-purple/25">
-  <div class="flex flex-col md:flex-row md:items-start justify-between gap-3 border-b border-secondary-purple/15 pb-4">
-    <div class="min-w-0">
-      <span class="px-3 py-1 rounded-full text-[10px] font-black bg-soft-purple text-secondary-purple border border-secondary-purple/30">Data Keluarga Kartu KARTA</span>
-      <h3 class="font-extrabold text-dark-slate text-lg md:text-xl mt-1">Kelola Data Keluarga</h3>
-      <p class="text-xs text-dark-slate/70 font-medium max-w-3xl">Buka data keluarga hanya dengan ID Karta, scan QR, atau unggah foto kartu. Setelah data keluarga muncul, Anda dapat menambah, mengubah, atau menghapus anggota beserta detailnya.</p>
-    </div>
-    <p class="text-[11px] font-bold text-dark-slate/70 shrink-0">Tersimpan: <b id="kk-total" class="text-secondary-purple">0</b> keluarga</p>
+<section id="content-kartu" class="hidden space-y-6">
+<div class="white-card p-4 md:p-6 space-y-6 border-2 border-primary-indigo/20">
+  <div class="flex items-center gap-3 border-b border-primary-indigo/15 pb-4">
+    <div class="w-11 h-11 rounded-2xl bg-soft-indigo text-primary-indigo flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-id-card-clip"></i></div>
+    <div class="min-w-0"><h3 class="font-extrabold text-dark-slate text-lg md:text-xl">Kartu KARTA</h3>
+    <p class="text-xs text-dark-slate/70 font-medium">KARTA adalah Kartu Akses dan Rekam Terpadu Warga, identitas resmi warga untuk pelayanan terpadu desa dan posyandu.</p></div>
   </div>
-
-  <div class="gx-box">
-    <div class="gx-row">
-      <div class="gx-field gx-grow"><label class="gx-label" for="kk-id">ID Kartu KARTA</label>
-        <div class="gx-inline"><input id="kk-id" class="fld gx-karta-id" placeholder="Ketik atau tempel ID Karta" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();kkBuka()}">
-        <button onclick="kkBuka()" class="gx-btn pri"><i class="fa-solid fa-folder-open"></i>Buka Data</button></div></div>
-      <button onclick="kkScan()" class="gx-btn sec"><i class="fa-solid fa-qrcode"></i>Scan QR</button>
-      <label class="gx-btn sec" style="cursor:pointer"><i class="fa-solid fa-image"></i>Unggah Foto Kartu<input type="file" accept="image/*" class="gx-hide" onchange="kkUnggah(this)"></label>
-      <button onclick="kkBaru()" class="gx-btn ind"><i class="fa-solid fa-plus"></i>Keluarga Baru</button>
-    </div>
-    <p class="text-[11px] text-dark-slate/60 font-medium mt-2">Foto kartu dibaca otomatis (QR). Gunakan foto yang tajam, tidak terpotong, dan tidak silau.</p>
+  <div class="kk-stage"><div class="kk-card">
+    <div class="kk-top"><span class="kk-chip"><i class="fa-solid fa-id-card-clip"></i></span><div class="kk-ttl"><b>KARTA</b><span>Kartu Akses dan Rekam Terpadu Warga</span></div><span class="kk-qr" aria-hidden="true"><i class="fa-solid fa-qrcode"></i></span></div>
+    <div class="kk-act"><a href="https://gopositif.github.io/karta/" class="kk-btn kk-btn-main"><i class="fa-solid fa-id-card-clip"></i><span>Portal Kartu KARTA</span></a><button type="button" onclick="salinKarta()" class="kk-btn kk-btn-ghost"><i class="fa-regular fa-copy"></i><span>Salin Tautan</span></button></div>
+    <p class="kk-url"><i class="fa-solid fa-link"></i>https://gopositif.github.io/karta/</p>
+  </div></div>
+  <div class="grid md:grid-cols-3 gap-4">
+    <div class="al-b" style="--c:#2F7FB5"><div class="flex items-center gap-2"><span class="al-i"><i class="fa-solid fa-qrcode"></i></span><p class="font-extrabold text-sm text-dark-slate">Isi Kartu</p></div><p class="text-[12px] text-dark-slate/75 font-medium mt-2.5 leading-relaxed">Kartu memuat ID Akses Web (contoh GP-0001) dan QR untuk dipindai kader. PIN default diberikan terpisah kepada warga.</p></div>
+    <div class="al-b" style="--c:#3E9AA8"><div class="flex items-center gap-2"><span class="al-i"><i class="fa-solid fa-people-arrows"></i></span><p class="font-extrabold text-sm text-dark-slate">Kegunaan</p></div><p class="text-[12px] text-dark-slate/75 font-medium mt-2.5 leading-relaxed">Dipindai kader saat absen dan pemeriksaan. Warga memakai ID dan PIN untuk layanan mandiri di Web Posyandu dan Web Pelayanan Desa.</p></div>
+    <div class="al-b" style="--c:#6F86C4"><div class="flex items-center gap-2"><span class="al-i"><i class="fa-solid fa-screwdriver-wrench"></i></span><p class="font-extrabold text-sm text-dark-slate">Di Aplikasi Kartu KARTA</p></div><p class="text-[12px] text-dark-slate/75 font-medium mt-2.5 leading-relaxed">Buat dan desain kartu baru, cari data warga untuk cetak ulang, ubah data dan anggota keluarga, lalu cetak atau ekspor PNG dan PDF.</p></div>
   </div>
-
-  <div id="kk-panel" class="gx-hide"></div>
 </div>
 </section>
 
@@ -1278,7 +1308,7 @@ body.gx-lock{overflow:hidden}
     <div class="gx-legend"><span><i style="background:#6d5bd0"></i>Pemeriksaan Rutin</span><span><i style="background:#d97706"></i>Pemeriksaan Khusus</span><span id="arsip-count" style="margin-left:auto"></span></div>
   </div>
 
-  <div class="gx-tablewrap" style="max-height:none">
+  <div class="gx-tablewrap" style="max-height:32rem">
     <table class="rtable text-left text-xs text-dark-slate">
       <thead class="bg-soft-purple text-secondary-purple uppercase font-extrabold border-b border-secondary-purple/20">
         <tr>
@@ -1294,6 +1324,7 @@ body.gx-lock{overflow:hidden}
       <tbody id="tbody-arsip-laporan" class="font-medium"></tbody>
     </table>
   </div>
+  <div id="arsip-pager" class="gx-pager"></div>
 </div>
 </section>
 
@@ -1719,7 +1750,19 @@ body.gx-lock{overflow:hidden}
         </div>
     </div>
 
-        <!-- MODAL: SCAN QR KARTA -->
+        <!-- MODAL: FORMULIR SERBAGUNA (edit / tolak pengajuan) -->
+    <div id="modal-form" class="gx-modal no-print" role="dialog" aria-modal="true" aria-labelledby="gf-title">
+        <div class="gx-sheet sm">
+            <div class="gx-sh"><div><h3 id="gf-title"></h3><p id="gf-sub"></p></div>
+                <button type="button" class="gx-x" onclick="gfClose()" aria-label="Tutup"><i class="fa-solid fa-xmark"></i></button></div>
+            <form id="gf-form" onsubmit="gfSubmit(event)" style="display:contents">
+                <div class="gx-sb space-y-3" id="gf-body"></div>
+                <div class="gx-sf"><button type="button" class="gx-btn sec" onclick="gfClose()">Batal</button><button class="gx-btn pri"><i class="fa-solid fa-check"></i>Simpan</button></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: SCAN QR KARTA -->
     <div id="modal-scan" class="gx-modal no-print" role="dialog" aria-modal="true" aria-labelledby="scan-title">
         <div class="gx-sheet sm">
             <div class="gx-sh"><div><h3 id="scan-title">Scan QR Kartu KARTA</h3><p>Arahkan kamera ke kode QR pada kartu.</p></div>
@@ -1957,7 +2000,7 @@ body.gx-lock{overflow:hidden}
         }
 
         function switchTab(tabId) {
-            const tabs = ['beranda', 'konfirmasi', 'pembaruan', 'aplikasi-laporan', 'arsip-laporan', 'setting-web', 'kontak'];
+            const tabs = ['beranda', 'konfirmasi', 'kartu', 'pembaruan', 'aplikasi-laporan', 'arsip-laporan', 'setting-web', 'kontak'];
             tabs.forEach(t => {
                 const el = document.getElementById('content-' + t);
                 const btn = document.getElementById('tab-' + t);
@@ -2766,7 +2809,7 @@ const TX={halus:'Halus',titik:'Titik lembut',polos:'Polos'};
 const MN={utama:[['tab:beranda','Beranda'],['tab:layanan','Layanan'],['tab:dukungan','Dukungan'],['tab:kontak','Kontak'],['box:jadwal-utama','Jadwal Pelayanan Hangat GO-Positif'],['box:info-utama','Kabari & Informasi Ramah']],
 sasaran:[['tab:beranda','Beranda'],['tab:layanan','Layanan'],['tab:kms','KMS & BMI'],['tab:profil','Profil Keluarga'],['tab:kontak','Kontak'],['box:jadwal-sasaran','Jadwal Posyandu Anda'],['box:info-sasaran','Info & Penyuluhan Sasaran']],
 kader:[['tab:beranda','Beranda'],['tab:absen','Input Absen'],['tab:pemeriksaan','Input Pemeriksaan'],['tab:pemeriksaan-khusus','Pemeriksaan Khusus'],['tab:cek-sasaran','Cek Sasaran'],['tab:konfirmasi','Konfirmasi Data'],['tab:kontak','Kontak'],['box:info-kader','Pengumuman & Info Khusus Kader Posyandu']],
-admin:[['tab:beranda','Beranda'],['tab:konfirmasi','Konfirmasi'],['tab:pembaruan','Pembaruan'],['tab:aplikasi-laporan','Aplikasi Laporan'],['tab:arsip-laporan','Arsip Laporan'],['tab:setting-web','Setting Web'],['tab:kontak','Kontak']]};
+admin:[['tab:beranda','Beranda'],['tab:konfirmasi','Konfirmasi'],['tab:kartu','Kartu KARTA'],['tab:pembaruan','Pembaruan'],['tab:aplikasi-laporan','Aplikasi Laporan'],['tab:arsip-laporan','Arsip Laporan'],['tab:setting-web','Setting Web'],['tab:kontak','Kontak']]};
 const FT=[['lansia','Tombol Mode Ramah Lansia']];
 const PF=[['nama','Nama Posyandu'],['desa','Desa / Wilayah'],['alamat','Alamat'],['wa','WhatsApp kontak'],['email','Email'],['jam','Jam pelayanan'],['logo','Logo & ikon tab (link URL)']];
 const per=f=>Object.fromEntries(Object.keys(WEB).map(k=>[k,f(k)]));
@@ -2948,6 +2991,8 @@ function parseDate(v){
  if(m)return new Date(+m[1],+m[2]-1,+m[3]);
  m=s.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})/);
  if(m)return new Date(+m[3],+m[2]-1,+m[1]);
+ m=s.match(/^(\d{1,2})\s+([A-Za-z]{3,})\.?\s+(\d{4})/);
+ if(m){const M={jan:0,feb:1,mar:2,apr:3,mei:4,may:4,jun:5,jul:6,agu:7,agt:7,aug:7,sep:8,okt:9,oct:9,nov:10,des:11,dec:11},k=M[m[2].slice(0,3).toLowerCase()];if(k!==undefined)return new Date(+m[3],k,+m[1])}
  const t=Date.parse(s);return isNaN(t)?null:new Date(t);
 }
 const isoOf=v=>{const d=parseDate(v);return d?iso(d):''};
@@ -3025,133 +3070,185 @@ Object.assign(window,{
 });
 
 /* ============================================================
-   DATA KELUARGA KARTA
+   V11: REGISTRI KARTA + KONFIRMASI GAYA USULAN (sinkron Kader/Admin)
    ============================================================ */
-const KEL_KEY='gp_keluarga';
-function seedKeluarga(){
- const M=(nama,nik,lahir,jk,hub,kat,cat)=>({nama,nik,lahir,jk,hub,kat,cat:cat||''});
- const F=(id,kepala,alamat,rt,rw,pos,mem)=>({id,kepala,alamat,rt,rw,posyandu:pos,anggota:mem.map((m,i)=>Object.assign({id:'m'+(i+1)},m)),upd:Date.now()});
- return {
-  'KRT-0001':F('KRT-0001','Slamet Riyadi','Dusun Gonoharjo, Jl. Melati No. 4','02','01',POS[0],[M('Slamet Riyadi','3324010101850001','1985-01-01','L','Kepala Keluarga','Usia Produktif'),M('Rina Wulandari','3324014502880002','1988-02-05','P','Istri','Usia Produktif'),M('Siti Aminah','3324015205240003','2024-05-12','P','Anak','Balita')]),
-  'KRT-0002':F('KRT-0002','Suparni','Dusun Krajan, Gg. Kenanga No. 11','05','02',POS[1],[M('Suparni','3324014403500004','1950-03-04','P','Kepala Keluarga','Lansia','Hipertensi, kontrol rutin'),M('Wahyu Hidayat','3324010910800005','1980-10-09','L','Anak','Usia Produktif')]),
-  'KRT-0003':F('KRT-0003','Budi Santoso','Dusun Sumberejo, Jl. Raya Gonoharjo No. 27','01','03',POS[2],[M('Budi Santoso','3324011207780006','1978-07-12','L','Kepala Keluarga','Usia Produktif','GDS tinggi, edukasi diet'),M('Lia Marlina','3324012311810007','1981-11-23','P','Istri','Usia Produktif'),M('Dimas Santoso','3324010504120008','2012-04-05','L','Anak','Remaja')]),
-  'KRT-0004':F('KRT-0004','Eko Prasetyo','Dusun Karanganyar, Gg. Mawar No. 6','03','04',POS[3],[M('Eko Prasetyo','3324010202900009','1990-02-02','L','Kepala Keluarga','Usia Produktif'),M('Sri Wahyuni','3324016009930010','1993-09-20','P','Istri','Ibu Hamil','Hamil 28 minggu')]),
-  'KRT-0005':F('KRT-0005','Kusno Widodo','Dusun Tegalrejo, Jl. Pasar No. 3','04','05',POS[4],[M('Kusno Widodo','3324010806560011','1956-06-08','L','Kepala Keluarga','Lansia','Kolesterol tinggi'),M('Tukinah','3324014507590012','1959-07-05','P','Istri','Lansia')])
- };
-}
-let KEL=(()=>{try{const s=JSON.parse(localStorage.getItem(KEL_KEY));if(s&&typeof s==='object'&&!Array.isArray(s)&&Object.keys(s).length)return s}catch(e){}return seedKeluarga()})();
-function saveKel(){
- try{localStorage.setItem(KEL_KEY,JSON.stringify(KEL))}catch(e){}
- try{if(window.GP&&GP.pub){const p=GP.pub('keluarga',KEL);if(p&&p.catch)p.catch(()=>{})}}catch(e){}
- const t=$('kk-total');if(t)t.textContent=Object.keys(KEL).length;
-}
-const fullAlamat=f=>f?[f.alamat,f.rt&&'RT '+f.rt,f.rw&&'RW '+f.rw].filter(Boolean).join(', '):'';
-const alamatByKarta=id=>KEL[normKarta(id)]?fullAlamat(KEL[normKarta(id)]):'';
+const KDB_KEY='gp_kader_db_v12',AUS_KEY='gp_admin_usulan_v1',DAY=864e5,KARTA_URL='https://gopositif.github.io/karta/';
+const KF_JENIS=['Tambah Anggota (Kelahiran Baru)','Tambah Anggota (Pendatang)','Hapus Anggota (Pindah Wilayah)','Hapus Anggota (Meninggal)','Perbaikan Data','Verifikasi Hasil Pemeriksaan'];
+const hsh=s=>{let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(36)};
+function kdbRead(){try{const r=JSON.parse(localStorage.getItem(KDB_KEY));if(r&&typeof r.d==='string'&&r.h===hsh(r.d))return JSON.parse(r.d)}catch(e){}return null}
+function kdbWrite(DB){try{const d=JSON.stringify(DB);localStorage.setItem(KDB_KEY,JSON.stringify({d,h:hsh(d)}));return true}catch(e){return false}}
 const digits=s=>String(s||'').replace(/\D/g,'');
-function findByNik(nik){const d=digits(nik);if(d.length<10)return null;return Object.values(KEL).find(f=>f.anggota.some(m=>digits(m.nik)===d))||null}
-const suggestKat=l=>{const d=parseDate(l);if(!d)return '';const a=(Date.now()-d.getTime())/31557600000;return a<5?'Balita':a<18?'Remaja':a>=60?'Lansia':'Usia Produktif'};
 
-/* ============================================================
-   KONFIRMASI & VERIFIKASI
-   ============================================================ */
-const KF={q:'',karta:'',from:'',to:'',bulan:'',tahun:'',status:''};
-function kxRows(){
- const base=dataKonfirmasiAdmin.map(r=>({id:r.id,src:'kader',tgl:r.tgl,nama:r.nama,alamat:r.alamat||alamatByKarta(r.kartaId)||'-',karta:normKarta(r.kartaId),wilayah:r.posyandu,kat:r.kat,hasil:r.hasil,kaderConf:!!r.kaderConf,adminConf:!!r.adminConf}));
- const us=(window.GP_US?window.GP_US():[]).map(u=>{
-  const kid=normKarta(u.kartaId||u.karta||u.kodeKarta||u.idKarta||u.barcode||u.kode||u.kk||'');
-  const fam=(kid&&KEL[kid])||findByNik(u.nik);
-  return {id:'usulan:'+u.key,src:'sasaran',tgl:u.tgl||(u.ts?iso(new Date(u.ts)):''),nama:u.nama||'-',alamat:u.alamat||(fam?fullAlamat(fam):'-'),karta:kid||(fam?fam.id:''),wilayah:'Usulan dari Web Sasaran',kat:u.kategori||'Keluarga',hasil:(u.jenis||'')+(u.alasan?': '+u.alasan:''),kaderConf:!!u.konfirmasiKader,adminConf:!!u.konfirmasiAdmin};
- });
- return base.concat(us);
+/* registri kartu (baca saja): contoh + DB.fam milik Web Kader bila ada */
+const SEED_FAM={'KRT-001':{kepala:'Slamet Riyadi',alamat:'Dusun Gonoharjo, Jl. Melati No. 4, RT 02 / RW 01',posyandu:POS[0]},'KRT-002':{kepala:'Suparni',alamat:'Dusun Krajan, Gg. Kenanga No. 11, RT 05 / RW 02',posyandu:POS[1]},'KRT-003':{kepala:'Budi Santoso',alamat:'Dusun Sumberejo, Jl. Raya Gonoharjo No. 27, RT 01 / RW 03',posyandu:POS[2]},'KRT-004':{kepala:'Eko Prasetyo',alamat:'Dusun Karanganyar, Gg. Mawar No. 6, RT 03 / RW 04',posyandu:POS[3]},'KRT-005':{kepala:'Kusno Widodo',alamat:'Dusun Tegalrejo, Jl. Pasar No. 3, RT 04 / RW 05',posyandu:POS[4]}};
+let _fam=null;
+function famMap(){if(_fam)return _fam;const m=clone(SEED_FAM),DB=kdbRead();if(DB&&DB.fam&&typeof DB.fam==='object')Object.entries(DB.fam).forEach(([k,f])=>{if(f&&Array.isArray(f.anggota))m[k]={kepala:f.kepalaKeluarga||'',alamat:f.dusun||'',posyandu:f.posyandu||''}});return _fam=m}
+const KEL={};
+
+/* ---- penyimpanan sisi admin ---- */
+function seedAL(){
+ const now=Date.now(),kodeOf=i=>'KRT-00'+(i+1);
+ const a=dataKonfirmasiAdmin.map((r,i)=>({id:i+1,tipe:'pemeriksaan',tgl:r.tgl,nama:r.nama,kode:kodeOf(i),alamat:r.alamat,posyandu:r.posyandu,kategori:r.kat,jenis:'Verifikasi Hasil Pemeriksaan',alasan:r.hasil,status:r.kaderConf?'disetujui':'menunggu',konfirmasiKader:!!r.kaderConf,adminStatus:r.adminConf?'disetujui':'',konfirmasiAdmin:!!r.adminConf,...(r.kaderConf&&r.adminConf?{finalAt:now}:{})}));
+ const n=a.length,u=(i,o)=>Object.assign({id:n+i,tipe:'usulan',status:'menunggu',konfirmasiKader:false,adminStatus:'',konfirmasiAdmin:false},o);
+ return a.concat([u(1,{tgl:todayIso(),nama:'Dede Bayi Slamet',kode:'KRT-001',kategori:'Balita',jenis:KF_JENIS[0],alasan:'Lahir 10 hari lalu (contoh)'}),u(2,{tgl:todayIso(),nama:'Wahyu Hidayat',kode:'KRT-002',kategori:'Usia Produktif',jenis:KF_JENIS[2],alasan:'Pindah ke Kota Semarang (contoh)',status:'disetujui',konfirmasiKader:true}),u(3,{tgl:todayIso(),nama:'Lia Marlina',kode:'KRT-003',kategori:'Usia Produktif',jenis:KF_JENIS[4],alasan:'Perbaikan tanggal lahir (contoh)'})]);
 }
-function kxFiltered(){
- let r=kxRows();const q=KF.q.trim().toLowerCase();
- if(KF.karta)r=r.filter(x=>x.src==='sasaran'&&x.karta===KF.karta);
- if(q)r=r.filter(x=>(x.nama+' '+x.alamat+' '+x.wilayah+' '+x.kat+' '+x.hasil).toLowerCase().includes(q));
+let AL=(()=>{try{const s=JSON.parse(localStorage.getItem(AUS_KEY));if(Array.isArray(s))return s}catch(e){}return seedAL()})();
+const saveAL=()=>{try{localStorage.setItem(AUS_KEY,JSON.stringify(AL))}catch(e){}};
+saveAL();
+
+/* ---- gabungan 3 sumber: Kader (DB.usulan), Web Sasaran (GPSync usulan), Admin ---- */
+function ulSources(){
+ const out=[],DB=kdbRead();
+ if(DB&&Array.isArray(DB.usulan))DB.usulan.forEach(u=>{if(u&&typeof u==='object')out.push({src:'kader',key:'k'+u.id,o:u})});
+ (window.GP_US?window.GP_US():[]).forEach(u=>out.push({src:'sasaran',key:'u:'+u.key,o:u}));
+ AL.forEach(u=>out.push({src:'admin',key:'a'+u.id,o:u}));
+ return out;
+}
+function norm(s){
+ const u=s.o,kode=normKarta(u.kode||u.kartaId||u.karta||u.kodeKarta||u.idKarta||u.barcode||''),fam=kode?famMap()[kode]:null;
+ return {key:s.key,src:s.src,tipe:u.tipe||'usulan',tgl:isoOf(u.tgl)||(u.ts?iso(new Date(u.ts)):''),tglTxt:fmtTgl(u.tgl||u.ts),nama:u.nama||'-',kode,alamat:u.alamat||(fam?fam.alamat:''),posyandu:u.posyandu||(fam&&fam.posyandu)||(s.src==='sasaran'?'Usulan Web Sasaran':'-'),kat:u.kategori||u.kat||'Keluarga',jenis:u.jenis||'Pengajuan',alasan:u.alasan||'',status:u.status||(u.konfirmasiKader?'disetujui':'menunggu'),adminStatus:u.adminStatus||(u.konfirmasiAdmin?'disetujui':''),diedit:!!u.diedit,alasanTolak:u.alasanTolak||'',alasanTolakAdmin:u.alasanTolakAdmin||'',finalAt:u.finalAt||0};
+}
+const expired=r=>r.finalAt&&Date.now()-r.finalAt>=DAY;
+function ulApply(r,patch){
+ const fin=o=>{Object.assign(o,patch);const st=o.status||(o.konfirmasiKader?'disetujui':'menunggu'),ad=o.adminStatus||'';o.adminStatus=ad;o.konfirmasiAdmin=ad==='disetujui';if((st==='disetujui'||st==='ditolak')&&ad===st){if(!o.finalAt)o.finalAt=Date.now()}else delete o.finalAt};
+ if(r.src==='kader'){const DB=kdbRead();if(!DB)return false;const o=(DB.usulan||[]).find(x=>'k'+x.id===r.key);if(!o)return false;fin(o);return kdbWrite(DB)}
+ if(r.src==='admin'){const o=AL.find(x=>'a'+x.id===r.key);if(!o)return false;fin(o);saveAL();return true}
+ const k=r.key.slice(2),o=(window.GP_US?window.GP_US():[]).find(x=>String(x.key)===k);if(!o)return false;fin(o);
+ const F=['nama','kategori','jenis','alasan','status','konfirmasiKader','adminStatus','konfirmasiAdmin','diedit','alasanTolak','alasanTolakAdmin'],p={};F.forEach(f=>{if(o[f]!==undefined)p[f]=o[f]});p.finalAt=o.finalAt||null;
+ if(GS&&GS.update){Promise.resolve(GS.update('usulan/'+k,p)).catch(e=>toast('Gagal menyimpan ke sinkronisasi: '+e.message,true))}
+ return true;
+}
+function ulPurge(){
+ const now=Date.now();
+ const DB=kdbRead();if(DB&&Array.isArray(DB.usulan)){const b=DB.usulan.length;DB.usulan=DB.usulan.filter(u=>!(u&&u.finalAt&&now-u.finalAt>=DAY));if(DB.usulan.length!==b)kdbWrite(DB)}
+ const b2=AL.length;AL=AL.filter(u=>!(u.finalAt&&now-u.finalAt>=DAY));if(AL.length!==b2)saveAL();
+}
+
+/* ---- filter, tampilan, notifikasi ---- */
+const kfSize=()=>innerWidth<768?5:8;
+const KF={q:'',karta:'',from:'',to:'',bulan:'',tahun:'',status:'',pos:'',sig:'',p:1};
+const KN={seen:null};
+const kxAll=()=>{_fam=null;ulPurge();return ulSources().map(norm).filter(r=>!expired(r))};
+const rank=r=>r.finalAt?2:r.adminStatus?1:0;
+function kxFiltered(all){
+ let r=all||kxAll();const q=KF.q.trim().toLowerCase();
+ if(KF.karta)r=r.filter(x=>x.tipe==='usulan'&&x.kode===KF.karta);
+ if(q)r=r.filter(x=>[x.nama,x.kode,x.alamat,x.posyandu,x.jenis,x.kat].join(' ').toLowerCase().includes(q));
  const f=KF.from?parseDate(KF.from):null,t=KF.to?parseDate(KF.to):null;
- if(f||t||KF.bulan||KF.tahun){
-  r=r.filter(x=>{const d=parseDate(x.tgl);if(!d)return false;
-   if(f&&d<f)return false;if(t&&d>t)return false;
-   if(KF.bulan&&d.getMonth()+1!==+KF.bulan)return false;
-   if(KF.tahun&&d.getFullYear()!==+KF.tahun)return false;return true});
- }
- if(KF.status)r=r.filter(x=>KF.status==='sudah'?x.adminConf:!x.adminConf);
- return r.sort((a,b)=>String(isoOf(b.tgl)).localeCompare(String(isoOf(a.tgl))));
-}
-function kxFillSelects(){
- const bl=$('kx-bulan');if(bl&&!bl.options.length){bl.add(new Option('Semua bulan',''));BLN.forEach((b,i)=>bl.add(new Option(b,String(i+1))))}
- const th=$('kx-tahun');if(th){const keep=th.value;const ys=new Set([new Date().getFullYear()]);kxRows().forEach(x=>{const d=parseDate(x.tgl);if(d)ys.add(d.getFullYear())});
-  th.innerHTML='';th.add(new Option('Semua tahun',''));[...ys].sort((a,b)=>b-a).forEach(y=>th.add(new Option(String(y),String(y))));th.value=keep}
-}
-function kxRender(){
- const tb=$('tbody-konfirmasi-admin');if(!tb)return;
- kxFillSelects();
- const all=kxRows(),rows=kxFiltered();
- $('kx-count').textContent='Menampilkan '+rows.length+' dari '+all.length+' data'+(kxFilterLabel()?' | Filter: '+kxFilterLabel():'');
- tb.innerHTML=rows.map(i=>`<tr class="hover:bg-soft-indigo/30 transition">
-  <td class="p-3 whitespace-nowrap" data-label="Tgl Input">${esc(fmtTgl(i.tgl))}</td>
-  <td class="p-3" data-label="Nama / Alamat"><b class="block">${esc(i.nama)}</b><span class="block text-[11px] text-dark-slate/65 font-medium"><i class="fa-solid fa-location-dot mr-1 opacity-60"></i>${esc(i.alamat)}</span></td>
-  <td class="p-3" data-label="Wilayah">${esc(i.wilayah)}</td>
-  <td class="p-3" data-label="Kategori"><span class="px-2 py-0.5 rounded-full text-[10px] bg-base-cream border">${esc(i.kat)}</span></td>
-  <td class="p-3 font-semibold text-primary-indigo" data-label="Hasil / Usulan">${esc(i.hasil)}</td>
-  <td class="p-3 text-center" data-label="Kader">${i.kaderConf?'<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> Kader Ok</span>':'<span class="text-amber-600 font-bold">Pending</span>'}</td>
-  <td class="p-3 text-center" data-label="Admin">${i.adminConf?'<span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> Terverifikasi</span>':'<span class="text-rose-600 font-bold"><i class="fa-solid fa-clock"></i> Belum</span>'}</td>
-  <td class="p-3 text-center act" data-label="Aksi"><div class="flex justify-center"><button onclick="toggleAdminVerification('${esc(i.id)}')" class="gx-btn sm ${i.adminConf?'warn':'xls'}">${i.adminConf?'Batal':'Verifikasi'}</button></div></td></tr>`).join('')
-  ||`<tr><td colspan="8" class="p-6 text-center text-xs font-bold text-dark-slate/60">${KF.karta?'Belum ada pengajuan dari Web Sasaran untuk Kartu KARTA ini.':'Tidak ada data yang cocok dengan filter.'}</td></tr>`;
+ if(f||t||KF.bulan||KF.tahun)r=r.filter(x=>{const d=parseDate(x.tgl);if(!d)return false;if(f&&d<f)return false;if(t&&d>t)return false;if(KF.bulan&&d.getMonth()+1!==+KF.bulan)return false;if(KF.tahun&&d.getFullYear()!==+KF.tahun)return false;return true});
+ if(KF.pos)r=r.filter(x=>x.posyandu===KF.pos);
+ const s=KF.status;if(s)r=r.filter(x=>s==='belum'?!x.adminStatus:s==='menunggu'?x.status==='menunggu':s==='diedit'?x.diedit:s==='final'?x.finalAt:s==='disetujui'?x.adminStatus==='disetujui':x.adminStatus==='ditolak');
+ return r.sort((a,b)=>rank(a)-rank(b)||String(b.tgl).localeCompare(String(a.tgl)));
 }
 function kxFilterLabel(){
- const p=[];
- if(KF.q)p.push('kata kunci "'+KF.q+'"');
- if(KF.karta)p.push('Karta '+KF.karta);
- if(KF.from)p.push('dari '+fmtTgl(KF.from));
- if(KF.to)p.push('sampai '+fmtTgl(KF.to));
- if(KF.bulan)p.push('bulan '+BLN[+KF.bulan-1]);
- if(KF.tahun)p.push('tahun '+KF.tahun);
- if(KF.status)p.push(KF.status==='sudah'?'sudah diverifikasi':'belum diverifikasi');
+ const p=[],S={belum:'belum diputuskan admin',menunggu:'menunggu kader',disetujui:'disetujui admin',ditolak:'ditolak admin',diedit:'diedit',final:'selesai 2 web'};
+ if(KF.q)p.push('kata kunci "'+KF.q+'"');if(KF.karta)p.push('Karta '+KF.karta);if(KF.pos)p.push(KF.pos);
+ if(KF.from)p.push('dari '+fmtTgl(KF.from));if(KF.to)p.push('sampai '+fmtTgl(KF.to));
+ if(KF.bulan)p.push('bulan '+BLN[+KF.bulan-1]);if(KF.tahun)p.push('tahun '+KF.tahun);if(KF.status)p.push(S[KF.status]);
  return p.join('; ');
 }
-function kxReadFilters(){
- KF.q=$('search-konfirmasi-admin').value;KF.from=$('kx-from').value;KF.to=$('kx-to').value;
- KF.bulan=$('kx-bulan').value;KF.tahun=$('kx-tahun').value;KF.status=$('kx-status').value;
+function kxFillSelects(all){
+ const bl=$('kx-bulan');if(bl&&!bl.options.length){bl.add(new Option('Semua bulan',''));BLN.forEach((b,i)=>bl.add(new Option(b,String(i+1))))}
+ const fill=(id,first,items)=>{const e=$(id);if(!e)return;const k=e.value;e.innerHTML='';e.add(new Option(first,''));items.forEach(v=>e.add(new Option(v,v)));e.value=items.includes(k)?k:''};
+ const ys=new Set([new Date().getFullYear()]);all.forEach(x=>{const d=parseDate(x.tgl);if(d)ys.add(d.getFullYear())});
+ fill('kx-tahun','Semua tahun',[...ys].sort((a,b)=>b-a).map(String));
+ fill('kx-pos','Semua posyandu',[...new Set(POS.concat(all.map(x=>x.posyandu).filter(x=>x&&x!=='-')))]);
 }
+function kxNotif(all){
+ const n=all.filter(r=>!r.adminStatus).length,b=$('notif-konf');
+ if(b){b.textContent=n>9?'9+':n;b.classList.toggle('hidden',!n);b.setAttribute('aria-label',n+' pengajuan menunggu keputusan admin')}
+ document.title=(n?'('+n+') ':'')+document.title.replace(/^\(\d+\)\s*/,'');
+ const keys=new Set(all.map(r=>r.key));
+ if(KN.seen){const nw=[...keys].filter(k=>!KN.seen.has(k)).length;if(nw)toast(nw+' pengajuan baru masuk ke Konfirmasi.')}
+ KN.seen=keys;
+}
+const pill=(t,c,ic)=>`<span class="st ${c}">${ic?'<i class="fa-solid '+ic+'"></i>':''}${t}</span>`;
+const posCol=n=>{const C=[['#16A34A','#DCFCE7'],['#2563EB','#DBEAFE'],['#D97706','#FEF3C7'],['#DB2777','#FCE7F3'],['#7C3AED','#EDE9FE'],['#0D9488','#CCFBF1']],i=POS.indexOf(n);return C[i<0?(/\d/.test(n||'')?(parseInt((n.match(/\d+/)||[1])[0])-1)%6:0):i]||['#C2410C','#FFEDD5']};
+function kxRender(){
+ const tb=$('tbody-konfirmasi-admin');
+ const all=kxAll();kxNotif(all);if(!tb)return;
+ kxFillSelects(all);
+ const sg=[KF.q,KF.karta,KF.from,KF.to,KF.bulan,KF.tahun,KF.status,KF.pos].join('|');if(sg!==KF.sig){KF.sig=sg;KF.p=1}
+ const r=kxFiltered(all),pages=Math.max(1,Math.ceil(r.length/kfSize()));KF.p=Math.min(Math.max(1,KF.p),pages);
+ $('kx-count').textContent='Menampilkan '+r.length+' dari '+all.length+' pengajuan'+(kxFilterLabel()?' | Filter: '+kxFilterLabel():'');
+ tb.innerHTML=r.length?r.slice((KF.p-1)*kfSize(),KF.p*kfSize()).map(u=>{
+  const [c,bg]=posCol(u.posyandu),ok=u.adminStatus==='disetujui',no=u.adminStatus==='ditolak',sisa=u.finalAt?DAY-(Date.now()-u.finalAt):0,beda=!u.finalAt&&u.adminStatus&&u.status!=='menunggu'&&u.adminStatus!==u.status,k=esc(u.key);
+  return `<tr class="hover:bg-soft-indigo/30 transition ${u.finalAt?'bg-emerald-50/50':''}">
+  <td class="p-3 text-[11px] font-extrabold whitespace-nowrap" data-label="Tgl Usulan">${esc(u.tglTxt)}</td>
+  <td class="p-3 min-w-[170px]" data-label="Nama Usulan"><div class="cv"><div class="font-extrabold text-dark-slate">${esc(u.nama)} ${u.diedit?'<span class="st st-edit" title="Pengajuan ini sudah diubah"><i class="fa-solid fa-pen"></i>Diedit</span>':''}</div><div class="text-[10px] text-dark-slate/70">${u.kode?`<span class="font-black px-1.5 rounded gx-karta-id" style="background:${bg};color:${c}">${esc(u.kode)}</span> `:''}${esc(u.alamat||'-')}${u.posyandu&&u.posyandu!=='-'?' - '+esc(u.posyandu):''}</div></div></td>
+  <td class="p-3" data-label="Kategori"><span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-soft-indigo text-primary-indigo border border-primary-indigo/20">${esc(u.kat)}</span></td>
+  <td class="p-3 text-xs min-w-[180px]" data-label="Jenis & Alasan"><div class="cv"><div class="font-bold">${esc(u.jenis)}</div><div class="text-[11px] italic text-dark-slate/70">${esc(u.alasan)}</div>${u.status==='ditolak'?`<div class="text-[11px] font-bold text-red-700 mt-1">Ditolak kader: ${esc(u.alasanTolak||'-')}</div>`:''}${no?`<div class="text-[11px] font-bold text-red-700 mt-1">Ditolak admin: ${esc(u.alasanTolakAdmin||'-')}</div>`:''}</div></td>
+  <td class="p-3 text-center" data-label="Konfirmasi Kader">${u.status==='ditolak'?pill('Ditolak Kader','st-rej'):u.status==='disetujui'?pill('Disetujui Kader','st-ok'):pill('Menunggu Kader','st-no')}</td>
+  <td class="p-3 text-center" data-label="Konfirmasi Admin"><div class="cv">${no?pill('Ditolak Admin','st-rej'):ok?pill('Disetujui Admin','st-ok'):pill('Belum Admin','st-gray')}${beda?'<div class="text-[10px] font-bold text-amber-700 mt-1">Keputusan berbeda</div>':''}</div></td>
+  <td class="p-3 act" data-label="Aksi">${u.finalAt?`<div class="text-center text-[10px] font-bold text-emerald-700"><i class="fa-solid fa-lock mr-1"></i>Final, 2 web sepakat<div class="font-semibold text-dark-slate/70">hilang dalam ${Math.floor(sisa/36e5)}j ${Math.floor(sisa%36e5/6e4)}m</div></div>`:`<div class="flex flex-wrap justify-center gap-1.5">${no?'':`<button type="button" onclick="kfSetuju('${k}')" class="gx-btn sm ${ok?'sec':'xls'}">${ok?'Batal':'Setujui'}</button><button type="button" onclick="kfTolak('${k}')" class="gx-btn sm dng">Tolak</button>`}<button type="button" onclick="${no?`kfPulih('${k}')`:`kfEdit('${k}')`}" class="gx-btn sm" style="background:#e0e7ff;color:#3730a3;border-color:#a5b4fc">${no?'Pulihkan':'Edit'}</button></div>`}</td></tr>`;
+ }).join(''):`<tr><td colspan="7" class="p-6 text-center text-xs font-bold text-dark-slate/60">${KF.karta?'Belum ada pengajuan untuk Kartu KARTA ini.':'Tidak ada pengajuan yang cocok.'}</td></tr>`;
+ gxPager('kf-pager',r.length,KF.p,pages,'kfPg','pengajuan');
+}
+function gxPager(id,total,page,pages,fn,label){const e=$(id);if(!e)return;e.innerHTML=`<span>${total} ${label}</span>`+(pages>1?`<span class="flex items-center gap-2"><button type="button" class="gx-btn sec sm" ${page<=1?'disabled':''} onclick="${fn}(-1)" aria-label="Sebelumnya"><i class="fa-solid fa-chevron-left"></i></button>Halaman ${page} dari ${pages}<button type="button" class="gx-btn sec sm" ${page>=pages?'disabled':''} onclick="${fn}(1)" aria-label="Berikutnya"><i class="fa-solid fa-chevron-right"></i></button></span>`:'')}
+
+/* ---- formulir modal serbaguna ---- */
+let GF=null;
+function gxForm(title,sub,spec,data,onSave){
+ GF={spec,onSave};$('gf-title').textContent=title;$('gf-sub').textContent=sub||'';
+ $('gf-body').innerHTML=spec.map(([k,l,t,o,req])=>{const v=data[k]??'',id='gf-'+k;
+  const inp=t==='sel'?`<select id="${id}" class="fld">${o.map(x=>`<option${x===v?' selected':''}>${esc(x)}</option>`).join('')}</select>`:t==='area'?`<textarea id="${id}" rows="3" class="fld"${req?' required':''}>${esc(v)}</textarea>`:`<input id="${id}" class="fld" value="${esc(v)}"${req?' required':''}>`;
+  return `<div class="gx-field"><label class="gx-label" for="${id}">${esc(l)}${req?' *':''}</label>${inp}</div>`}).join('');
+ openM('modal-form');const f=$('gf-body').querySelector('input,textarea,select');if(f)setTimeout(()=>f.focus(),50);
+}
+Object.assign(window,{
+ gfClose:()=>{closeM('modal-form');GF=null},
+ gfSubmit:e=>{e.preventDefault();if(!GF)return;const v={};GF.spec.forEach(([k,,,,req])=>{v[k]=$('gf-'+k).value.trim()});const bad=GF.spec.find(([k,,,,req])=>req&&!v[k]);if(bad){toast('Kolom '+bad[1]+' wajib diisi.',true);return}const f=GF.onSave;closeM('modal-form');GF=null;f(v)},
+ gxPager,
+ kfPg:d=>{KF.p+=d;kxRender()},
+ renderKonfirmasiAdminTable:kxRender,
+ filterKonfirmasiAdminTable:()=>{kxReadFilters();kxRender()},
+ kxFilterChange:()=>{kxReadFilters();kxRender()},
+ kxResetFilter:()=>{['search-konfirmasi-admin','kx-from','kx-to','kx-bulan','kx-tahun','kx-status','kx-pos'].forEach(i=>{const e=$(i);if(e)e.value=''});Object.assign(KF,{q:'',from:'',to:'',bulan:'',tahun:'',status:'',pos:''});kxRender()}
+});
+function kxReadFilters(){
+ KF.q=$('search-konfirmasi-admin').value;KF.from=$('kx-from').value;KF.to=$('kx-to').value;KF.bulan=$('kx-bulan').value;KF.tahun=$('kx-tahun').value;KF.status=$('kx-status').value;KF.pos=$('kx-pos').value;
+}
+
+/* ---- aksi admin (cermin aksi kader) ---- */
+const rowOf=k=>kxAll().find(r=>r.key===k);
+function done(ok,msg){kxRender();if(ok)toast(msg);else toast('Data tidak ditemukan atau tidak bisa disimpan. Muat ulang halaman.',true)}
+Object.assign(window,{
+ kfSetuju:k=>{const r=rowOf(k);if(!r||r.finalAt)return;const on=r.adminStatus!=='disetujui';done(ulApply(r,{adminStatus:on?'disetujui':'',alasanTolakAdmin:''}),on?'Disetujui admin. Menunggu kesepakatan kader bila belum sama.':'Persetujuan admin dibatalkan.')},
+ kfPulih:k=>{const r=rowOf(k);if(!r||r.finalAt)return;done(ulApply(r,{adminStatus:'',alasanTolakAdmin:''}),'Pengajuan dipulihkan.')},
+ kfTolak:k=>{const r=rowOf(k);if(!r||r.finalAt)return;gxForm('Tolak pengajuan: '+r.nama,'Alasan akan terlihat oleh kader.',[['alasanTolakAdmin','Alasan penolakan','area',0,1]],{},v=>done(ulApply(r,{adminStatus:'ditolak',alasanTolakAdmin:v.alasanTolakAdmin}),'Pengajuan ditolak admin.'))},
+ kfEdit:k=>{const r=rowOf(k);if(!r||r.finalAt)return;gxForm('Edit pengajuan','Setelah diubah, kader dan admin perlu menyetujui ulang.',[['nama','Nama','text',0,1],['kategori','Kategori','sel',KAT.slice(0,6)],['jenis','Jenis pengajuan','sel',KF_JENIS],['alasan','Alasan / keterangan','area']],{nama:r.nama,kategori:KAT.includes(r.kat)?r.kat:KAT[0],jenis:KF_JENIS.includes(r.jenis)?r.jenis:KF_JENIS[0],alasan:r.alasan},v=>done(ulApply(r,Object.assign({},v,{diedit:true,status:'menunggu',konfirmasiKader:false,adminStatus:''})),'Pengajuan diubah dan ditandai Diedit. Perlu disetujui ulang.'))}
+});
+window.toggleAdminVerification=k=>window.kfSetuju(k);
+
+/* ---- cari Kartu KARTA (scan / manual): hanya mencari pengajuan ---- */
 function kxKartaInfo(html,kind){
  const b=$('kx-karta-info'),c=$('kx-karta-clear');
  if(!html){b.className='gx-hide';b.innerHTML='';c.classList.add('gx-hide');return}
  b.className='gx-note '+kind;b.innerHTML=html;c.classList.remove('gx-hide');
 }
 function kxApplyKarta(raw){
- const id=normKarta(raw);
- if(!id){toast('Masukkan atau scan ID Karta terlebih dahulu.',true);return}
+ const id=normKarta(raw);if(!id){toast('Masukkan atau scan ID Karta terlebih dahulu.',true);return}
  KF.karta=id;$('kx-karta-input').value=id;kxReadFilters();kxRender();
- const n=kxFiltered().length,fam=KEL[id];
+ const n=kxFiltered().length,fam=famMap()[id];
  if(!n){
-  const m='Belum ada pengajuan dari Web Sasaran untuk Kartu KARTA '+id+'.';
-  kxKartaInfo('<i class="fa-solid fa-circle-exclamation mt-0.5"></i><div><b>Belum pengajuan.</b> Belum ada pengajuan dari Web Sasaran untuk Kartu KARTA <b class="gx-karta-id">'+esc(id)+'</b>'+(fam?' (Keluarga '+esc(fam.kepala)+')':'. Kartu ini juga belum terdaftar di data keluarga')+'. '+(fam?'':'<button class="underline font-extrabold" onclick="kkBukaId(\''+esc(id)+'\')">Buka / buat data keluarga</button>')+'</div>','warn');
-  toast(m,true);
+  kxKartaInfo('<i class="fa-solid fa-circle-exclamation mt-0.5"></i><div><b>Belum pengajuan.</b> Belum ada pengajuan dari Web Sasaran untuk Kartu KARTA <b class="gx-karta-id">'+esc(id)+'</b>'+(fam?' (Keluarga '+esc(fam.kepala)+')':'. Kartu ini juga belum ada di registri keluarga')+'.</div>','warn');
+  toast('Belum ada pengajuan dari Web Sasaran untuk Kartu KARTA '+id+'.',true);
  }else{
   kxKartaInfo('<i class="fa-solid fa-circle-check mt-0.5"></i><div><b>'+n+' pengajuan</b> ditemukan untuk Kartu KARTA <b class="gx-karta-id">'+esc(id)+'</b>'+(fam?' (Keluarga '+esc(fam.kepala)+')':'')+'.</div>','ok');
   toast(n+' pengajuan ditemukan untuk Karta '+id+'.');
  }
 }
 Object.assign(window,{
- renderKonfirmasiAdminTable:kxRender,
- filterKonfirmasiAdminTable:()=>{kxReadFilters();kxRender()},
- kxFilterChange:()=>{kxReadFilters();kxRender()},
- kxResetFilter:()=>{['search-konfirmasi-admin','kx-from','kx-to','kx-bulan','kx-tahun','kx-status'].forEach(i=>{$(i).value=''});Object.assign(KF,{q:'',from:'',to:'',bulan:'',tahun:'',status:''});kxRender()},
  kxCariKarta:()=>kxApplyKarta($('kx-karta-input').value),
  kxScanSearch:()=>startScan(r=>kxApplyKarta(r),'Scan QR Karta: cari pengajuan'),
  kxClearKarta:()=>{KF.karta='';$('kx-karta-input').value='';kxKartaInfo('');kxRender()},
- toggleAdminVerification:id=>{
-  if(String(id).startsWith('usulan:')){
-   const k=id.slice(7),u=(window.GP_US?window.GP_US():[]).find(x=>x.key==k);if(!u)return;
-   const nv=!u.konfirmasiAdmin;u.konfirmasiAdmin=nv;kxRender();
-   const p=(GS&&GS.update)?GS.update('usulan/'+k,{konfirmasiAdmin:nv}):Promise.resolve();
-   Promise.resolve(p).then(()=>toast('Status verifikasi '+u.nama+' diperbarui.')).catch(e=>{u.konfirmasiAdmin=!nv;kxRender();toast('Gagal menyimpan: '+e.message,true)});
-   return;
-  }
-  const t=dataKonfirmasiAdmin.find(d=>d.id===id);if(t){t.adminConf=!t.adminConf;kxRender();toast('Status verifikasi '+t.nama+' diperbarui.')}
- }
+ salinKarta:()=>{(navigator.clipboard?navigator.clipboard.writeText(KARTA_URL):Promise.reject()).then(()=>toast('Tautan Kartu KARTA disalin.')).catch(()=>toast('Salin manual: '+KARTA_URL,true))}
 });
+
+/* ---- sinkron: perubahan dari tab/web lain, hitung mundur 24 jam ---- */
+window.addEventListener('storage',e=>{if(e.key===KDB_KEY||e.key===AUS_KEY||/^gp_usulan/.test(e.key||''))kxRender()});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)kxRender()});
+setInterval(()=>{if(!document.hidden)kxRender()},30000);
 
 /* ===== Ekspor tabel Konfirmasi ===== */
 const KXCSS=`.kx-t{width:100%;border-collapse:collapse;table-layout:fixed;font-family:'Times New Roman',serif;font-size:8.5pt;margin:2mm 0}.kx-t th{background:#e9e5f5;border:1px solid #444;padding:1.3mm;font-size:8pt;text-align:center}.kx-t td{border:1px solid #666;padding:1.2mm;vertical-align:top;word-wrap:break-word;text-align:left}.kx-t td.c{text-align:center}.kx-t thead{display:table-header-group}.kx-t tr{page-break-inside:avoid;break-inside:avoid}.kx-meta{font:9.5pt 'Times New Roman',serif;margin:0 0 2mm;text-align:center}.kx-pg{font:8pt 'Times New Roman',serif;color:#555;text-align:center;border-top:1px solid #888;padding-top:1.5mm}`;
@@ -3162,9 +3259,9 @@ function kxSpec(){
  return {
   title:'Rekapitulasi Konfirmasi & Verifikasi Data Posyandu',
   meta:'Dicetak '+new Date().toLocaleString('id-ID',{dateStyle:'long',timeStyle:'short'})+' WIB | Jumlah data: '+rows.length+(kxFilterLabel()?' | Filter: '+kxFilterLabel():''),
-  cols:['No','Tgl Input','Nama Sasaran','Alamat','Wilayah','Kategori','Hasil Pemeriksaan / Usulan','Kader','Admin'],
-  w:[4,9,14,18,13,9,19,7,7],ctr:[0,1,7,8],
-  rows:rows.map((x,i)=>[i+1,fmtTgl(x.tgl),x.nama,x.alamat,x.wilayah,x.kat,x.hasil,x.kaderConf?'Terkonfirmasi':'Pending',x.adminConf?'Terverifikasi':'Belum'])
+  cols:['No','Tgl Usulan','Nama','ID Karta','Alamat','Posyandu','Kategori','Jenis & Alasan','Kader','Admin'],
+  w:[4,8,12,8,16,10,8,18,8,8],ctr:[0,1,3,8,9],
+  rows:rows.map((x,i)=>[i+1,x.tglTxt,x.nama,x.kode||'-',x.alamat||'-',x.posyandu,x.kat,x.jenis+(x.alasan?': '+x.alasan:''),x.status==='disetujui'?'Disetujui':x.status==='ditolak'?'Ditolak':'Menunggu',x.adminStatus==='disetujui'?'Disetujui':x.adminStatus==='ditolak'?'Ditolak':'Belum'])
  };
 }
 const kopHTML=pdf=>{const c=reportConfig.kop,ca=pdf?' crossorigin="anonymous"':'';return `<table class="rp-kop"><tr><td class="l"><img src="${esc(c.logoKiri)}"${ca} alt=""></td><td class="m"><div class="k1">${esc(c.line1)}</div><div class="k2">${esc(c.line2)}</div><div class="k3">${esc(c.line3)}</div><div class="k4">${esc(c.line4)}</div></td><td class="r"><img src="${esc(c.logoKanan)}"${ca} alt=""></td></tr></table><div class="rp-rule"></div>`};
@@ -3214,105 +3311,6 @@ async function kxExport(kind){
 }
 window.kxExport=kxExport;
 
-/* ============================================================
-   KELOLA DATA KELUARGA (per Karta)
-   ============================================================ */
-const HUB=['Kepala Keluarga','Istri','Suami','Anak','Menantu','Cucu','Orang Tua','Famili Lain'];
-const KK={cur:null,isNew:false,dirty:false,edit:null};
-const opt=(arr,sel)=>arr.map(a=>`<option value="${esc(a)}"${a===sel?' selected':''}>${esc(a)}</option>`).join('');
-function kkDirty(v){KK.dirty=v!==false;const d=$('kk-dirty');if(d)d.classList.toggle('gx-hide',!KK.dirty)}
-function kkConfirmLeave(){return !KK.cur||!KK.dirty||confirm('Ada perubahan data keluarga yang belum disimpan. Tinggalkan perubahan?')}
-function kkRender(){
- const P=$('kk-panel');
- if(!KK.cur){P.className='gx-hide';P.innerHTML='';return}
- const f=KK.cur;P.className='space-y-4';
- const mem=f.anggota.map((m,i)=>`<tr class="hover:bg-soft-purple/30 transition">
-  <td class="p-2.5" data-label="Nama"><b>${esc(m.nama)}</b></td>
-  <td class="p-2.5 whitespace-nowrap gx-karta-id" data-label="NIK">${esc(m.nik||'-')}</td>
-  <td class="p-2.5 whitespace-nowrap" data-label="Tgl Lahir">${esc(fmtTgl(m.lahir))}</td>
-  <td class="p-2.5 text-center" data-label="JK">${esc(m.jk||'-')}</td>
-  <td class="p-2.5" data-label="Hubungan">${esc(m.hub||'-')}</td>
-  <td class="p-2.5" data-label="Kategori"><span class="px-2 py-0.5 rounded-full text-[10px] bg-base-cream border">${esc(m.kat||'-')}</span></td>
-  <td class="p-2.5" data-label="Catatan">${esc(m.cat||'-')}</td>
-  <td class="p-2.5 act" data-label="Aksi"><div class="flex gap-1 justify-center"><button class="gx-btn sm warn" onclick="kkMemEdit(${i})"><i class="fa-solid fa-pen"></i>Ubah</button><button class="gx-btn sm dng" onclick="kkMemDel(${i})" aria-label="Hapus anggota"><i class="fa-solid fa-trash"></i></button></div></td></tr>`).join('')
-  ||'<tr><td colspan="8" class="p-5 text-center text-xs font-bold text-dark-slate/60">Belum ada anggota keluarga. Klik Tambah Anggota.</td></tr>';
- const e=KK.edit;
- const editor=e?`<div class="gx-box space-y-3" id="km-form">
-  <div class="flex items-center justify-between"><h4 class="font-extrabold text-sm text-dark-slate">${e.idx<0?'Tambah anggota keluarga':'Ubah anggota keluarga'}</h4><button class="gx-x" onclick="kkMemCancel()" aria-label="Tutup form"><i class="fa-solid fa-xmark"></i></button></div>
-  <div class="gx-grid w2">
-   <div class="gx-field"><label class="gx-label" for="km-nama">Nama lengkap *</label><input id="km-nama" class="fld" value="${esc(e.m.nama)}"></div>
-   <div class="gx-field"><label class="gx-label" for="km-nik">NIK</label><input id="km-nik" class="fld gx-karta-id" inputmode="numeric" maxlength="16" value="${esc(e.m.nik)}"></div>
-   <div class="gx-field"><label class="gx-label" for="km-lahir">Tanggal lahir</label><input id="km-lahir" type="date" class="fld" value="${esc(isoOf(e.m.lahir))}" onchange="kkSuggest()"></div>
-   <div class="gx-field"><label class="gx-label" for="km-jk">Jenis kelamin</label><select id="km-jk" class="fld"><option value="">-</option><option value="L"${e.m.jk==='L'?' selected':''}>Laki-laki</option><option value="P"${e.m.jk==='P'?' selected':''}>Perempuan</option></select></div>
-   <div class="gx-field"><label class="gx-label" for="km-hub">Hubungan keluarga</label><select id="km-hub" class="fld">${opt(HUB,e.m.hub)}</select></div>
-   <div class="gx-field"><label class="gx-label" for="km-kat">Kategori sasaran</label><select id="km-kat" class="fld">${opt(KAT.slice(0,6),e.m.kat)}</select></div>
-  </div>
-  <div class="gx-field"><label class="gx-label" for="km-cat">Catatan / detail</label><textarea id="km-cat" rows="2" class="fld">${esc(e.m.cat)}</textarea></div>
-  <div class="flex justify-end gap-2"><button class="gx-btn sec" onclick="kkMemCancel()">Batal</button><button class="gx-btn pri" onclick="kkMemSave()"><i class="fa-solid fa-check"></i>${e.idx<0?'Tambahkan':'Terapkan'}</button></div></div>`:'';
- P.innerHTML=`
-  <div class="flex flex-wrap items-center justify-between gap-2">
-   <div class="flex flex-wrap items-center gap-2"><span class="gx-pill" style="background:rgb(var(--tint3));color:rgb(var(--sec))">KARTA</span><b class="gx-karta-id text-base md:text-lg text-dark-slate">${esc(f.id||'(isi ID Karta)')}</b>${KK.isNew?'<span class="gx-pill" style="background:#dbeafe;color:#1d4ed8">Baru</span>':''}<span id="kk-dirty" class="gx-pill ${KK.dirty?'':'gx-hide'}" style="background:#fef3c7;color:#92400e">Belum disimpan</span></div>
-   <div class="gx-hdr-actions"><button class="gx-btn pri" onclick="kkSimpan()"><i class="fa-solid fa-floppy-disk"></i>Simpan Perubahan</button>${KK.isNew?'':'<button class="gx-btn dng" onclick="kkHapus()"><i class="fa-solid fa-trash"></i>Hapus Keluarga</button>'}<button class="gx-btn sec" onclick="kkTutup()">Tutup</button></div>
-  </div>
-  <div class="gx-grid w2">
-   ${KK.isNew?`<div class="gx-field"><label class="gx-label" for="kf-id">ID Kartu KARTA *</label><input id="kf-id" class="fld gx-karta-id" value="${esc(f.id)}" oninput="kkSet('id',this.value)"></div>`:''}
-   <div class="gx-field"><label class="gx-label" for="kf-kepala">Kepala keluarga *</label><input id="kf-kepala" class="fld" value="${esc(f.kepala)}" oninput="kkSet('kepala',this.value)"></div>
-   <div class="gx-field" style="grid-column:span 2"><label class="gx-label" for="kf-alamat">Alamat</label><input id="kf-alamat" class="fld" value="${esc(f.alamat)}" oninput="kkSet('alamat',this.value)" placeholder="Dusun, jalan, nomor rumah"></div>
-   <div class="gx-field"><label class="gx-label" for="kf-rt">RT</label><input id="kf-rt" class="fld" value="${esc(f.rt)}" oninput="kkSet('rt',this.value)" inputmode="numeric"></div>
-   <div class="gx-field"><label class="gx-label" for="kf-rw">RW</label><input id="kf-rw" class="fld" value="${esc(f.rw)}" oninput="kkSet('rw',this.value)" inputmode="numeric"></div>
-   <div class="gx-field"><label class="gx-label" for="kf-pos">Posyandu</label><select id="kf-pos" class="fld" onchange="kkSet('posyandu',this.value)"><option value="">-</option>${opt(POS,f.posyandu)}</select></div>
-  </div>
-  <div class="flex items-center justify-between gap-2 flex-wrap"><h4 class="font-extrabold text-sm text-dark-slate">Anggota keluarga (${f.anggota.length})</h4><button class="gx-btn ind sm" onclick="kkMemAdd()"><i class="fa-solid fa-user-plus"></i>Tambah Anggota</button></div>
-  ${editor}
-  <div class="gx-tablewrap" style="max-height:none"><table class="rtable text-left text-xs text-dark-slate"><thead class="bg-soft-purple text-secondary-purple uppercase font-extrabold"><tr><th class="p-2.5">Nama</th><th class="p-2.5">NIK</th><th class="p-2.5">Tgl Lahir</th><th class="p-2.5 text-center">JK</th><th class="p-2.5">Hubungan</th><th class="p-2.5">Kategori</th><th class="p-2.5">Catatan</th><th class="p-2.5 text-center">Aksi</th></tr></thead><tbody class="divide-y divide-secondary-purple/10 font-medium">${mem}</tbody></table></div>`;
-}
-function kkOpen(f,isNew){KK.cur=clone(f);KK.isNew=!!isNew;KK.dirty=!!isNew;KK.edit=null;kkRender();$('kk-panel').scrollIntoView({behavior:'smooth',block:'start'})}
-function kkBukaId(raw){
- const id=normKarta(raw);if(!id){toast('Masukkan, scan, atau unggah foto ID Karta terlebih dahulu.',true);return}
- if(!kkConfirmLeave())return;
- $('kk-id').value=id;
- if(KEL[id]){kkOpen(KEL[id],false);toast('Data keluarga '+KEL[id].kepala+' dibuka.');return}
- if(confirm('Kartu KARTA '+id+' belum terdaftar. Buat data keluarga baru dengan ID ini?'))kkNew(id);
- else toast('Kartu KARTA '+id+' belum terdaftar.',true);
-}
-function kkNew(id){
- const nid=normKarta(id||'');
- kkOpen({id:nid,kepala:'',alamat:'',rt:'',rw:'',posyandu:'',anggota:[]},true);
-}
-Object.assign(window,{
- kkBukaId,
- kkBuka:()=>kkBukaId($('kk-id').value),
- kkScan:()=>startScan(r=>kkBukaId(r),'Scan QR Karta: buka data keluarga'),
- kkUnggah:inp=>{const f=inp.files[0];inp.value='';readQrFile(f,r=>kkBukaId(r))},
- kkBaru:()=>{if(!kkConfirmLeave())return;kkNew($('kk-id').value)},
- kkSet:(k,v)=>{if(!KK.cur)return;KK.cur[k]=k==='id'?normKarta(v):v;kkDirty(true)},
- kkTutup:()=>{if(!kkConfirmLeave())return;KK.cur=null;KK.edit=null;kkDirty(false);kkRender()},
- kkMemAdd:()=>{KK.edit={idx:-1,m:{nama:'',nik:'',lahir:'',jk:'',hub:KK.cur.anggota.length?'Anak':'Kepala Keluarga',kat:'Usia Produktif',cat:''}};kkRender();const f=$('km-form');if(f)f.scrollIntoView({behavior:'smooth',block:'center'})},
- kkMemEdit:i=>{KK.edit={idx:i,m:clone(KK.cur.anggota[i])};kkRender();const f=$('km-form');if(f)f.scrollIntoView({behavior:'smooth',block:'center'})},
- kkMemCancel:()=>{KK.edit=null;kkRender()},
- kkSuggest:()=>{const k=suggestKat($('km-lahir').value);if(k)$('km-kat').value=k},
- kkMemSave:()=>{
-  const nama=$('km-nama').value.trim();if(!nama){toast('Nama anggota wajib diisi.',true);$('km-nama').focus();return}
-  const nik=digits($('km-nik').value);if(nik&&nik.length!==16){toast('NIK harus 16 digit, atau kosongkan jika belum ada.',true);$('km-nik').focus();return}
-  const m={id:KK.edit.idx<0?'m'+Date.now().toString(36):KK.cur.anggota[KK.edit.idx].id,nama,nik,lahir:$('km-lahir').value,jk:$('km-jk').value,hub:$('km-hub').value,kat:$('km-kat').value,cat:$('km-cat').value.trim()};
-  if(KK.edit.idx<0)KK.cur.anggota.push(m);else KK.cur.anggota[KK.edit.idx]=m;
-  KK.edit=null;kkDirty(true);kkRender();toast('Anggota diperbarui. Klik Simpan Perubahan untuk menyimpan.');
- },
- kkMemDel:i=>{const m=KK.cur.anggota[i];if(!m||!confirm('Hapus '+m.nama+' dari keluarga ini?'))return;KK.cur.anggota.splice(i,1);KK.edit=null;kkDirty(true);kkRender();toast(m.nama+' dihapus. Klik Simpan Perubahan untuk menyimpan.')},
- kkSimpan:()=>{
-  const f=KK.cur;if(!f)return;
-  if(!f.id){toast('ID Kartu KARTA wajib diisi.',true);return}
-  if(!f.kepala.trim()){toast('Nama kepala keluarga wajib diisi.',true);return}
-  if(KK.isNew&&KEL[f.id]){toast('ID Karta '+f.id+' sudah terdaftar. Buka data tersebut dari kolom pencarian.',true);return}
-  f.upd=Date.now();KEL[f.id]=clone(f);saveKel();KK.isNew=false;kkDirty(false);kkRender();kxRender();
-  toast('Data keluarga '+f.kepala+' tersimpan.');
- },
- kkHapus:()=>{
-  const f=KK.cur;if(!f||!KEL[f.id])return;
-  if(!confirm('Hapus seluruh data keluarga '+f.kepala+' (Karta '+f.id+', '+f.anggota.length+' anggota)? Tindakan ini tidak dapat dibatalkan.'))return;
-  delete KEL[f.id];saveKel();KK.cur=null;kkDirty(false);kkRender();kxRender();toast('Data keluarga dihapus.');
- }
-});
 window.GX={KEL:()=>KEL,normKarta,parseDate,isoOf,fmtTgl,fmtLong,BLN,pad,iso,todayIso,clone,esc,openM,closeM,KAT,POS,toast};
 
 /* ============================================================
@@ -3607,7 +3605,7 @@ window.editArsipLaporan=id=>{_eal(id);const r=dataArsipLaporan.find(a=>a.id==id)
 /* ============================================================
    ARSIP: tanda warna, filter
    ============================================================ */
-const AF={jenis:''};
+const AF={jenis:'',p:1,sig:''};
 const FMT={print:'Cetak',pdf:'PDF',doc:'DOC',xls:'XLS',simpan:'Simpan'};
 const JN={rutin:{n:'Pemeriksaan Rutin',ic:'fa-stethoscope',bd:'#6d5bd0',bg:'#ffffff',chip:'background:#eef2ff;color:#4338ca;border:1px solid #c7d2fe'},khusus:{n:'Pemeriksaan Khusus',ic:'fa-star-of-life',bd:'#d97706',bg:'#fffbeb',chip:'background:#fef3c7;color:#92400e;border:1px solid #fcd34d'}};
 function recMonths(a){
@@ -3638,8 +3636,9 @@ window.renderArsipTable=()=>{
   return true;
  });
  $('arsip-count').textContent='Menampilkan '+L.length+' dari '+A.length+' laporan';
+ const sg=[AF.jenis,q,bl,th,wl].join('|');if(sg!==AF.sig){AF.sig=sg;AF.p=1}const ps=innerWidth<768?5:8,pgs=Math.max(1,Math.ceil(L.length/ps));AF.p=Math.min(Math.max(1,AF.p||1),pgs);const Lp=L.slice((AF.p-1)*ps,AF.p*ps);gxPager('arsip-pager',L.length,AF.p,pgs,'arPg','laporan');
  const B=(cl,ic,lb,fn)=>`<button onclick="${fn}" class="gx-btn sm ${cl}" title="${lb}"><i class="fa-solid ${ic}"></i>${lb}</button>`;
- tb.innerHTML=L.map(a=>{const j=JN[jn(a)];return `<tr class="hover:bg-soft-purple/30 transition" style="border-left:5px solid ${j.bd};background:${j.bg}">
+ tb.innerHTML=Lp.map(a=>{const j=JN[jn(a)];return `<tr class="hover:bg-soft-purple/30 transition" style="border-left:5px solid ${j.bd};background:${j.bg}">
   <td class="p-3" data-label="Kode / Jenis"><span class="font-mono font-bold" style="color:${j.bd}">${esc(a.id)}</span><div class="mt-1"><span class="gx-pill" style="${j.chip}"><i class="fa-solid ${j.ic}"></i>${j.n}</span></div><div class="flex flex-wrap gap-1 mt-1">${(a.fm||[]).map(f=>`<span class="pill">${FMT[f]||f}</span>`).join('')}</div></td>
   <td class="p-3 font-bold" data-label="Periode">${esc((a.bulan+' '+(a.tahun||'')).trim())}</td>
   <td class="p-3" data-label="Wilayah">${esc(a.wilayah)}</td>
@@ -3650,6 +3649,7 @@ window.renderArsipTable=()=>{
   ||`<tr><td colspan="7" class="p-6 text-center text-xs font-bold text-dark-slate/60">${A.length?'Tidak ada laporan yang cocok dengan filter.':'Belum ada laporan di arsip. Cetak atau ekspor laporan agar tersimpan otomatis.'}</td></tr>`;
 };
 Object.assign(window,{
+ arPg:d=>{AF.p=(AF.p||1)+d;window.renderArsipTable()},
  arsipJenis:v=>{AF.jenis=v;setSeg('af-jenis',v);window.renderArsipTable()},
  arsipReset:()=>{AF.jenis='';setSeg('af-jenis','');['search-arsip-input','af-bulan','af-tahun','af-wilayah'].forEach(i=>{$(i).value=''});window.renderArsipTable()}
 });
@@ -3666,7 +3666,7 @@ reportData.jenis=reportData.jenis||'rutin';
 if(!reportData.periode)reportData.periode={mode:'bulan',from:'2026-09-01',to:'2026-09-30'};
 if(!reportData.khususSesi)reportData.khususSesi=[];
 syncInputs();
-kxRender();saveKel();
+kxRender();
 window.renderBAListControls();window.renderAttendanceInputRows();window.renderSelectedPhotosList();window.renderArsipTable();
 try{window.updateReportState()}catch(e){}
 })();
